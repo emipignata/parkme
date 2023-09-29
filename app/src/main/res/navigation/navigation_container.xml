@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_container"
+    app:startDestination="@id/exploreFr">
+
+    <fragment
+        android:id="@+id/exploreFr"
+        android:name="com.example.parkme.ExploreFr"
+        android:label="fragment_explore"
+        tools:layout="@layout/fragment_explore" />
+    <fragment
+        android:id="@+id/historialFr"
+        android:name="com.example.parkme.HistorialFr"
+        android:label="fragment_historial"
+        tools:layout="@layout/fragment_historial" />
+    <fragment
+        android:id="@+id/mensajesFr"
+        android:name="com.example.parkme.MensajesFr"
+        android:label="fragment_mensajes"
+        tools:layout="@layout/fragment_mensajes" />
+    <fragment
+        android:id="@+id/misCocherasFr"
+        android:name="com.example.parkme.MisCocherasFr"
+        android:label="fragment_mis_cocheras"
+        tools:layout="@layout/fragment_mis_cocheras" />
+    <fragment
+        android:id="@+id/perfilFr"
+        android:name="com.example.parkme.PerfilFr"
+        android:label="fragment_perfil"
+        tools:layout="@layout/fragment_perfil" />
+</navigation>

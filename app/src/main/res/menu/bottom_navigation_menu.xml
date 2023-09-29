@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/exploreFr"
+        android:enabled="true"
+        android:icon="@drawable/coche"
+        android:title="Explora"/>
+    <item
+        android:id="@+id/historialFr"
+        android:enabled="true"
+        android:icon="@drawable/cochera"
+        android:title="Historial"/>
+    <item
+        android:id="@+id/misCocherasFr"
+        android:enabled="true"
+        android:icon="@drawable/garaje"
+        android:title="Mis Cocheras"/>
+    <item
+        android:id="@+id/mensajesFr"
+        android:enabled="true"
+        android:icon="@drawable/conversacion"
+        android:title="Mensajes"/>
+    <item
+        android:id="@+id/perfilFr"
+        android:enabled="true"
+        android:icon="@drawable/usuario"
+        android:title="Perfil"/>
+
+</menu>
