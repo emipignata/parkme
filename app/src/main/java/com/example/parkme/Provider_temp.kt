@@ -1,13 +1,20 @@
 package com.example.parkme
+import com.example.parkme.models.CocheraModel
+import com.example.parkme.models.PaginatedResponse
+import com.example.parkme.services.CocheraService
+import retrofit2.Call
+import retrofit2.http.GET
 
 class Provider_temp {
     companion object {
+
         val cardCocheraList = listOf<Cochera_card_item>(
             Cochera_card_item(
                 "Impecalbe Cochera en Recoleta",
                 "Juncal 2200",
                 "$450",
-                "https://jetpackcomics.com/wp-content/uploads/2022/12/lobo1.jpg"
+                "https://static.wikia.nocookie.net/death-battle-fanon-wiki-en-espanol/images/5/5d/Wolverine.png/revision/latest/thumbnail/width/360/height/360?cb=20190217160514&path-prefix=es"
+
             ),
             Cochera_card_item(
                 "Cochera super espaciosa",
@@ -53,4 +60,6 @@ class Provider_temp {
             ),
         )
     }
+
+
 }

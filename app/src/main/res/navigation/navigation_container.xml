@@ -15,11 +15,7 @@
         android:name="com.example.parkme.HistorialFr"
         android:label="fragment_historial"
         tools:layout="@layout/fragment_historial" />
-    <fragment
-        android:id="@+id/mensajesFr"
-        android:name="com.example.parkme.MensajesFr"
-        android:label="fragment_mensajes"
-        tools:layout="@layout/fragment_mensajes" />
+
     <fragment
         android:id="@+id/misCocherasFr"
         android:name="com.example.parkme.MisCocherasFr"
