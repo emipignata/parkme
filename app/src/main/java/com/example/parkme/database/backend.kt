@@ -4,7 +4,7 @@ import com.example.parkme.services.ParkSlotDbService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-object ParkSlotDbClient {
+object backend {
 
     val URL_BASE = "http://mockserver.kubernights.com:8080"
     private val retrofit = Retrofit.Builder()

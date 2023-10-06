@@ -1,4 +1,4 @@
-package com.example.parkme
+package com.example.parkme.navigation
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,11 +8,11 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.parkme.adapter.Card_Adapter
+import com.example.parkme.R
 import com.example.parkme.adapter.ParkSlotsAdapter
-import com.example.parkme.database.ParkSlotDbClient
-import com.example.parkme.database.ParkSlotDbResult
-import com.example.parkme.services.ParkSlotDbService
+import com.example.parkme.database.backend
+import com.example.parkme.database.PaginateResponse
+import com.example.parkme.models.ParkSlot
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -31,9 +31,9 @@ class ExploreFr : Fragment() {
 
     private fun initRecyclerView(rootView: View) {
         val recyclerView = rootView.findViewById<RecyclerView>(R.id.recyclerView)
-        var service = ParkSlotDbClient.service.listParkSlots().enqueue(object :
-            Callback<ParkSlotDbResult> {
-            override fun onResponse(call: Call<ParkSlotDbResult>, response: Response<ParkSlotDbResult>) {
+        var service = backend.service.listParkSlots().enqueue(object :
+            Callback<PaginateResponse<ParkSlot>> {
+            override fun onResponse(call: Call<PaginateResponse<ParkSlot>>, response: Response<PaginateResponse<ParkSlot>>) {
                 if (response.isSuccessful) {
                     val responseParkSlots = response.body()
                     val parkSlotsAdapter = ParkSlotsAdapter(responseParkSlots?.results ?: emptyList()) { parkSlot ->
@@ -46,7 +46,7 @@ class ExploreFr : Fragment() {
                 }
             }
 
-            override fun onFailure(call: retrofit2.Call<ParkSlotDbResult>, t: Throwable) {
+            override fun onFailure(call: retrofit2.Call<PaginateResponse<ParkSlot>>, t: Throwable) {
                 Toast.makeText(requireContext(), "Error al cargar los datos", Toast.LENGTH_SHORT).show()
             }
         })

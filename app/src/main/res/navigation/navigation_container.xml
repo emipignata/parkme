@@ -7,23 +7,23 @@
 
     <fragment
         android:id="@+id/exploreFr"
-        android:name="com.example.parkme.ExploreFr"
+        android:name="com.example.parkme.navigation.ExploreFr"
         android:label="fragment_explore"
         tools:layout="@layout/fragment_explore" />
     <fragment
         android:id="@+id/historialFr"
-        android:name="com.example.parkme.HistorialFr"
+        android:name="com.example.parkme.navigation.HistorialFr"
         android:label="fragment_historial"
         tools:layout="@layout/fragment_historial" />
 
     <fragment
         android:id="@+id/misCocherasFr"
-        android:name="com.example.parkme.MisCocherasFr"
+        android:name="com.example.parkme.navigation.MisCocherasFr"
         android:label="fragment_mis_cocheras"
         tools:layout="@layout/fragment_mis_cocheras" />
     <fragment
         android:id="@+id/perfilFr"
-        android:name="com.example.parkme.PerfilFr"
+        android:name="com.example.parkme.navigation.PerfilFr"
         android:label="fragment_perfil"
         tools:layout="@layout/fragment_perfil" />
 </navigation>

@@ -1,10 +1,8 @@
 package com.example.parkme.database
 
-import com.example.parkme.models.ParkSlot
-
-data class ParkSlotDbResult(
+data class PaginateResponse<T>(
     val count: String,
     val next: String,
     val previous: String,
-    val results: List<ParkSlot>
+    val results: List<T>
 )
