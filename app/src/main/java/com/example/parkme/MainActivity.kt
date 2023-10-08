@@ -1,4 +1,4 @@
-package com.example.parkme.navigation
+package com.example.parkme
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
