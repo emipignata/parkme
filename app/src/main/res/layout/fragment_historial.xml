@@ -23,7 +23,7 @@
         <FrameLayout
             android:id="@+id/scroll_recyclerview_container"
             android:layout_width="match_parent"
-            android:layout_height="450dp"
+            android:layout_height="600dp"
             android:layout_marginTop="90dp">
 
             <androidx.recyclerview.widget.RecyclerView
@@ -35,9 +35,9 @@
         <TextView
             android:id="@+id/textView2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_height="60dp"
             android:gravity="center"
+            android:layout_marginTop="20dp"
             android:text="Tus últimos Parkme"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
