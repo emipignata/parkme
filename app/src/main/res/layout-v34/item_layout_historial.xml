@@ -6,7 +6,8 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:padding="16dp"
-    android:background="@android:color/system_primary_container_light"> <!-- Agrega el fondo gris claro -->
+    android:layout_marginTop="10dp"
+    android:background="@color/md_theme_dark_onPrimaryContainer"> <!-- Agrega el fondo gris claro -->
 
     <ImageView
         android:id="@+id/imageView"
