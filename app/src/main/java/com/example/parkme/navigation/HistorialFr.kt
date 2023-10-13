@@ -23,7 +23,7 @@ class HistorialFr : Fragment() {
         val view = inflater.inflate(R.layout.fragment_historial, container, false)
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewHistorial)
 
-        // Crea una lista de elementos (puedes reemplazar esto con tus datos)
+        // Crea una lista de elementos (tenemos que hacer aca el llamadoa la API??? ver con el profe donde populamos esta lista....)
         val items = listOf(
             ItemHistorial("Título 1", "Descripción 1", R.drawable.cochera),
             ItemHistorial("Título 2", "Descripción 2", R.drawable.cochera),
