@@ -10,7 +10,7 @@
     android:background="@color/md_theme_dark_onSecondaryContainer">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/recyclerViewMisCocheras"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
