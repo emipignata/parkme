@@ -11,21 +11,13 @@ import com.example.parkme.models.ItemHistorial
 
 
 class MyAdapterHistorial(private val items: List<ItemHistorial>) : RecyclerView.Adapter<MyAdapterHistorial.ViewHolder>() {
-   /* class ViewHolder(itemView: View, view: Any) : RecyclerView.ViewHolder(itemView) {
-       // val textViewItem: TextView = itemView.findViewById(R.id.textViewItem)
-        val tituloTextView: TextView = view.findViewById(R.id.tituloTextView)
-        val descripcionTextView: TextView = view.findViewById(R.id.descripcionTextView)
-        val imageView: ImageView = view.findViewById(R.id.imageView)
 
-    }
-*/
    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
        val tituloTextView: TextView = view.findViewById(R.id.tituloTextView)
        val descripcionTextView: TextView = view.findViewById(R.id.descripcionTextView)
        val imageView: ImageView = view.findViewById(R.id.imageView)
    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-       // val view = LayoutInflater.from(parent.context).inflate(R.layout.item_layout_historial, parent, false)
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_layout_historial, parent, false) as LinearLayout
 
         return ViewHolder(view)
@@ -33,8 +25,6 @@ class MyAdapterHistorial(private val items: List<ItemHistorial>) : RecyclerView.
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
-       // holder.textViewItem.text = item
-       // val item = listaDeItems[position]
         holder.tituloTextView.text = item.titulo
         holder.descripcionTextView.text = item.descripcion
         holder.imageView.setImageResource(item.imagenResId)
