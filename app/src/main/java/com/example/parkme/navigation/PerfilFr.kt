@@ -50,7 +50,6 @@ class PerfilFr : Fragment() {
         btnLogout.setOnClickListener {
             mGoogleSignInClient.signOut().addOnCompleteListener {
                 firebaseAuth.signOut()
-                Log.e("USUARIO ACTUAL EN PERFIL:", "Estado Usuario: ${firebaseAuth.currentUser}")
                 val intent = Intent(requireContext(), SplashScreenActivity::class.java)
                 Toast.makeText(requireContext(), mGoogleSignInClient.toString(), Toast.LENGTH_SHORT).show()
                 startActivity(intent)

@@ -23,13 +23,10 @@ class SplashScreenActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val user = firebaseAuth.currentUser?.email
-        Log.e("user", user.toString())
         Handler(Looper.getMainLooper()).postDelayed({
             if (user == null) {
-                // User is already authenticated, redirect to the main activity
                 startActivity(Intent(this, LoginActivity::class.java))
             } else {
-                // User is not authenticated, redirect to the login activity
                 startActivity(Intent(this, MainActivity::class.java))
             }
             finish()
