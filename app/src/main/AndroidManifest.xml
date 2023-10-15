@@ -15,6 +15,12 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activitys.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SplashScreenActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

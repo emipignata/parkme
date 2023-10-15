@@ -9,8 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.parkme.R
 import com.example.parkme.models.ItemHistorial
 
-
-class MyAdapterHistorial(private val items: List<ItemHistorial>) : RecyclerView.Adapter<MyAdapterHistorial.ViewHolder>() {
+class MyAdapterHistorial (private val items: List<ItemHistorial>) : RecyclerView.Adapter<MyAdapterHistorial.ViewHolder>() {
 
    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
        val tituloTextView: TextView = view.findViewById(R.id.tituloTextView)
@@ -19,7 +18,6 @@ class MyAdapterHistorial(private val items: List<ItemHistorial>) : RecyclerView.
    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_layout_historial, parent, false) as LinearLayout
-
         return ViewHolder(view)
     }
 
@@ -34,4 +32,3 @@ class MyAdapterHistorial(private val items: List<ItemHistorial>) : RecyclerView.
         return items.size
     }
 }
-
