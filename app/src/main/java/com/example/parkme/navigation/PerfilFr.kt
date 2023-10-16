@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -42,11 +43,20 @@ class PerfilFr : Fragment() {
 
         binding.profileEmail.text = currentUser.email
         binding.profileName.text = currentUser.displayName
-        binding.profileLastname.text = currentUser.displayName
+       // binding.profileLastname.text = currentUser.displayName
+
+      /*  Glide.with(binding.root.context)
+            .load(R.drawable.circular_overlay) // Load the circular mask drawable
+            .into(view.findViewById<ImageView>(R.id.profile_image))
+            ACA TRATAMOS DE REDONDEAR LA FOTO PERO NO PUDIMOS....
+        */
         Glide
             .with(binding.root.context)
             .load(currentUser.photoUrl)
             .into(binding.profileImage)
+
+
+
         btnLogout.setOnClickListener {
             mGoogleSignInClient.signOut().addOnCompleteListener {
                 firebaseAuth.signOut()
