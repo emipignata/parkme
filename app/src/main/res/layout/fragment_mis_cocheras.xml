@@ -5,13 +5,21 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/scroll_recyclerview_container"
     android:layout_width="match_parent"
-    android:layout_height="500dp"
-    android:layout_marginTop="90dp"
+    android:layout_height="700dp"
     android:background="@color/md_theme_dark_onSecondaryContainer">
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewMisCocheras"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="630dp" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Agregar Cochera"
+        android:layout_marginBottom="25dp"
+        android:layout_gravity="center_horizontal|bottom"/>
 
 </FrameLayout>
