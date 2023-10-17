@@ -1,10 +1,15 @@
 package com.example.parkme.navigation
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.parkme.databinding.FragmentExploreMapBinding
 import com.example.parkme.entities.Cochera
@@ -17,32 +22,79 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlin.concurrent.thread
 import com.example.parkme.R
+import com.google.android.gms.location.FusedLocationProviderClient
 import java.lang.Thread.sleep
+import com.google.android.gms.location.LocationServices
+
 
 class ExploreFr : Fragment(), OnMapReadyCallback {
     private lateinit var binding: FragmentExploreMapBinding
     private lateinit var mapFragment: SupportMapFragment
-    private lateinit var currentLocation: LatLng
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private var currentLocation: LatLng? = null
     private val db = FirebaseFirestore.getInstance()
     private val cocherasMarker: MutableList<Cochera> = ArrayList()
+    private val PERMISSIONS_REQUEST_LOCATION = 1001
+
+    private fun checkLocationPermission() {
+        val permission = Manifest.permission.ACCESS_FINE_LOCATION
+        val isPermissionGranted = PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(requireContext(), permission)
+
+        if (isPermissionGranted) {
+            getCurrentLocation()
+        } else {
+            requestLocationPermissionLauncher.launch(permission)
+        }
+    }
+
+    private val requestLocationPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            // Permission granted, you can now get the user's location
+            getCurrentLocation()
+        } else {
+            // Permission denied, handle accordingly
+            Log.e("ExploreFr", "Permission Denied")
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        loadSampleCocheras()
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
+        checkLocationPermission()
+        //loadSampleCocheras()
         getCocheras()
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        getCurrentLocation()
         binding = FragmentExploreMapBinding.inflate(inflater, container, false)
         mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         sleep(750)
         mapFragment.getMapAsync(this)
         return binding.root
     }
-
+    private fun getCurrentLocation() {
+        // Request the current location
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            fusedLocationClient.lastLocation
+                .addOnSuccessListener { location ->
+                    if (location != null) {
+                        // Save the location to the variable
+                        currentLocation = LatLng(location.latitude, location.longitude)
+                        // Now, you can use the 'currentLocation' variable
+                        Log.e("ExploreFr", "CurrentLocationnnn: ${currentLocation}")
+                    } else {
+                        // Handle the case where location is null
+                    }
+                }
+        }
+    }
     private fun loadSampleCocheras() {
         thread {
             deleteAllCocheras()
@@ -66,7 +118,7 @@ class ExploreFr : Fragment(), OnMapReadyCallback {
             db.collection("cocheras")
                 .add(cochera)
                 .addOnSuccessListener { documentReference ->
-                    Log.e("ExploreFr", "Cochera Agregada: $cochera")
+                    //Log.e("ExploreFr", "Cochera Agregada: $cochera")
                 }
                 .addOnFailureListener { e -> Log.w("ExploreFr", "Error adding document", e) }
         }
@@ -110,9 +162,14 @@ class ExploreFr : Fragment(), OnMapReadyCallback {
 
 
         // Set the initial camera position (e.g., center of the city).
-        currentLocation = LatLng(-33.1301719, -64.34902)
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15.5f))
 
+        if (currentLocation != null) {
+            Log.e("ExploreFr", "CurrentLocationObtained: ${currentLocation}")
+        } else {
+            currentLocation = LatLng(-33.1301719, -64.34902)
+            Log.e("ExploreFr", "CurrentLocationForced: ${currentLocation}")
+        }
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation!!, 15f))
 
     }
 
