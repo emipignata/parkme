@@ -1,11 +1,13 @@
 package com.example.parkme.navigation
 
 
+import FragmentAgregarCochera
 import com.example.parkme.R
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -38,11 +40,21 @@ class MisCocherasFr : Fragment() {
         ItemMisCocheras("Título 10", "Descripción 10", R.drawable.cochera)
         )
 
-        // Configura un adaptador personalizado para el RecyclerView
-        val adapter = MisCocherasAdapter(cocherasList)
+       // Configura un adaptador personalizado para el RecyclerView
+        val adapter = MisCocherasAdapter(cocherasList, childFragmentManager)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
+   /*     val button3 = view.findViewById<Button>(R.id.button3)
+
+        button3.setOnClickListener {
+            val fragment = FragmentAgregarCochera() // Crear una instancia de tu fragmento
+            val transaction = parentFragmentManager.beginTransaction() // Usar parentFragmentManager para la transacción
+            transaction.replace(R.id.fragment_container_agregarCochera, fragment)
+            transaction.addToBackStack(null)
+            transaction.commit()
+        }
+*/
         return view
     }
 }
