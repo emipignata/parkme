@@ -54,12 +54,12 @@ class ExploreFr : Fragment(), OnMapReadyCallback {
 
     private fun addSampleCocheras() {
         val cocheras = listOf(
-            Cochera("Pedro1", "Libertador 123455", -33.13017, -64.34902, 3.0f, "https://raicesdeperaleda.com/recursos/cache/cochera-1555889699-250x250.jpg"),
-            Cochera("Pedro2", "Libertador 123456", -33.1245077, -64.34903, 3.0f, "https://raicesdeperaleda.com/recursos/cache/cochera-1555889699-250x250.jpg"),
-            Cochera("Pedro3", "Libertador 123457", -33.13019, -64.34901, 3.0f, "https://raicesdeperaleda.com/recursos/cache/cochera-1555889699-250x250.jpg"),
-            Cochera("Pedro4", "Libertador 123458", -33.13020, -64.34902, 3.0f, "https://raicesdeperaleda.com/recursos/cache/cochera-1555889699-250x250.jpg"),
-            Cochera("Pedro5", "Libertador 123459", -33.13021, -64.34902, 3.0f, "https://raicesdeperaleda.com/recursos/cache/cochera-1555889699-250x250.jpg"),
-            Cochera("Pedro6", "Libertador 123450", -33.13022, -64.34902, 3.0f, "https://raicesdeperaleda.com/recursos/cache/cochera-1555889699-250x250.jpg")
+            Cochera("Pedro1", "Libertador 123455", -33.13017, -64.34902, 3.0f, "https://raicesdeperaleda.com/recursos/cache/cochera-1555889699-250x250.jpg", false, "user1"),
+            Cochera("Pedro2", "Libertador 123456", -33.1245077, -64.34903, 3.0f, "https://raicesdeperaleda.com/recursos/cache/cochera-1555889699-250x250.jpg", true, "user2"),
+            Cochera("Pedro3", "Libertador 123457", -33.13019, -64.34901, 3.0f, "https://raicesdeperaleda.com/recursos/cache/cochera-1555889699-250x250.jpg", false, "user3"),
+            Cochera("Pedro4", "Libertador 123458", -33.13020, -64.34902, 3.0f, "https://raicesdeperaleda.com/recursos/cache/cochera-1555889699-250x250.jpg", true, "user4"),
+            Cochera("Pedro5", "Libertador 123459", -33.13021, -64.34902, 3.0f, "https://raicesdeperaleda.com/recursos/cache/cochera-1555889699-250x250.jpg", false, "user5"),
+            Cochera("Pedro6", "Libertador 123450", -33.13022, -64.34902, 3.0f, "https://raicesdeperaleda.com/recursos/cache/cochera-1555889699-250x250.jpg", true,"user6")
         )
 
         for (cochera in cocheras) {
