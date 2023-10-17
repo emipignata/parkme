@@ -9,7 +9,7 @@
         android:id="@+id/exploreFr"
         android:name="com.example.parkme.navigation.ExploreFr"
         android:label="fragment_explore"
-        tools:layout="@layout/fragment_explore" />
+        tools:layout="@layout/fragment_explore_map" />
     <fragment
         android:id="@+id/historialFr"
         android:name="com.example.parkme.navigation.HistorialFr"
