@@ -17,7 +17,6 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlin.concurrent.thread
 import com.example.parkme.R
-import java.lang.Thread.sleep
 
 class ExploreFr : Fragment(), OnMapReadyCallback {
     private lateinit var binding: FragmentExploreMapBinding
@@ -28,8 +27,7 @@ class ExploreFr : Fragment(), OnMapReadyCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        loadSampleCocheras()
-        getCocheras()
+        //loadSampleCocheras()
     }
 
     override fun onCreateView(
@@ -38,15 +36,11 @@ class ExploreFr : Fragment(), OnMapReadyCallback {
     ): View {
         binding = FragmentExploreMapBinding.inflate(inflater, container, false)
         mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
-        sleep(750)
         mapFragment.getMapAsync(this)
         return binding.root
     }
-
     private fun loadSampleCocheras() {
-        thread {
-            deleteAllCocheras()
-        }
+
         thread {
             addSampleCocheras()
         }
@@ -88,35 +82,32 @@ class ExploreFr : Fragment(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         // Set the map type to Normal.
-        // Add custom markers to the map.
-        var count = 0
-        Log.e("ExploreFr", "Cocheras: ${cocherasMarker.size}")
-        for (marker in cocherasMarker) {
-            count++
-            val location = LatLng(marker.lat, marker.lng)
-            val markerOptions = MarkerOptions()
-                .position(location)
-                .title(marker.nombre)
-                .snippet(marker.direccion)
-                .draggable(true)
-                .visible(true)
-            Log.e("ExploreFr", "MarkerOptions $count: ${markerOptions.title}")
-            googleMap.addMarker(markerOptions)
-        }
+        googleMap.clear()
         googleMap.mapType = GoogleMap.MAP_TYPE_NORMAL
         googleMap.uiSettings.isZoomControlsEnabled = true
         googleMap.uiSettings.isMapToolbarEnabled = false
         googleMap.uiSettings.isMyLocationButtonEnabled = true
 
-
         // Set the initial camera position (e.g., center of the city).
         currentLocation = LatLng(-33.1301719, -64.34902)
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15.5f))
 
-
+        // Call getCocheras and add markers once data is available
+        getCocheras {
+            for (marker in cocherasMarker) {
+                val location = LatLng(marker.getLat(), marker.getLng())
+                val markerOptions = MarkerOptions()
+                    .position(location)
+                    .title(marker.getNombre())
+                    .snippet(marker.getDireccion())
+                    .draggable(true)
+                    .visible(true)
+                googleMap.addMarker(markerOptions)
+            }
+        }
     }
 
-    private fun getCocheras() {
+    private fun getCocheras(callback: () -> Unit) {
         db.collection("cocheras")
             .get()
             .addOnCompleteListener { task ->
@@ -126,6 +117,7 @@ class ExploreFr : Fragment(), OnMapReadyCallback {
                         val cochera = document.toObject(Cochera::class.java)
                         cocherasMarker.add(cochera)
                     }
+                    callback.invoke() // Call the callback once data is loaded
                 } else {
                     Log.e("ExploreFr", "Error getting documents.", task.exception)
                 }
