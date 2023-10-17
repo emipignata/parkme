@@ -17,6 +17,8 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlin.concurrent.thread
 import com.example.parkme.R
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 
 class ExploreFr : Fragment(), OnMapReadyCallback {
     private lateinit var binding: FragmentExploreMapBinding
@@ -24,6 +26,7 @@ class ExploreFr : Fragment(), OnMapReadyCallback {
     private lateinit var currentLocation: LatLng
     private val db = FirebaseFirestore.getInstance()
     private val cocherasMarker: MutableList<Cochera> = ArrayList()
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,8 +38,8 @@ class ExploreFr : Fragment(), OnMapReadyCallback {
     ): View {
         binding = FragmentExploreMapBinding.inflate(inflater, container, false)
         mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
-
-            mapFragment.getMapAsync(this)
+        mapFragment.getMapAsync(this)
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
 
         return binding.root
     }
@@ -66,6 +69,9 @@ class ExploreFr : Fragment(), OnMapReadyCallback {
     }
 
     private fun loadSampleCocheras() {
+        /*thread {
+            deleteAllCocheras()
+        }*/
         thread {
             addSampleCocheras()
         }
