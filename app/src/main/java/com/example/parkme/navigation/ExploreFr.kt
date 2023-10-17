@@ -29,7 +29,6 @@ class ExploreFr : Fragment(), OnMapReadyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         loadSampleCocheras()
-        sleep(1000)
         getCocheras()
     }
 
@@ -39,7 +38,7 @@ class ExploreFr : Fragment(), OnMapReadyCallback {
     ): View {
         binding = FragmentExploreMapBinding.inflate(inflater, container, false)
         mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
-        sleep(1000)
+        sleep(750)
         mapFragment.getMapAsync(this)
         return binding.root
     }
@@ -48,7 +47,6 @@ class ExploreFr : Fragment(), OnMapReadyCallback {
         thread {
             deleteAllCocheras()
         }
-        sleep(1000)
         thread {
             addSampleCocheras()
         }
@@ -102,11 +100,9 @@ class ExploreFr : Fragment(), OnMapReadyCallback {
                 .snippet(marker.direccion)
                 .draggable(true)
                 .visible(true)
-            sleep(100)
             Log.e("ExploreFr", "MarkerOptions $count: ${markerOptions.title}")
             googleMap.addMarker(markerOptions)
         }
-        sleep(1000)
         googleMap.mapType = GoogleMap.MAP_TYPE_NORMAL
         googleMap.uiSettings.isZoomControlsEnabled = true
         googleMap.uiSettings.isMapToolbarEnabled = false
