@@ -111,7 +111,7 @@ class ExploreFr : Fragment(), OnMapReadyCallback {
 
         // Set the initial camera position (e.g., center of the city).
         currentLocation = LatLng(-33.1301719, -64.34902)
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 13f))
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15.5f))
 
 
     }
