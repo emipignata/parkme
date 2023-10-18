@@ -23,12 +23,12 @@ import com.example.parkme.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
-    private val firebaseAuth = FirebaseAuth.getInstance()
     private lateinit var oneTapClient: SignInClient
     private lateinit var signUpRequest: BeginSignInRequest
     private lateinit var button : Button
     companion object {
         private const val RC_SIGN_IN = 123
+        private val firebaseAuth = FirebaseAuth.getInstance()
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,12 +59,13 @@ class LoginActivity : AppCompatActivity() {
                         Toast.makeText(applicationContext, "token: $email", Toast.LENGTH_SHORT).show()
                         firebaseAuth.signInWithCredential(userAuth)
                             .addOnCompleteListener(this) { task ->
+                                Log.e("TAG", "signInWithCredential:onComplete:" + task.getResult().toString())
                                 if (task.isSuccessful) {
                                     // Sign-in success, update UI with the signed-in user's information
                                     startActivity(Intent(this, MainActivity::class.java))
                                     finish()
                                 } else {
-                                    Toast.makeText(applicationContext, "Authentication failed.", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(applicationContext, task.getResult().toString(), Toast.LENGTH_SHORT).show()
                                 }
                             }
                     }
