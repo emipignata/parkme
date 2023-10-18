@@ -26,10 +26,12 @@
     <FrameLayout
         android:id="@+id/map_container"
         android:layout_width="match_parent"
-        android:layout_height="550dp"
+        android:layout_height="600dp"
         android:layout_marginTop="15dp"
+        android:layout_marginBottom="35dp"
         android:background="@color/md_theme_dark_onSecondaryContainer"
-        app:layout_constraintTop_toBottomOf="@id/search_bar">
+        app:layout_constraintTop_toBottomOf="@id/search_bar"
+        >
 
         <fragment xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
@@ -41,17 +43,16 @@
         </fragment>
 
     </FrameLayout>
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="parkme QR pass!"
-        android:layout_marginBottom="85dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/map_container" />
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!--
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="parkme QR pass!"
+            android:layout_marginBottom="85dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/map_container" />
+    -->
+    </androidx.constraintlayout.widget.ConstraintLayout>
