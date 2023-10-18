@@ -26,4 +26,10 @@
         android:name="com.example.parkme.navigation.PerfilFr"
         android:label="fragment_perfil"
         tools:layout="@layout/fragment_perfil" />
+    <fragment
+        android:id="@+id/CocheraDetailFr"
+        android:name="com.example.parkme.navigation.CocheraDetailFr"
+        android:label="fragment_perfil"
+        tools:layout="@layout/fragment_perfil" />
+
 </navigation>
