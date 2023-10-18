@@ -5,7 +5,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.example.parkme.databinding.FragmentExploreMapBinding
 import com.example.parkme.entities.Cochera
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -19,14 +21,17 @@ import kotlin.concurrent.thread
 import com.example.parkme.R
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.Marker
 
-class ExploreFr : Fragment(), OnMapReadyCallback {
+class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoWindowClickListener, OnMapReadyCallback {
     private lateinit var binding: FragmentExploreMapBinding
     private lateinit var mapFragment: SupportMapFragment
     private lateinit var currentLocation: LatLng
     private val db = FirebaseFirestore.getInstance()
     private val cocherasMarker: MutableList<Cochera> = ArrayList()
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var fragmentManager: FragmentManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +45,7 @@ class ExploreFr : Fragment(), OnMapReadyCallback {
         mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
+        fragmentManager = requireActivity().supportFragmentManager
 
         return binding.root
     }
@@ -50,6 +56,8 @@ class ExploreFr : Fragment(), OnMapReadyCallback {
         googleMap.uiSettings.isZoomControlsEnabled = true
         googleMap.uiSettings.isMapToolbarEnabled = false
         googleMap.uiSettings.isMyLocationButtonEnabled = true
+        googleMap.setOnMarkerClickListener (this)
+        googleMap.setOnInfoWindowClickListener(this)
 
         currentLocation = LatLng(-33.1301719, -64.34902)
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15.5f))
@@ -61,11 +69,54 @@ class ExploreFr : Fragment(), OnMapReadyCallback {
                     .position(location)
                     .title(marker.getNombre())
                     .snippet(marker.getDireccion())
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_icon32))
                     .draggable(true)
                     .visible(true)
-                googleMap.addMarker(markerOptions)
+
+                val googleMarker = googleMap.addMarker(markerOptions)
+                if (googleMarker != null) {
+                    googleMarker.tag = marker
+                }
             }
         }
+    }
+
+    override fun onInfoWindowClick(marker: Marker) {
+        // Get the Cochera object from the marker's tag
+        val cochera = marker.tag as? Cochera
+        if (cochera != null) {
+            fragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainerView, CocheraDetailFr(cochera))
+                .addToBackStack(null)
+                .commit()
+        } else {
+            Toast.makeText(
+                requireContext(), "Info window clicked with no associated Cochera",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
+    override fun onMarkerClick(marker: Marker): Boolean {
+
+        // Retrieve the data from the marker.
+        val clickCount = marker.tag as? Int
+
+        // Check if a click count was set, then display the click count.
+        clickCount?.let {
+            val newClickCount = it + 1
+            marker.tag = newClickCount
+            Toast.makeText(
+                requireContext(),
+                "${marker.title} has been clicked $newClickCount times.",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
+        // Return false to indicate that we have not consumed the event and that we wish
+        // for the default behavior to occur (which is for the camera to move such that the
+        // marker is centered and for the marker's info window to open, if it has one).
+        return false
     }
 
     private fun loadSampleCocheras() {
