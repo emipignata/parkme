@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.parkme.adapter.MisCocherasAdapter
@@ -17,7 +18,7 @@ import com.example.parkme.models.ItemMisCocheras
 class MisCocherasFr : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
-
+    private lateinit var fragmentManager: FragmentManager
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -45,16 +46,19 @@ class MisCocherasFr : Fragment() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-   /*     val button3 = view.findViewById<Button>(R.id.button3)
+        fragmentManager = requireActivity().supportFragmentManager
+
+
+
+          val button3 = view.findViewById<Button>(R.id.button3)
 
         button3.setOnClickListener {
-            val fragment = FragmentAgregarCochera() // Crear una instancia de tu fragmento
-            val transaction = parentFragmentManager.beginTransaction() // Usar parentFragmentManager para la transacción
-            transaction.replace(R.id.fragment_container_agregarCochera, fragment)
-            transaction.addToBackStack(null)
-            transaction.commit()
+            fragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainerView, FragmentAgregarCochera())
+                .addToBackStack(null)
+                .commit()
         }
-*/
+
         return view
     }
 }
