@@ -7,6 +7,7 @@ import androidx.annotation.RequiresApi
 import com.google.android.material.textfield.TextInputLayout
 
 class Cochera() : Parcelable {
+    private var cocheraId: String = ""
     private var nombre: String = ""
     private var direccion: String = ""
     private var lat: Double = 0.0
@@ -17,6 +18,7 @@ class Cochera() : Parcelable {
     private var owner: String = ""
 
     constructor(
+        cocheraId: String,
         nombre: String,
         direccion: String,
         lat: Double,
@@ -26,6 +28,7 @@ class Cochera() : Parcelable {
         ocupada: Boolean,
         owner: String
     ) : this() {
+        this.cocheraId = cocheraId
         this.nombre = nombre
         this.direccion = direccion
         this.lat = lat
@@ -38,6 +41,7 @@ class Cochera() : Parcelable {
 
     @RequiresApi(Build.VERSION_CODES.Q)
     constructor(source: Parcel) : this() {
+        cocheraId = source.readString() ?: ""
         nombre = source.readString() ?: ""
         direccion = source.readString() ?: ""
         lat = source.readDouble()
@@ -52,6 +56,7 @@ class Cochera() : Parcelable {
 
     @RequiresApi(Build.VERSION_CODES.Q)
     override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
+        writeString(cocheraId)
         writeString(nombre)
         writeString(direccion)
         writeDouble(lat)
@@ -60,6 +65,14 @@ class Cochera() : Parcelable {
         writeString(urlImage)
         writeBoolean(ocupada)
         writeString(owner)
+    }
+
+    fun getCocheraId(): String {
+        return cocheraId
+    }
+
+    fun setCocheraId(cocheraId: String) {
+        this.cocheraId = cocheraId
     }
 
     fun getNombre(): String {
@@ -127,7 +140,7 @@ class Cochera() : Parcelable {
     }
 
     override fun toString(): String {
-        return "Cochera(nombre='$nombre', direccion='$direccion', lat='$lat', lng='$lng', price='$price', urlImage='$urlImage', ocupada='$ocupada', owner='$owner')"
+        return "Cochera(cocheraId='$cocheraId',nombre='$nombre', direccion='$direccion', lat='$lat', lng='$lng', price='$price', urlImage='$urlImage', ocupada='$ocupada', owner='$owner')"
     }
 
     companion object {
