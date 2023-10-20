@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.navigation.findNavController
 import com.example.parkme.databinding.FragmentExploreMapBinding
 import com.example.parkme.entities.Cochera
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -35,7 +36,7 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //loadSampleCocheras()
+        loadSampleCocheras()
     }
 
     override fun onCreateView(
@@ -65,11 +66,11 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
 
         getCocheras {
             for (marker in cocherasMarker) {
-                val location = LatLng(marker.getLat(), marker.getLng())
+                val location = LatLng(marker.lat, marker.lng)
                 val markerOptions = MarkerOptions()
                     .position(location)
-                    .title(marker.getNombre())
-                    .snippet(marker.getDireccion())
+                    .title(marker.nombre)
+                    .snippet(marker.direccion)
                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_icon32))
                     .draggable(true)
                     .visible(true)
@@ -83,13 +84,10 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
     }
 
     override fun onInfoWindowClick(marker: Marker) {
-        // Get the Cochera object from the marker's tag
         val cochera = marker.tag as? Cochera
         if (cochera != null) {
-            fragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainerView, CocheraDetailFr(cochera))
-                .addToBackStack(null)
-                .commit()
+            val action = ExploreFrDirections.actionExploreFrToCocheraDetailFr(cochera)
+            view?.findNavController()?.navigate(action)
         } else {
             Toast.makeText(
                 requireContext(), "Info window clicked with no associated Cochera",
@@ -125,7 +123,9 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
             deleteAllCocheras()
         }*/
         thread {
-            addSampleCocheras()
+            for (i in 1..10) {
+                addSampleCocheras()
+            }
         }
     }
 
@@ -139,7 +139,7 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
                 -64.34902,
                 3.0f,
                 "https://raicesdeperaleda.com/recursos/cache/cochera-1555889699-250x250.jpg",
-                false,
+                "ocupada",
                 "user1"
             ),
             Cochera(
@@ -150,7 +150,7 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
                 -64.34903,
                 3.0f,
                 "https://raicesdeperaleda.com/recursos/cache/cochera-1555889699-250x250.jpg",
-                true,
+                "desocupada",
                 "user2"
             ),
             //Add more cocheras here

@@ -1,154 +1,60 @@
 package com.example.parkme.entities
 
-import android.os.Build
 import android.os.Parcel
 import android.os.Parcelable
-import androidx.annotation.RequiresApi
-import com.google.android.material.textfield.TextInputLayout
 
-class Cochera() : Parcelable {
-    private var cocheraId: String = ""
-    private var nombre: String = ""
-    private var direccion: String = ""
-    private var lat: Double = 0.0
-    private var lng: Double = 0.0
-    private var price: Float = 0.0f
-    private var urlImage: String = ""
-    private var ocupada: Boolean = false
-    private var owner: String = ""
-
-    constructor(
-        cocheraId: String,
-        nombre: String,
-        direccion: String,
-        lat: Double,
-        lng: Double,
-        price: Float,
-        urlImage: String,
-        ocupada: Boolean,
-        owner: String
-    ) : this() {
-        this.cocheraId = cocheraId
-        this.nombre = nombre
-        this.direccion = direccion
-        this.lat = lat
-        this.lng = lng
-        this.price = price
-        this.urlImage = urlImage
-        this.ocupada = ocupada
-        this.owner = owner
+data class Cochera(
+    var cocheraId: String,
+    val nombre: String,
+    val direccion: String,
+    val lat: Double,
+    val lng: Double,
+    val price: Float,
+    val urlImage: String,
+    val ocupada: String,
+    val owner: String
+) : Parcelable {
+    constructor(parcel: Parcel) : this(
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readDouble(),
+        parcel.readDouble(),
+        parcel.readFloat(),
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: ""
+    )
+    // No-argument constructor is added here
+    constructor() : this(
+        "", "", "", 0.0, 0.0, 0.0f, "", "desocupada", ""
+    )
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(cocheraId)
+        parcel.writeString(nombre)
+        parcel.writeString(direccion)
+        parcel.writeDouble(lat)
+        parcel.writeDouble(lng)
+        parcel.writeFloat(price)
+        parcel.writeString(urlImage)
+        parcel.writeString(ocupada)
+        parcel.writeString(owner)
     }
 
-    @RequiresApi(Build.VERSION_CODES.Q)
-    constructor(source: Parcel) : this() {
-        cocheraId = source.readString() ?: ""
-        nombre = source.readString() ?: ""
-        direccion = source.readString() ?: ""
-        lat = source.readDouble()
-        lng = source.readDouble()
-        price = source.readFloat()
-        urlImage = source.readString() ?: ""
-        ocupada = source.readBoolean()
-        owner = source.readString() ?: ""
-    }
-
-    override fun describeContents() = 0
-
-    @RequiresApi(Build.VERSION_CODES.Q)
-    override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
-        writeString(cocheraId)
-        writeString(nombre)
-        writeString(direccion)
-        writeDouble(lat)
-        writeDouble(lng)
-        writeFloat(price)
-        writeString(urlImage)
-        writeBoolean(ocupada)
-        writeString(owner)
-    }
-
-    fun getCocheraId(): String {
-        return cocheraId
-    }
-
-    fun setCocheraId(cocheraId: String) {
-        this.cocheraId = cocheraId
-    }
-
-    fun getNombre(): String {
-        return nombre
-    }
-
-    fun setNombre(nombre: String) {
-        this.nombre = nombre
-    }
-
-    fun getDireccion(): String {
-        return direccion
-    }
-
-    fun setDireccion(direccion: String) {
-        this.direccion = direccion
-    }
-
-    fun getLat(): Double {
-        return lat
-    }
-
-    fun setLat(lat: Double) {
-        this.lat = lat
-    }
-
-    fun getLng(): Double {
-        return lng
-    }
-
-    fun setLng(lng: Double) {
-        this.lng = lng
-    }
-
-    fun getPrice(): Float {
-        return price
-    }
-
-    fun setPrice(price: Float) {
-        this.price = price
-    }
-
-    fun getUrlImage(): String {
-        return urlImage
-    }
-
-    fun setUrlImage(urlImage: String) {
-        this.urlImage = urlImage
-    }
-
-    fun isOcupada(): Boolean {
-        return ocupada
-    }
-
-    fun setOcupada(ocupada: Boolean) {
-        this.ocupada = ocupada
-    }
-
-    fun getOwner(): String {
-        return owner
-    }
-
-    fun setOwner(owner: String) {
-        this.owner = owner
-    }
-
-    override fun toString(): String {
-        return "Cochera(cocheraId='$cocheraId',nombre='$nombre', direccion='$direccion', lat='$lat', lng='$lng', price='$price', urlImage='$urlImage', ocupada='$ocupada', owner='$owner')"
+    override fun describeContents(): Int {
+        return 0
     }
 
     companion object {
         @JvmField
         val CREATOR: Parcelable.Creator<Cochera> = object : Parcelable.Creator<Cochera> {
-            @RequiresApi(Build.VERSION_CODES.Q)
-            override fun createFromParcel(source: Parcel): Cochera = Cochera(source)
-            override fun newArray(size: Int): Array<Cochera?> = arrayOfNulls(size)
+            override fun createFromParcel(parcel: Parcel): Cochera {
+                return Cochera(parcel)
+            }
+
+            override fun newArray(size: Int): Array<Cochera?> {
+                return arrayOfNulls(size)
+            }
         }
     }
 }
