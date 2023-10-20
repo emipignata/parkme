@@ -1,3 +1,4 @@
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -17,6 +18,7 @@ class FragmentAgregarCochera : Fragment() {
     lateinit var binding: FragmentAgregarCocheraBinding
     private lateinit var fragmentManager: FragmentManager
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -32,6 +34,7 @@ class FragmentAgregarCochera : Fragment() {
 
             // Crear una instancia de Cochera con los valores ingresados en los campos
             val cochera = Cochera(
+                "",
                 nombreCochera,
                 direccion,
                 -33.13017, // Latitud (cambia a la latitud correcta)
@@ -46,14 +49,32 @@ class FragmentAgregarCochera : Fragment() {
             // Agregar la Cochera a la colección en Firestore
             db.collection("cocheras")
                 .add(cochera)
+
                 .addOnSuccessListener { documentReference ->
+                    val cocheraId = documentReference.id
+                    val cochera =  Cochera(
+                        "",
+                        nombreCochera,
+                        direccion,
+                        -33.13017, // Latitud (cambia a la latitud correcta)
+                        -64.34902, // Longitud (cambia a la longitud correcta)
+                        precioPorHora.toFloatOrNull() ?: 0.0f,
+                        "https://raicesdeperaleda.com/recursos/cache/cochera-1555889699-250x250.jpg", // URL de imagen (cambia a la URL correcta)
+                        disponibilidad.toBoolean(),
+                        "user1" // Usuario (cambia al usuario correcto)
+                    )// Aquí obtén o construye tu objeto cochera
+                        cochera.setCocheraId(cocheraId) // Asigna el ID a la propiedad cocheraId
+
                     Log.e("ExploreFr", "Cochera Agregada: $cochera")
+                    db.collection("cocheras").document(cocheraId).set(cochera) // Guarda el objeto cochera en Firestore
                     Toast.makeText(requireContext(), "Cochera Agregada: ${cochera.getNombre()}", Toast.LENGTH_SHORT).show()
                     fragmentManager.beginTransaction()
                         .replace(R.id.fragmentContainerView, MisCocherasFr())
                         .addToBackStack(null)
                         .commit()
                 }
+
+
                 .addOnFailureListener { e ->
                     Log.w("ExploreFr", "Error al agregar el documento", e)
                 }

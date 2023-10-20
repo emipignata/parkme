@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentManager // Asegúrate de importar esta clas
 import androidx.recyclerview.widget.RecyclerView
 import com.example.parkme.R
 import com.example.parkme.models.ItemMisCocheras
+// usar el adaptador de  Firebase.adapter................
 
 class MisCocherasAdapter(private val cocheras: List<ItemMisCocheras>, private val fragmentManager: FragmentManager) : RecyclerView.Adapter<MisCocherasAdapter.MisCocheraViewHolder>() {
     inner class MisCocheraViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

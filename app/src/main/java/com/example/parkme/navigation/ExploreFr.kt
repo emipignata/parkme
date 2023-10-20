@@ -37,6 +37,7 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
         super.onCreate(savedInstanceState)
         //loadSampleCocheras()
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -56,7 +57,7 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
         googleMap.uiSettings.isZoomControlsEnabled = true
         googleMap.uiSettings.isMapToolbarEnabled = false
         googleMap.uiSettings.isMyLocationButtonEnabled = true
-        googleMap.setOnMarkerClickListener (this)
+        googleMap.setOnMarkerClickListener(this)
         googleMap.setOnInfoWindowClickListener(this)
 
         currentLocation = LatLng(-33.1301719, -64.34902)
@@ -130,9 +131,29 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
 
     private fun addSampleCocheras() {
         val cocheras = listOf(
-            Cochera("Pedro1", "Libertador 123455", -33.13017, -64.34902, 3.0f, "https://raicesdeperaleda.com/recursos/cache/cochera-1555889699-250x250.jpg", false, "user1"),
-            Cochera("Pedro2", "Libertador 123456", -33.1245077, -64.34903, 3.0f, "https://raicesdeperaleda.com/recursos/cache/cochera-1555889699-250x250.jpg", true, "user2"),
-            // Add more cocheras here
+            Cochera(
+                "321654987",
+                "Pedro1",
+                "Libertador 123455",
+                -33.13017,
+                -64.34902,
+                3.0f,
+                "https://raicesdeperaleda.com/recursos/cache/cochera-1555889699-250x250.jpg",
+                false,
+                "user1"
+            ),
+            Cochera(
+                "987654321",
+                "Pedro2",
+                "Libertador 123456",
+                -33.1245077,
+                -64.34903,
+                3.0f,
+                "https://raicesdeperaleda.com/recursos/cache/cochera-1555889699-250x250.jpg",
+                true,
+                "user2"
+            ),
+            //Add more cocheras here
         )
 
         for (cochera in cocheras) {
