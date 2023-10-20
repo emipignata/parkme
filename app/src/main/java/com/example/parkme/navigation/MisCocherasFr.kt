@@ -58,12 +58,12 @@ class MisCocherasFr : Fragment() {
         val button3 = view.findViewById<Button>(R.id.button3)
 
         button3.setOnClickListener {
-        /*    fragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainerView, FragmentAgregarCochera())
-                .addToBackStack(null)
-                .commit()
-                */
-         val action = MisCocherasFrDirections.actionMisCocherasFrToFragmentAgregarCochera()
+            /*    fragmentManager.beginTransaction()
+                    .replace(R.id.fragmentContainerView, FragmentAgregarCochera())
+                    .addToBackStack(null)
+                    .commit()
+                    */
+            val action = MisCocherasFrDirections.actionMisCocherasFrToFragmentAgregarCochera()
             view.findNavController().navigate(action)
             //view.findNavController().navigateUp()
         }
