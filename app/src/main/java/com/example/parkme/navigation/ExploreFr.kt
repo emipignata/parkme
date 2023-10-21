@@ -43,25 +43,11 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        userViewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
 
-        // Access the user data
-        val userJson = userViewModel.userJson
-        if (userJson != null) {
-            // Use the userJson data
-        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val userJson = arguments?.getString("userJson")
-        if (userJson != null) {
-            user = Gson().fromJson(userJson, User::class.java)
-        } else {
-            // Handle the case where "userJson" extra is not found or is null
-            // You may want to handle this case by providing a default user or taking appropriate action.
-        }
-
     }
 
     override fun onCreateView(
@@ -70,7 +56,6 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
     ): View {
         binding = FragmentExploreMapBinding.inflate(inflater, container, false)
         mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
-
         mapFragment.getMapAsync(this)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
         return binding.root
@@ -81,13 +66,6 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
         if (mapFragment == null) {
             // Initialize mapFragment only if it's null
             mapFragment = SupportMapFragment()
-        }
-        val userJson = arguments?.getString("userJson")
-        if (userJson != null) {
-            user = Gson().fromJson(userJson, User::class.java)
-        } else {
-            // Handle the case where "userJson" extra is not found or is null
-            // You may want to handle this case by providing a default user or taking appropriate action.
         }
         mapFragment?.getMapAsync(this)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
