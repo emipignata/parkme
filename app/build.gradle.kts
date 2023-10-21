@@ -74,6 +74,7 @@ dependencies {
     //FIREBASE implementations
     implementation("com.google.firebase:firebase-auth-ktx:22.2.0")
     implementation("com.google.firebase:firebase-firestore-ktx:24.9.0")
+    implementation("com.firebaseui:firebase-ui-firestore:7.2.0")
 
     //GOOGLE SIGNING implementations
     implementation("com.google.android.gms:play-services-auth:20.7.0")

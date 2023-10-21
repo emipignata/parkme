@@ -18,6 +18,13 @@
         android:textSize="18sp"
         android:layout_marginBottom="16dp"/>
 
+    <TextView
+        android:id="@+id/currentUserText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cochera Details"
+        android:textSize="18sp"
+        android:layout_marginTop="200dp"/>
     <!-- Add more TextViews or UI elements to display Cochera details as needed -->
 
 </LinearLayout>

@@ -71,6 +71,7 @@ class LoginActivity : AppCompatActivity() {
                     }
                 } catch (e: ApiException) {
                     e.printStackTrace()
+                    Toast.makeText(applicationContext, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
             }
         }

@@ -11,8 +11,11 @@
             android:label="fragment_explore"
             tools:layout="@layout/fragment_explore_map">
         <action
-            android:id="@+id/action_exploreFr_to_cocheraDetailFr"
-            app:destination="@id/cocheraDetailFr" />
+        android:id="@+id/action_exploreFr_to_cocheraDetailFr"
+        app:destination="@id/cocheraDetailFr" />
+        <argument
+            android:name="user"
+            app:argType="com.example.parkme.entities.User" />
     </fragment>
 
     <fragment
@@ -41,8 +44,12 @@
     <fragment
         android:id="@+id/fragmentAgregarCochera"
         android:name="FragmentAgregarCochera"
-        android:label="FragmentAgregarCochera"/>
-
+        android:label="FragmentAgregarCochera">
+    <action
+        android:id="@+id/action_fragmentAgregarCochera_to_misCocherasFr"
+        app:destination="@id/misCocherasFr"
+        />
+    </fragment>
     <fragment
         android:id="@+id/cocheraDetailFr"
         android:name="com.example.parkme.navigation.CocheraDetailFr"
@@ -51,6 +58,9 @@
     <argument
         android:name="cochera"
         app:argType="com.example.parkme.entities.Cochera" />
+        <argument
+            android:name="user"
+            app:argType="com.example.parkme.entities.User" />
     </fragment>
 
 </navigation>

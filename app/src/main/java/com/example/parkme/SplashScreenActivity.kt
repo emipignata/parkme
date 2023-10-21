@@ -9,16 +9,19 @@ import android.os.Handler
 import android.os.Looper
 import android.provider.Settings
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.example.parkme.activitys.LoginActivity
 import com.example.parkme.databinding.ActivitySplashScreenBinding
+import com.example.parkme.viewmodels.UserViewModel
 
 class SplashScreenActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySplashScreenBinding
     private val firebaseAuth = FirebaseAuth.getInstance()
-    private val user = firebaseAuth.currentUser?.email
+    private val user = firebaseAuth.currentUser
+
     companion object {
         private const val SPLASH_TIME_OUT:Long = 1500 // 1,5 seconds
     }
@@ -35,11 +38,14 @@ class SplashScreenActivity : AppCompatActivity() {
     ) { permissions ->
         if (permissions[ACCESS_FINE_LOCATION] == true && permissions[ACCESS_COARSE_LOCATION] == true) {
             // Permissions granted, continue with the app
+
             Handler(Looper.getMainLooper()).postDelayed({
                 if (user == null) {
                     startActivity(Intent(this, LoginActivity::class.java))
                 } else {
-                    startActivity(Intent(this, MainActivity::class.java))
+                    val mainActivityIntent = Intent(this, MainActivity::class.java)
+                    mainActivityIntent.putExtra("user", user)
+                    startActivity(mainActivityIntent)
                 }
                 finish()
             }, SPLASH_TIME_OUT)

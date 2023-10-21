@@ -5,30 +5,37 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.navigation.fragment.navArgs
-import com.example.parkme.R
 import com.example.parkme.databinding.FragmentCocheraDetailBinding
 import com.example.parkme.entities.Cochera
+import com.example.parkme.entities.User
+import com.google.gson.Gson
+
 
 class CocheraDetailFr() : Fragment() {
-    val args: CocheraDetailFrArgs by navArgs()
     private lateinit var binding: FragmentCocheraDetailBinding
-    private lateinit var fragmentManager: FragmentManager
+    private lateinit var cochera: Cochera
+    private lateinit var user: User
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val cochera: Cochera = args.cochera
         binding = FragmentCocheraDetailBinding.inflate(inflater, container, false)
-        fragmentManager = requireActivity().supportFragmentManager
+        // Retrieve the JSON string from the arguments
+        val userJson = arguments?.getString("userJson")
 
-        val cocheraDetailText = binding.root.findViewById<TextView>(R.id.cocheraDetailText)
-        cocheraDetailText.text = "Cochera Details: ${cochera}"
-        Log.e("CocheraDetailFr", "onCreateView: " + cochera)
+        // Deserialize the JSON string back to the User object
+        user = Gson().fromJson(userJson, User::class.java)
+        val args: CocheraDetailFrArgs by navArgs()
+        cochera = args.cochera
+
+        binding.currentUserText.text = "Current User Details: ${user}"
+        binding.cocheraDetailText.text = "Cochera Details: ${cochera}"
+
+        Log.e("CocheraDetailFr", "onCreateView: $cochera")
         return binding.root
     }
 }

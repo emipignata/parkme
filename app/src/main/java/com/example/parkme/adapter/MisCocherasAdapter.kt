@@ -1,7 +1,5 @@
 package com.example.parkme.adapter
 
-
-import FragmentAgregarCochera
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,7 +29,6 @@ class MisCocherasAdapter(private val cocheras: List<ItemMisCocheras>, private va
         holder.imgCochera.setImageResource(cochera.imagenResId)
 
     }
-
     override fun getItemCount(): Int {
         return cocheras.size
     }
