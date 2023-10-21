@@ -1,16 +1,14 @@
 package com.example.parkme.navigation
 
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.FragmentManager
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.navArgs
 import com.example.parkme.databinding.FragmentExploreMapBinding
 import com.example.parkme.entities.Cochera
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -20,14 +18,12 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlin.concurrent.thread
 import com.example.parkme.R
-import com.example.parkme.entities.User
-import com.example.parkme.viewmodels.UserViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.Marker
-import com.google.gson.Gson
 
 class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoWindowClickListener, OnMapReadyCallback {
     private lateinit var binding: FragmentExploreMapBinding
@@ -36,15 +32,7 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
     private val db = FirebaseFirestore.getInstance()
     private val cocherasMarker: MutableList<Cochera> = ArrayList()
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private var cocherasLoadedCallback: (() -> Unit)? = null
-    private lateinit var user: User
-    private lateinit var userViewModel: UserViewModel
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-
-    }
+    private lateinit var fragmentManager: FragmentManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,91 +46,61 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
         mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
+        fragmentManager = requireActivity().supportFragmentManager
+
         return binding.root
     }
 
-    override fun onResume() {
-        super.onResume()
-        if (mapFragment == null) {
-            // Initialize mapFragment only if it's null
-            mapFragment = SupportMapFragment()
-        }
-        mapFragment?.getMapAsync(this)
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
-    }
-
-    override fun onPause() {
-        super.onPause()
-
-        // Remove the mapFragment to avoid potential issues
-        mapFragment?.let {
-            childFragmentManager.beginTransaction().remove(it).commit()
-        }
-    }
-
     override fun onMapReady(googleMap: GoogleMap) {
+        // Set the map type to Normal.
         googleMap.mapType = GoogleMap.MAP_TYPE_NORMAL
         googleMap.uiSettings.isZoomControlsEnabled = true
         googleMap.uiSettings.isMapToolbarEnabled = false
         googleMap.uiSettings.isMyLocationButtonEnabled = true
+        googleMap.setOnMarkerClickListener(this)
         googleMap.setOnInfoWindowClickListener(this)
 
         currentLocation = LatLng(-33.1301719, -64.34902)
-        requireActivity().runOnUiThread{
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15.5f))
-        }
-        loadCocheraMarkers(googleMap)
-    }
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15.5f))
 
-    private fun loadCocheraMarkers(googleMap: GoogleMap) {
         getCocheras {
-            requireActivity().runOnUiThread{
-                for (marker in cocherasMarker) {
-                    val location = LatLng(marker.lat, marker.lng)
-                    val markerOptions = MarkerOptions()
-                        .position(location)
-                        .title(marker.nombre)
-                        .snippet(marker.direccion)
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_icon32))
-                        .draggable(true)
-                        .visible(true)
+            for (marker in cocherasMarker) {
+                val location = LatLng(marker.lat, marker.lng)
+                val markerOptions = MarkerOptions()
+                    .position(location)
+                    .title(marker.nombre)
+                    .snippet(marker.direccion)
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_icon32))
+                    .draggable(true)
+                    .visible(true)
 
-                    val googleMarker = googleMap.addMarker(markerOptions)
-                    if (googleMarker != null) {
-                        googleMarker.tag = marker
-                    }
+                val googleMarker = googleMap.addMarker(markerOptions)
+                if (googleMarker != null) {
+                    googleMarker.tag = marker
                 }
             }
         }
     }
 
-    fun setOnCocherasLoadedCallback(callback: () -> Unit) {
-        cocherasLoadedCallback = callback
-    }
-
     override fun onInfoWindowClick(marker: Marker) {
-        if (::user.isInitialized) {
-            val cochera = marker.tag as? Cochera
-            if (cochera != null) {
-                val action = ExploreFrDirections.actionExploreFrToCocheraDetailFr(cochera, user)
-                view?.findNavController()?.navigate(action)
-            } else {
-                Toast.makeText(
-                    requireContext(), "Info window clicked with no associated Cochera",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+        val cochera = marker.tag as? Cochera
+        if (cochera != null) {
+            val action = ExploreFrDirections.actionExploreFrToCocheraDetailFr(cochera)
+            view?.findNavController()?.navigate(action)
         } else {
-            // Handle the case where user is not initialized
             Toast.makeText(
-                requireContext(), "User is not initialized",
+                requireContext(), "Info window clicked with no associated Cochera",
                 Toast.LENGTH_SHORT
             ).show()
         }
     }
 
     override fun onMarkerClick(marker: Marker): Boolean {
+
+        // Retrieve the data from the marker.
         val clickCount = marker.tag as? Int
+
+        // Check if a click count was set, then display the click count.
         clickCount?.let {
             val newClickCount = it + 1
             marker.tag = newClickCount
@@ -152,7 +110,73 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
                 Toast.LENGTH_SHORT
             ).show()
         }
+
+        // Return false to indicate that we have not consumed the event and that we wish
+        // for the default behavior to occur (which is for the camera to move such that the
+        // marker is centered and for the marker's info window to open, if it has one).
         return false
+    }
+
+    private fun loadSampleCocheras() {
+        /*thread {
+            deleteAllCocheras()
+        }*/
+        thread {
+            for (i in 1..10) {
+                addSampleCocheras()
+            }
+        }
+    }
+
+    private fun addSampleCocheras() {
+        val cocheras = listOf(
+            Cochera(
+                "321654987",
+                "Pedro1",
+                "Libertador 123455",
+                -33.13017,
+                -64.34902,
+                3.0f,
+                "https://raicesdeperaleda.com/recursos/cache/cochera-1555889699-250x250.jpg",
+                "ocupada",
+                "user1"
+            ),
+            Cochera(
+                "987654321",
+                "Pedro2",
+                "Libertador 123456",
+                -33.1245077,
+                -64.34903,
+                3.0f,
+                "https://raicesdeperaleda.com/recursos/cache/cochera-1555889699-250x250.jpg",
+                "desocupada",
+                "user2"
+            ),
+            //Add more cocheras here
+        )
+
+        for (cochera in cocheras) {
+            db.collection("cocheras")
+                .add(cochera)
+                .addOnSuccessListener { documentReference ->
+                    Log.e("ExploreFr", "Cochera Agregada: $cochera")
+                }
+                .addOnFailureListener { e -> Log.w("ExploreFr", "Error adding document", e) }
+        }
+    }
+
+    private fun deleteAllCocheras() {
+        db.collection("cocheras")
+            .get()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    for (document in task.result) {
+                        db.collection("cocheras").document(document.id).delete()
+                    }
+                } else {
+                    Log.e("ExploreFr", "Error getting documents.", task.exception)
+                }
+            }
     }
 
     private fun getCocheras(callback: () -> Unit) {
@@ -165,9 +189,7 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
                         val cochera = document.toObject(Cochera::class.java)
                         cocherasMarker.add(cochera)
                     }
-                    requireActivity().runOnUiThread{
-                        callback.invoke()
-                    }
+                    callback.invoke() // Call the callback once data is loaded
                 } else {
                     Log.e("ExploreFr", "Error getting documents.", task.exception)
                 }
