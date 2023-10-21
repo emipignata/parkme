@@ -1,6 +1,7 @@
 package com.example.parkme.navigation
 
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -26,7 +27,6 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.Marker
-import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
 
 class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoWindowClickListener, OnMapReadyCallback {
@@ -40,11 +40,9 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
     private lateinit var user: User
     private lateinit var userViewModel: UserViewModel
 
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        // Get a reference to the UserViewModel from the MainActivity
         userViewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
 
         // Access the user data
@@ -112,13 +110,15 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
         googleMap.setOnInfoWindowClickListener(this)
 
         currentLocation = LatLng(-33.1301719, -64.34902)
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15.5f))
+        requireActivity().runOnUiThread{
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15.5f))
+        }
         loadCocheraMarkers(googleMap)
     }
 
     private fun loadCocheraMarkers(googleMap: GoogleMap) {
         getCocheras {
-            activity?.runOnUiThread {
+            requireActivity().runOnUiThread{
                 for (marker in cocherasMarker) {
                     val location = LatLng(marker.lat, marker.lng)
                     val markerOptions = MarkerOptions()
@@ -187,7 +187,7 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
                         val cochera = document.toObject(Cochera::class.java)
                         cocherasMarker.add(cochera)
                     }
-                    activity?.runOnUiThread {
+                    requireActivity().runOnUiThread{
                         callback.invoke()
                     }
                 } else {

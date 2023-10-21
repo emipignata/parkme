@@ -3,8 +3,8 @@ import android.os.Parcel
 import android.os.Parcelable
 
 data class Reserva(
-    val reservaId: Int,
-    val usuarioId: Int,
+    val reservaId: String,
+    val usuarioId: String,
     val fecha: String,
     val horaEntrada: String,
     val horaSalida: String,
@@ -12,8 +12,8 @@ data class Reserva(
 ) : Parcelable {
 
     constructor(
-        reservaId: Int,
-        usuarioId: Int,
+        reservaId: String,
+        usuarioId: String,
         fecha: String,
         horaEntrada: String,
         horaSalida: String
@@ -21,8 +21,8 @@ data class Reserva(
 
     // Constructor secundario para Parcelable
     constructor(parcel: Parcel) : this(
-        parcel.readInt(),
-        parcel.readInt(),
+        parcel.readString()?: "",
+        parcel.readString()?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
@@ -30,8 +30,8 @@ data class Reserva(
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeInt(reservaId)
-        parcel.writeInt(usuarioId)
+        parcel.writeString(reservaId)
+        parcel.writeString(usuarioId)
         parcel.writeString(fecha)
         parcel.writeString(horaEntrada)
         parcel.writeString(horaSalida)

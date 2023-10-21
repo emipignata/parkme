@@ -27,7 +27,7 @@
             android:layout_marginTop="50dp">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewHistorial"
+                android:id="@+id/recyclerViewHistorialReservas"
                 android:layout_width="match_parent"
                 android:layout_height="700dp" />
         </FrameLayout>

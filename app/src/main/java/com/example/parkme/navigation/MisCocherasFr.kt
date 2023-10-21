@@ -1,68 +1,58 @@
 package com.example.parkme.navigation
 
-
-import FragmentAgregarCochera
-import android.graphics.Path.Direction
-import com.example.parkme.R
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.parkme.adapter.MisCocherasAdapter
-import com.example.parkme.models.ItemMisCocheras
-import com.example.parkme.navigation.CocheraDetailFr
-
+import com.example.parkme.adapter.CocheraFirestoreRecyclerAdapter
+import com.example.parkme.entities.Cochera
+import com.example.parkme.viewmodels.MisCocherasViewModel
+import com.google.firebase.firestore.FirebaseFirestore
+import com.example.parkme.R
+import com.firebase.ui.firestore.FirestoreRecyclerOptions
 
 class MisCocherasFr : Fragment() {
-
+    private lateinit var adapter: CocheraFirestoreRecyclerAdapter
+    private lateinit var viewModel: MisCocherasViewModel
+    private val db = FirebaseFirestore.getInstance()
     private lateinit var recyclerView: RecyclerView
-    private lateinit var fragmentManager: FragmentManager
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_mis_cocheras, container, false)
-
-        recyclerView =
-            view.findViewById(R.id.recyclerViewMisCocheras) // Asegúrate de que el RecyclerView esté definido en fragment_mis_cocheras.xml
-
-        // Crea una lista de datos de ejemplo (puedes reemplazar esto con tus propios datos)
-        val cocherasList = listOf(
-            ItemMisCocheras("Título 1", "Descripción 1", R.drawable.cochera),
-            ItemMisCocheras("Título 2", "Descripción 2", R.drawable.cochera),
-            ItemMisCocheras("Título 3", "Descripción 3", R.drawable.cochera),
-            ItemMisCocheras("Título 4", "Descripción 4", R.drawable.cochera),
-            ItemMisCocheras("Título 5", "Descripción 5", R.drawable.cochera),
-            ItemMisCocheras("Título 6", "Descripción 6", R.drawable.cochera),
-            ItemMisCocheras("Título 7", "Descripción 7", R.drawable.cochera),
-            ItemMisCocheras("Título 8", "Descripción 8", R.drawable.cochera),
-            ItemMisCocheras("Título 9", "Descripción 9", R.drawable.cochera),
-            ItemMisCocheras("Título 10", "Descripción 10", R.drawable.cochera)
-        )
-
-        // Configura un adaptador personalizado para el RecyclerView
-        val adapter = MisCocherasAdapter(cocherasList, childFragmentManager)
-        recyclerView.adapter = adapter
+        val query = db.collection("cocheras")
+        recyclerView = view.findViewById(R.id.recyclerViewMisCocheras)
+        val options = FirestoreRecyclerOptions.Builder<Cochera>()
+            .setQuery(query, Cochera::class.java)
+            .build()
+        viewModel = ViewModelProvider(this).get(MisCocherasViewModel::class.java)
+        adapter = CocheraFirestoreRecyclerAdapter(options)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-
-        fragmentManager = requireActivity().supportFragmentManager
-
-
+        recyclerView.adapter = adapter
         val button3 = view.findViewById<Button>(R.id.button3)
 
         button3.setOnClickListener {
             val action = MisCocherasFrDirections.actionMisCocherasFrToFragmentAgregarCochera()
             view.findNavController().navigate(action)
-            //view.findNavController().navigateUp()
         }
-
         return view
+    }
+
+    override fun onStart() {
+        super.onStart()
+        adapter.startListening()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        adapter.stopListening()
     }
 }
