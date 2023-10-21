@@ -12,6 +12,8 @@ import androidx.navigation.fragment.navArgs
 import com.example.parkme.R
 import com.example.parkme.databinding.FragmentCocheraDetailBinding
 import com.example.parkme.entities.Cochera
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class CocheraDetailFr() : Fragment() {
     val args: CocheraDetailFrArgs by navArgs()
@@ -25,10 +27,17 @@ class CocheraDetailFr() : Fragment() {
         val cochera: Cochera = args.cochera
         binding = FragmentCocheraDetailBinding.inflate(inflater, container, false)
         fragmentManager = requireActivity().supportFragmentManager
-
         val cocheraDetailText = binding.root.findViewById<TextView>(R.id.cocheraDetailText)
         cocheraDetailText.text = "Cochera Details: ${cochera}"
-        Log.e("CocheraDetailFr", "onCreateView: " + cochera)
+
+        val uid = FirebaseAuth.getInstance().currentUser?.uid
+        val currentUserText = binding.root.findViewById<TextView>(R.id.currentUserText)
+        currentUserText.text = "CurrentUserId: ${uid}"
+
+        val ownerIdText = binding.root.findViewById<TextView>(R.id.ownerIdText)
+        ownerIdText.text = "OwnerId: ${cochera.owner}"
+
+
         return binding.root
     }
 }
