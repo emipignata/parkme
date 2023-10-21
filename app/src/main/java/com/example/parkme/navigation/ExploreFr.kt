@@ -24,6 +24,7 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.Marker
+import com.google.firebase.auth.FirebaseAuth
 
 class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoWindowClickListener, OnMapReadyCallback {
     private lateinit var binding: FragmentExploreMapBinding
@@ -33,6 +34,8 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
     private val cocherasMarker: MutableList<Cochera> = ArrayList()
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var fragmentManager: FragmentManager
+    private val uid = FirebaseAuth.getInstance().currentUser?.uid
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -117,67 +120,6 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
         return false
     }
 
-    private fun loadSampleCocheras() {
-        /*thread {
-            deleteAllCocheras()
-        }*/
-        thread {
-            for (i in 1..10) {
-                addSampleCocheras()
-            }
-        }
-    }
-
-    private fun addSampleCocheras() {
-        val cocheras = listOf(
-            Cochera(
-                "321654987",
-                "Pedro1",
-                "Libertador 123455",
-                -33.13017,
-                -64.34902,
-                3.0f,
-                "https://raicesdeperaleda.com/recursos/cache/cochera-1555889699-250x250.jpg",
-                "ocupada",
-                "user1"
-            ),
-            Cochera(
-                "987654321",
-                "Pedro2",
-                "Libertador 123456",
-                -33.1245077,
-                -64.34903,
-                3.0f,
-                "https://raicesdeperaleda.com/recursos/cache/cochera-1555889699-250x250.jpg",
-                "desocupada",
-                "user2"
-            ),
-            //Add more cocheras here
-        )
-
-        for (cochera in cocheras) {
-            db.collection("cocheras")
-                .add(cochera)
-                .addOnSuccessListener { documentReference ->
-                    Log.e("ExploreFr", "Cochera Agregada: $cochera")
-                }
-                .addOnFailureListener { e -> Log.w("ExploreFr", "Error adding document", e) }
-        }
-    }
-
-    private fun deleteAllCocheras() {
-        db.collection("cocheras")
-            .get()
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    for (document in task.result) {
-                        db.collection("cocheras").document(document.id).delete()
-                    }
-                } else {
-                    Log.e("ExploreFr", "Error getting documents.", task.exception)
-                }
-            }
-    }
 
     private fun getCocheras(callback: () -> Unit) {
         db.collection("cocheras")
@@ -187,7 +129,9 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
                     cocherasMarker.clear()
                     for (document in task.result) {
                         val cochera = document.toObject(Cochera::class.java)
-                        cocherasMarker.add(cochera)
+                        if (cochera.owner!= uid) {
+                            cocherasMarker.add(cochera)
+                        }
                     }
                     callback.invoke() // Call the callback once data is loaded
                 } else {

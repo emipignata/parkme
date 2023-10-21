@@ -16,20 +16,23 @@ import com.example.parkme.viewmodels.MisCocherasViewModel
 import com.google.firebase.firestore.FirebaseFirestore
 import com.example.parkme.R
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.google.firebase.auth.FirebaseAuth
 
 class MisCocherasFr : Fragment() {
     private lateinit var adapter: CocheraFirestoreRecyclerAdapter
     private lateinit var viewModel: MisCocherasViewModel
     private val db = FirebaseFirestore.getInstance()
     private lateinit var recyclerView: RecyclerView
+    private val uid = FirebaseAuth.getInstance().currentUser?.uid!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_mis_cocheras, container, false)
-        val query = db.collection("cocheras")
+        val query = db.collection("cocheras").whereEqualTo("owner", uid)
         recyclerView = view.findViewById(R.id.recyclerViewMisCocheras)
+
         val options = FirestoreRecyclerOptions.Builder<Cochera>()
             .setQuery(query, Cochera::class.java)
             .build()

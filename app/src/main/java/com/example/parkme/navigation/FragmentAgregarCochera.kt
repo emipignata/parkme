@@ -16,7 +16,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 class FragmentAgregarCochera : Fragment() {
     private val db = FirebaseFirestore.getInstance()
     lateinit var binding: FragmentAgregarCocheraBinding
-
+    private val uid = FirebaseAuth.getInstance().currentUser?.uid
     @SuppressLint("SuspiciousIndentation")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,7 +30,7 @@ class FragmentAgregarCochera : Fragment() {
             val direccion = binding.eTDireccion.text.toString()
             val descripcion = binding.eTDescripcion.text.toString()
             val disponibilidad = binding.eTDisponibilidad.text.toString()
-            val uid = FirebaseAuth.getInstance().currentUser?.uid
+
 
             if (uid != null) {
                 val cochera = Cochera(
