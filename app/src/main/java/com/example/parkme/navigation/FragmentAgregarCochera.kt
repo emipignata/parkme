@@ -41,7 +41,7 @@ class FragmentAgregarCochera : Fragment() {
                 -64.34902, // Longitud (cambia a la longitud correcta)
                 precioPorHora.toFloatOrNull() ?: 0.0f,
                 "https://raicesdeperaleda.com/recursos/cache/cochera-1555889699-250x250.jpg", // URL de imagen (cambia a la URL correcta)
-                disponibilidad.toBoolean(),
+                disponibilidad,
                 "user1" // Usuario (cambia al usuario correcto)
             )
             fragmentManager = requireActivity().supportFragmentManager
@@ -52,7 +52,7 @@ class FragmentAgregarCochera : Fragment() {
 
                 .addOnSuccessListener { documentReference ->
                     val cocheraId = documentReference.id
-                    val cochera =  Cochera(
+                    var cochera =  Cochera(
                         "",
                         nombreCochera,
                         direccion,
@@ -60,14 +60,14 @@ class FragmentAgregarCochera : Fragment() {
                         -64.34902, // Longitud (cambia a la longitud correcta)
                         precioPorHora.toFloatOrNull() ?: 0.0f,
                         "https://raicesdeperaleda.com/recursos/cache/cochera-1555889699-250x250.jpg", // URL de imagen (cambia a la URL correcta)
-                        disponibilidad.toBoolean(),
+                        disponibilidad,
                         "user1" // Usuario (cambia al usuario correcto)
                     )// Aquí obtén o construye tu objeto cochera
-                        cochera.setCocheraId(cocheraId) // Asigna el ID a la propiedad cocheraId
+                        cochera.cocheraId = cocheraId   // Asigna el ID a la propiedad cocheraId
 
                     Log.e("ExploreFr", "Cochera Agregada: $cochera")
                     db.collection("cocheras").document(cocheraId).set(cochera) // Guarda el objeto cochera en Firestore
-                    Toast.makeText(requireContext(), "Cochera Agregada: ${cochera.getNombre()}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Cochera Agregada: ${cochera.nombre}", Toast.LENGTH_SHORT).show()
                     fragmentManager.beginTransaction()
                         .replace(R.id.fragmentContainerView, MisCocherasFr())
                         .addToBackStack(null)
