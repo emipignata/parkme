@@ -15,7 +15,7 @@ import com.example.parkme.databinding.FragmentCocheraDetailBinding
 import com.example.parkme.entities.Cochera
 import com.google.firebase.auth.FirebaseAuth
 
-class CocheraDetailFr : Fragment() {
+class PagarFr : Fragment() {
     private val args: CocheraDetailFrArgs by navArgs()
     private lateinit var binding: FragmentCocheraDetailBinding
     private val cochera: Cochera by lazy { args.cochera } // Use lazy initialization
@@ -44,7 +44,6 @@ Log.e("CocheraDetailFr", "Cochera: $cochera")
         }
 
         reservarButton.setOnClickListener {
-
             val action = CocheraDetailFrDirections.actionCocheraDetailFrToReservaCocheraFr(cochera)
             Log.e("CocheraDetailFr", "Botón Reservar Apretado")
             Log.e("CocheraDetailFr", "Cochera a Reservar: $cochera")

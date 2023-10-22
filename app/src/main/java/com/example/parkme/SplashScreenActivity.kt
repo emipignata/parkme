@@ -20,7 +20,7 @@ import com.example.parkme.viewmodels.UserViewModel
 class SplashScreenActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySplashScreenBinding
     private val firebaseAuth = FirebaseAuth.getInstance()
-    private val user = firebaseAuth.currentUser
+    private val user = firebaseAuth.currentUser?.uid
 
     companion object {
         private const val SPLASH_TIME_OUT:Long = 1500 // 1,5 seconds

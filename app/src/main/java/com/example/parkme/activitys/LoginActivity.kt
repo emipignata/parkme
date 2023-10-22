@@ -20,6 +20,10 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.example.parkme.MainActivity
 import com.example.parkme.R
 import com.example.parkme.databinding.ActivityLoginBinding
+import com.example.parkme.entities.Cochera
+import com.example.parkme.entities.Message
+import com.example.parkme.entities.User
+import com.google.firebase.firestore.FirebaseFirestore
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
@@ -62,6 +66,7 @@ class LoginActivity : AppCompatActivity() {
                                 Log.e("TAG", "signInWithCredential:onComplete:" + task.getResult().toString())
                                 if (task.isSuccessful) {
                                     // Sign-in success, update UI with the signed-in user's information
+                                    checkAndCreateUserInFirestore()
                                     startActivity(Intent(this, MainActivity::class.java))
                                     finish()
                                 } else {
@@ -90,5 +95,35 @@ class LoginActivity : AppCompatActivity() {
                     // No Google Accounts found. Just continue presenting the signed-out UI.
                     Log.d("TAG", e.localizedMessage)
                 } })
+    }
+
+    private fun checkAndCreateUserInFirestore() {
+        val uid = FirebaseAuth.getInstance().currentUser?.uid
+        if (uid != null) {
+            val db = FirebaseFirestore.getInstance()
+            val currentUser = FirebaseAuth.getInstance().currentUser
+            val userRef = db.collection("users").document(uid)
+
+            userRef.get().addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val document = task.result
+                    if (document != null && document.exists()) {
+                        // User exists in Firestore, no need to create it
+                    } else if (currentUser != null){
+                        // User doesn't exist, create a new document
+                        val user = currentUser.displayName?.let { currentUser.email?.let { it1 -> User(userId = uid, nombre = it,email = it1, urlImage = currentUser.photoUrl.toString()) } }
+                        if (user != null) {
+                            userRef.set(user)
+                        }
+                    }
+                } else {
+                    // Handle the error
+                    val exception = task.exception
+                    if (exception != null) {
+                        // Handle the error
+                    }
+                }
+            }
+        }
     }
 }

@@ -17,9 +17,14 @@ import com.example.parkme.R
 import com.example.parkme.databinding.FragmentPerfilBinding
 import com.bumptech.glide.Glide
 import com.example.parkme.SplashScreenActivity
+import com.example.parkme.entities.User
+import com.google.firebase.firestore.FirebaseFirestore
 
 class PerfilFr : Fragment() {
     private lateinit var binding: FragmentPerfilBinding
+    private val db = FirebaseFirestore.getInstance()
+    private val uid = FirebaseAuth.getInstance().currentUser?.uid!!
+    val userRef = db.collection("users").document(uid)
     private val mGoogleSignInClient: GoogleSignInClient by lazy {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.web_client_id))
@@ -27,8 +32,25 @@ class PerfilFr : Fragment() {
             .build()
         GoogleSignIn.getClient(requireContext(), gso)
     }
-    private val firebaseAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
-    private val currentUser: FirebaseUser by lazy { firebaseAuth.currentUser!! }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        populateUser()
+    }
+
+    private fun populateUser() {
+        userRef.get().addOnSuccessListener {
+            if (it.exists()) {
+                val user = it.toObject(User::class.java)
+                binding.profileName.text = user?.nombre
+                binding.profileEmail.text = user?.email
+                Glide
+                    .with(binding.root.context)
+                    .load(user?.urlImage)
+                    .into(binding.profileImage)
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,25 +61,13 @@ class PerfilFr : Fragment() {
         val view = binding.root
         val btnLogout = view.findViewById<Button>(R.id.btnLogout)
 
-        binding.profileEmail.text = currentUser.email
-        binding.profileName.text = currentUser.displayName
-       // binding.profileLastname.text = currentUser.displayName
 
-      /*  Glide.with(binding.root.context)
-            .load(R.drawable.circular_overlay) // Load the circular mask drawable
-            .into(view.findViewById<ImageView>(R.id.profile_image))
-            ACA TRATAMOS DE REDONDEAR LA FOTO PERO NO PUDIMOS....
-        */
-        Glide
-            .with(binding.root.context)
-            .load(currentUser.photoUrl)
-            .into(binding.profileImage)
 
 
 
         btnLogout.setOnClickListener {
             mGoogleSignInClient.signOut().addOnCompleteListener {
-                firebaseAuth.signOut()
+                FirebaseAuth.getInstance().signOut()
                 val intent = Intent(requireContext(), SplashScreenActivity::class.java)
                 Toast.makeText(requireContext(), mGoogleSignInClient.toString(), Toast.LENGTH_SHORT).show()
                 startActivity(intent)
