@@ -60,8 +60,10 @@ class ReservarCocheraFr() : Fragment() {
                 Log.e("ReservaCocheraFr", "Reserva Agregada: $reserva")
                 db.collection("historial").document(reservaId).set(reserva) // Guarda el objeto cochera en Firestore
                 Toast.makeText(requireContext(), "Reserva Agregada: ${reserva.reservaId}", Toast.LENGTH_SHORT).show()
-                val action = ReservaCocheraFrDirections.actionReservaCocheraFrToHistorialFr()
-                binding.root.findNavController()?.navigate(action)                }
+                val navController = binding.root.findNavController()
+                navController.popBackStack(R.id.navigation_container, false)
+                navController.navigate(R.id.historialFr)
+            }
             .addOnFailureListener { e ->
                 Log.w("ReservaCocheraFr", "Error al agregar el documento", e)
             }

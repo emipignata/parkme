@@ -4,20 +4,19 @@
     android:id="@+id/scroll_recyclerview_container"
     android:layout_width="match_parent"
     android:layout_height="700dp"
-    android:background="@color/md_theme_dark_onSecondaryContainer"
-    >
+    android:background="@color/md_theme_dark_onSecondaryContainer">
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="@string/aqu_est_n_tus_ltimas_reservas"
+        android:textAppearance="@android:style/TextAppearance.Large" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewMisCocheras"
+        android:id="@+id/recyclerViewHistorialReservas"
         android:layout_width="match_parent"
         android:layout_height="630dp" />
-
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Agregar Cochera"
-        android:layout_marginBottom="25dp"
-        android:layout_gravity="center_horizontal|bottom"/>
 
 </FrameLayout>

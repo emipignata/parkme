@@ -1,3 +1,5 @@
+package com.example.parkme.navigation
+
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
@@ -7,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import com.example.parkme.R
 import com.example.parkme.databinding.FragmentAgregarCocheraBinding
 import com.example.parkme.entities.Cochera
 import com.google.firebase.auth.FirebaseAuth
@@ -52,7 +55,9 @@ class AgregarCocheraFr : Fragment() {
                         Log.e("ExploreFr", "Cochera Agregada: $cochera")
                         db.collection("cocheras").document(cocheraId).set(cochera) // Guarda el objeto cochera en Firestore
                         Toast.makeText(requireContext(), "Cochera Agregada: ${cochera.cocheraId}", Toast.LENGTH_SHORT).show()
-                        binding.root.findNavController().navigateUp()
+                        val navController = binding.root.findNavController()
+                        navController.popBackStack(R.id.navigation_container, false)
+                        navController.navigate(R.id.misCocherasFr)
                     }
                     .addOnFailureListener { e ->
                         Log.w("ExploreFr", "Error al agregar el documento", e)

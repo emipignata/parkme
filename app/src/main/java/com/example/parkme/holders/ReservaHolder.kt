@@ -17,25 +17,23 @@ class ReservaHolder (v: View) : RecyclerView.ViewHolder(v) {
 
 
     fun setCard(reservaId: String, usuarioId: String, fecha: String, cocheraId: String, ownerId: String, precio: Float) {
-        val reservaId: TextView = view.findViewById(R.id.reserva_reservaIdTextView)
-        val usuarioId: TextView = view.findViewById(R.id.reserva_usuarioIdTextView)
-        val fecha: TextView = view.findViewById(R.id.reserva_fechaTextView)
-        val cocheraId: TextView = view.findViewById(R.id.reserva_cocheraIdTextView)
-        val ownerId: TextView = view.findViewById(R.id.reserva_ownerIdTextView)
-        val precio: TextView = view.findViewById(R.id.reserva_precioTextView)
+        val cardReservaId: TextView = view.findViewById(R.id.reserva_reservaIdTextView)
+        val cardUsuarioId: TextView = view.findViewById(R.id.reserva_usuarioIdTextView)
+        val cardFecha: TextView = view.findViewById(R.id.reserva_fechaTextView)
+        val cardCocheraId: TextView = view.findViewById(R.id.reserva_cocheraIdTextView)
+        val cardOwnerId: TextView = view.findViewById(R.id.reserva_ownerIdTextView)
+        val cardPrecio: TextView = view.findViewById(R.id.reserva_precioTextView)
 
-        reservaId.text = reservaId.toString()
-        usuarioId.text = usuarioId.toString()
-        fecha.text = fecha.toString()
-        cocheraId.text = cocheraId.toString()
-        ownerId.text = ownerId.toString()
-        precio.text = precio.toString()
-
-
+        cardReservaId.text = reservaId
+        cardUsuarioId.text = usuarioId
+        cardFecha.text = fecha
+        cardCocheraId.text = cocheraId
+        cardOwnerId.text = ownerId
+        cardPrecio.text = precio.toString()
 
     }
 
     fun getCardLayout(): CardView {
-        return view.findViewById(R.id.card)
+        return view.findViewById(R.id.cardReserva)
     }
 }

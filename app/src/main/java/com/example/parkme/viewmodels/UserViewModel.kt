@@ -11,10 +11,7 @@ class UserViewModel : ViewModel() {
 
     private val currentUserLiveData = MutableLiveData<FirebaseUser?>()
     val currentUser: LiveData<FirebaseUser?> = currentUserLiveData
-
-    private val db = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
-    var userJson: String? = null
 
     init {
         // Load user data when the ViewModel is created
