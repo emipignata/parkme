@@ -19,7 +19,11 @@
         android:id="@+id/historialFr"
         android:name="com.example.parkme.navigation.HistorialFr"
         android:label="fragment_historial"
-        tools:layout="@layout/fragment_historial"/>
+        tools:layout="@layout/fragment_historial">
+        <action
+            android:id="@+id/action_historialFr_to_estadoReservaFr"
+            app:destination="@id/estadoReservaFr" />
+    </fragment>
 
     <fragment
         android:id="@+id/misCocherasFr"
@@ -51,6 +55,35 @@
         <argument
             android:name="cochera"
             app:argType="com.example.parkme.entities.Cochera" />
+        <action
+            android:id="@+id/action_cocheraDetailFr_to_reservaCocheraFr"
+            app:destination="@id/reservaCocheraFr" />
+    </fragment>
+    <fragment
+        android:id="@+id/reservaCocheraFr"
+        android:name="com.example.parkme.navigation.ReservarCocheraFr"
+        android:label="ReservaCocheraFr" >
+        <argument
+            android:name="cochera"
+            app:argType="com.example.parkme.entities.Cochera"/>
+        <action
+            android:id="@+id/action_reservaCocheraFr_to_historialFr"
+            app:destination="@id/historialFr" />
+    </fragment>
+    <fragment
+        android:id="@+id/pagarFr"
+        android:name="com.example.parkme.navigation.PagarFr"
+        android:label="PagarFr" >
+        <argument android:name="Pago" />
+    </fragment>
+    <fragment
+        android:id="@+id/estadoReservaFr"
+        android:name="com.example.parkme.navigation.ReservaFr"
+        android:label="EstadoReservaFr" >
+        <action
+            android:id="@+id/action_estadoReservaFr_to_pagarFr"
+            app:destination="@id/pagarFr" />
+        <argument android:name="reserva" />
     </fragment>
 
 </navigation>

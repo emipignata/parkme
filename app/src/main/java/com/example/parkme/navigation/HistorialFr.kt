@@ -14,6 +14,7 @@ import com.example.parkme.adapter.ReservaFirestoreRecyclerAdapter
 import com.example.parkme.entities.Reserva
 import com.example.parkme.viewmodels.HistorialReservasViewModel
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 
@@ -22,13 +23,14 @@ class HistorialFr : Fragment() {
     private lateinit var viewModel: HistorialReservasViewModel
     private val db = FirebaseFirestore.getInstance()
     private lateinit var recyclerView: RecyclerView
+    private val uid = FirebaseAuth.getInstance().currentUser?.uid!!
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_historial, container, false)
-        val query = db.collection("historialReservas")
+        val query = db.collection("historial")
         recyclerView = view.findViewById(R.id.recyclerViewHistorialReservas)
         val options = FirestoreRecyclerOptions.Builder<Reserva>()
             .setQuery(query, Reserva::class.java)

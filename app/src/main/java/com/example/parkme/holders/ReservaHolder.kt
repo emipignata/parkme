@@ -1,6 +1,5 @@
 package com.example.parkme.holders
 
-import android.media.Image
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -16,16 +15,22 @@ class ReservaHolder (v: View) : RecyclerView.ViewHolder(v) {
         this.view = v
     }
 
-    fun setCard(reservaId: String, usuarioId: String, fecha: String, horaEntrada: String, horaSalida: String, precio: Double) {
-        val reservaId: TextView = view.findViewById(R.id.tituloTextView)
-        val usuarioId: TextView = view.findViewById(R.id.descripcionTextView)
-        val img: ImageView = view.findViewById(R.id.imageView)
-        Glide.with(view)
-            .load("https://raicesdeperaleda.com/recursos/cache/cochera-1555889699-250x250.jpg")
-            .into(img)
+
+    fun setCard(reservaId: String, usuarioId: String, fecha: String, cocheraId: String, ownerId: String, precio: Float) {
+        val reservaId: TextView = view.findViewById(R.id.reserva_reservaIdTextView)
+        val usuarioId: TextView = view.findViewById(R.id.reserva_usuarioIdTextView)
+        val fecha: TextView = view.findViewById(R.id.reserva_fechaTextView)
+        val cocheraId: TextView = view.findViewById(R.id.reserva_cocheraIdTextView)
+        val ownerId: TextView = view.findViewById(R.id.reserva_ownerIdTextView)
+        val precio: TextView = view.findViewById(R.id.reserva_precioTextView)
 
         reservaId.text = reservaId.toString()
         usuarioId.text = usuarioId.toString()
+        fecha.text = fecha.toString()
+        cocheraId.text = cocheraId.toString()
+        ownerId.text = ownerId.toString()
+        precio.text = precio.toString()
+
 
 
     }
