@@ -1,44 +1,68 @@
 package com.example.parkme.navigation
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.findNavController
+import com.example.parkme.R
 import com.example.parkme.databinding.FragmentExploreMapBinding
 import com.example.parkme.entities.Cochera
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
-import com.google.firebase.firestore.FirebaseFirestore
-import kotlin.concurrent.thread
-import com.example.parkme.R
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoWindowClickListener, OnMapReadyCallback {
     private lateinit var binding: FragmentExploreMapBinding
     private lateinit var mapFragment: SupportMapFragment
-    private lateinit var currentLocation: LatLng
+    private var currentLocation: LatLng = LatLng(-34.5497616,-58.456725)
     private val db = FirebaseFirestore.getInstance()
     private val cocherasMarker: MutableList<Cochera> = ArrayList()
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var fragmentManager: FragmentManager
     private val uid = FirebaseAuth.getInstance().currentUser?.uid
-
+    private lateinit var locationCallback: LocationCallback
+    private lateinit var locationRequest: LocationRequest
+    private var requestingLocationUpdates: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        locationRequest = LocationRequest.create()?.apply {
+            interval = 10000 // Update interval in milliseconds
+            fastestInterval = 5000 // Fastest update interval in milliseconds
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        }!!
+
+        locationCallback = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult) {
+                locationResult.lastLocation?.let { location ->
+                    updateLocation(location)
+                    if (!requestingLocationUpdates) {
+                        mapFragment.getMapAsync(this@ExploreFr)
+                    }
+                }
+            }
+        }
     }
 
     override fun onCreateView(
@@ -58,13 +82,23 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
         // Set the map type to Normal.
         googleMap.mapType = GoogleMap.MAP_TYPE_NORMAL
         googleMap.uiSettings.isZoomControlsEnabled = true
-        googleMap.uiSettings.isMapToolbarEnabled = false
         googleMap.uiSettings.isMyLocationButtonEnabled = true
+        googleMap.uiSettings.isMapToolbarEnabled = false
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            fusedLocationClient.lastLocation.addOnSuccessListener { location ->
+                location?.let {
+                    googleMap.isMyLocationEnabled = true
+                    currentLocation = LatLng(location.latitude, location.longitude)
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15.5f))
+                }
+            }
+        }
         googleMap.setOnMarkerClickListener(this)
         googleMap.setOnInfoWindowClickListener(this)
-
-        currentLocation = LatLng(-33.1301719, -64.34902)
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15.5f))
 
         getCocheras {
             for (marker in cocherasMarker) {
@@ -99,7 +133,6 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
     }
 
     override fun onMarkerClick(marker: Marker): Boolean {
-
         // Retrieve the data from the marker.
         val clickCount = marker.tag as? Int
 
@@ -113,13 +146,8 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
                 Toast.LENGTH_SHORT
             ).show()
         }
-
-        // Return false to indicate that we have not consumed the event and that we wish
-        // for the default behavior to occur (which is for the camera to move such that the
-        // marker is centered and for the marker's info window to open, if it has one).
         return false
     }
-
 
     private fun getCocheras(callback: () -> Unit) {
         db.collection("cocheras")
@@ -129,7 +157,7 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
                     cocherasMarker.clear()
                     for (document in task.result) {
                         val cochera = document.toObject(Cochera::class.java)
-                        if (cochera.owner!= uid) {
+                        if (cochera.owner != uid) {
                             cocherasMarker.add(cochera)
                         }
                     }
@@ -138,5 +166,38 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
                     Log.e("ExploreFr", "Error getting documents.", task.exception)
                 }
             }
+    }
+
+    private fun updateLocation(location: android.location.Location) {
+        currentLocation = LatLng(location.latitude, location.longitude)
+    }
+
+    private fun startLocationUpdates() {
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+        }
+        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper())
+    }
+
+    override fun onResume() {
+        super.onResume()
+        requestingLocationUpdates = true
+        startLocationUpdates()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        requestingLocationUpdates = false
+        stopLocationUpdates()
+    }
+
+    private fun stopLocationUpdates() {
+        fusedLocationClient.removeLocationUpdates(locationCallback)
     }
 }
