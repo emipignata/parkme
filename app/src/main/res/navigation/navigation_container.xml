@@ -40,7 +40,7 @@
 
     <fragment
         android:id="@+id/fragmentAgregarCochera"
-        android:name="FragmentAgregarCochera"
+        android:name="AgregarCocheraFr"
         android:label="FragmentAgregarCochera"/>
 
     <fragment

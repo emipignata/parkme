@@ -6,14 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.navigation.findNavController
 import com.example.parkme.databinding.FragmentAgregarCocheraBinding
 import com.example.parkme.entities.Cochera
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
-class FragmentAgregarCochera : Fragment() {
+class AgregarCocheraFr : Fragment() {
     private val db = FirebaseFirestore.getInstance()
     lateinit var binding: FragmentAgregarCocheraBinding
     private val uid = FirebaseAuth.getInstance().currentUser?.uid
