@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.parkme.R
@@ -19,6 +20,7 @@ class AgregarCocheraFr : Fragment() {
     private val db = FirebaseFirestore.getInstance()
     lateinit var binding: FragmentAgregarCocheraBinding
     private val uid = FirebaseAuth.getInstance().currentUser?.uid
+
     @SuppressLint("SuspiciousIndentation")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,13 +28,38 @@ class AgregarCocheraFr : Fragment() {
     ): View {
         binding = FragmentAgregarCocheraBinding.inflate(inflater, container, false)
 
-        binding.button5.setOnClickListener {
-            val nombreCochera = binding.eTNombreCochera.text.toString()
-            val precioPorHora = binding.eTPrecioPorHora.text.toString()
-            val direccion = binding.eTDireccion.text.toString()
-            val descripcion = binding.eTDescripcion.text.toString()
-            val disponibilidad = binding.eTDisponibilidad.text.toString()
+        val buttonAgregarCochera = binding.button5
+        val eTNombreCochera = binding.eTNombreCochera
+        val eTPrecioPorHora = binding.eTPrecioPorHora
+        val eTDireccion = binding.eTDireccion
+        val eTDescripcion = binding.eTDescripcion
+        val eTDisponibilidad = binding.eTDisponibilidad
 
+        // Función para habilitar o deshabilitar el botón según la validación
+        fun updateButtonState() {
+            val isNombreCocheraValid = eTNombreCochera.text?.isNotEmpty()
+            val isPrecioPorHoraValid = eTPrecioPorHora.text?.toString()?.toFloatOrNull() != null
+            val isDireccionValid = eTDireccion.text?.isNotEmpty()
+            val isDescripcionValid = eTDescripcion.text?.isNotEmpty()
+            val isDisponibilidadValid = eTDisponibilidad.text?.isNotEmpty()
+
+            buttonAgregarCochera.isEnabled =
+                isNombreCocheraValid == true && isPrecioPorHoraValid && isDireccionValid == true && isDescripcionValid == true && isDisponibilidadValid == true
+        }
+
+        // Observa los cambios en los campos y actualiza el estado del botón
+        eTNombreCochera.addTextChangedListener { updateButtonState() }
+        eTPrecioPorHora.addTextChangedListener { updateButtonState() }
+        eTDireccion.addTextChangedListener { updateButtonState() }
+        eTDescripcion.addTextChangedListener { updateButtonState() }
+        eTDisponibilidad.addTextChangedListener { updateButtonState() }
+
+        buttonAgregarCochera.setOnClickListener {
+            val nombreCochera = eTNombreCochera.text.toString()
+            val precioPorHora = eTPrecioPorHora.text.toString()
+            val direccion = eTDireccion.text.toString()
+            val descripcion = eTDescripcion.text.toString()
+            val disponibilidad = eTDisponibilidad.text.toString()
 
             if (uid != null) {
                 val cochera = Cochera(
@@ -64,8 +91,11 @@ class AgregarCocheraFr : Fragment() {
                     }
             }
             // Agregar la Cochera a la colección en Firestore
-
         }
+
+        // Deshabilita el botón inicialmente
+        buttonAgregarCochera.isEnabled = false
+
         return binding.root
     }
 }
