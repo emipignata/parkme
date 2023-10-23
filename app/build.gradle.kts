@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-parcelize")
     id("com.google.gms.google-services")
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
     id("androidx.navigation.safeargs.kotlin")
@@ -84,6 +85,6 @@ dependencies {
     implementation("com.google.android.gms:play-services-location:21.0.1")
     implementation("androidx.activity:activity-ktx:1.8.0")
     implementation("androidx.fragment:fragment-ktx:1.6.1")
-    implementation("com.google.maps.android:android-maps-utils:2.2.0")
-
+    implementation("com.google.maps.android:android-maps-utils:2.4.0")
+    implementation("com.google.android.libraries.places:places:3.2.0")
 }
