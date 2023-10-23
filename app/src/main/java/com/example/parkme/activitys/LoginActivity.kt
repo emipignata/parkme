@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.Identity
@@ -93,6 +94,7 @@ class LoginActivity : AppCompatActivity() {
                 }
                 .addOnFailureListener(this) { e ->
                     // No Google Accounts found. Just continue presenting the signed-out UI.
+                    showNoGoogleAccountInDeviceWarning()
                     Log.d("TAG", e.localizedMessage)
                 } })
     }
@@ -126,4 +128,24 @@ class LoginActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun showNoGoogleAccountInDeviceWarning() {
+        AlertDialog.Builder(this)
+            .setTitle("No registrado con Google")
+            .setMessage("Esta aplicacion requiere estar concectado a una cuenta de google. Por favor inicie sesion en google")
+            .setNegativeButton("Exit") { dialog, _ ->
+                dialog.dismiss()
+                finish() // Close the app
+            }
+            .setPositiveButton("Open Settings") { dialog, _ ->
+                dialog.dismiss()
+                val intent = Intent(android.provider.Settings.ACTION_ADD_ACCOUNT)
+                intent.putExtra(android.provider.Settings.EXTRA_ACCOUNT_TYPES, arrayOf("com.google"))
+                startActivity(intent)
+                finish()
+            }
+            .setCancelable(false) // Prevent users from dismissing the dialog
+            .show()
+    }
+
 }
