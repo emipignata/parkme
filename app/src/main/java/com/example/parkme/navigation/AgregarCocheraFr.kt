@@ -1,17 +1,13 @@
 package com.example.parkme.navigation
 
-import AgregarCocheraViewModel
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
-import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.databinding.ObservableBoolean
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.example.parkme.R
 import com.example.parkme.databinding.FragmentAgregarCocheraBinding
@@ -24,7 +20,6 @@ class AgregarCocheraFr : Fragment() {
     private val db = FirebaseFirestore.getInstance()
     lateinit var binding: FragmentAgregarCocheraBinding
     private val uid = FirebaseAuth.getInstance().currentUser?.uid
-//    private val viewModel: AgregarCocheraViewModel by viewModels()
 
     @SuppressLint("SuspiciousIndentation")
     override fun onCreateView(
@@ -32,13 +27,11 @@ class AgregarCocheraFr : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentAgregarCocheraBinding.inflate(inflater, container, false)
-        //viewModel.isButtonEnabled.value = direccionFocusListener() && nombreCocheraFocusListener() && descripcionFocusListener() && disponibilidadFocusListener()
-
-            disponibilidadFocusListener()
-            descripcionFocusListener()
-            nombreCocheraFocusListener()
-            direccionFocusListener()
-            binding.button5.setOnClickListener {
+        disponibilidadFocusListener()
+        descripcionFocusListener()
+        nombreCocheraFocusListener()
+        direccionFocusListener()
+        binding.button5.setOnClickListener {
             val nombreCochera = binding.eTNombreCochera.text.toString()
             val precioPorHora = binding.eTPrecioPorHora.text.toString()
             val direccion = binding.eTDireccion.text.toString()
@@ -81,14 +74,7 @@ class AgregarCocheraFr : Fragment() {
     }
 
 
-//    private fun actualizarEstadoDelBoton() {
-//        viewModel.isButtonEnabled.set(
-//            nombreCocheraFocusListener() &&
-//                    direccionFocusListener() &&
-//                    descripcionFocusListener() &&
-//                    disponibilidadFocusListener()
-//        )
-//    }
+
 
     private fun disponibilidadFocusListener() : Boolean {
         binding.eTDisponibilidad.setOnFocusChangeListener { _, focused ->
