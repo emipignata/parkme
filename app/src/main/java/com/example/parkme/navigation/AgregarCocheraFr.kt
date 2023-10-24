@@ -16,7 +16,6 @@ import com.example.parkme.entities.Cochera
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.text.Normalizer
-
 class AgregarCocheraFr : Fragment() {
     private val db = FirebaseFirestore.getInstance()
     lateinit var binding: FragmentAgregarCocheraBinding
@@ -28,30 +27,6 @@ class AgregarCocheraFr : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentAgregarCocheraBinding.inflate(inflater, container, false)
-        disponibilidadFocusListener()
-        descripcionFocusListener()
-        direccionFocusListener()
-        nombreCocheraFocusListener()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         val buttonAgregarCochera = binding.button5
         val eTNombreCochera = binding.eTNombreCochera
@@ -218,9 +193,4 @@ class AgregarCocheraFr : Fragment() {
         }
         return null
     }
-
-
 }
-
-
-
