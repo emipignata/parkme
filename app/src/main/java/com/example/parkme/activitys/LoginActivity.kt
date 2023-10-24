@@ -141,11 +141,18 @@ class LoginActivity : AppCompatActivity() {
                 dialog.dismiss()
                 val intent = Intent(android.provider.Settings.ACTION_ADD_ACCOUNT)
                 intent.putExtra(android.provider.Settings.EXTRA_ACCOUNT_TYPES, arrayOf("com.google"))
+
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+
                 startActivity(intent)
-                finish()
+
+                recreate()
+
+
             }
             .setCancelable(false) // Prevent users from dismissing the dialog
             .show()
+
     }
 
 }
