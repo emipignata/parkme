@@ -74,7 +74,7 @@ class AgregarCocheraFr : Fragment(R.layout.autocomplete_address_activity),
             Place.Field.LAT_LNG, Place.Field.VIEWPORT
         )
 
-        val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fields)
+        val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
             .setCountries(listOf("AR"))
             //TODO: https://developers.google.com/maps/documentation/places/android-sdk/autocomplete
             .setTypesFilter(listOf(TypeFilter.ADDRESS.toString().lowercase()))
@@ -212,8 +212,17 @@ class AgregarCocheraFr : Fragment(R.layout.autocomplete_address_activity),
         } catch (e: NotFoundException) {
             Log.e(TAG, "Can't find style. Error: ", e)
         }
+        marker = map!!.addMarker(
+            MarkerOptions()
+                .position(map!!.cameraPosition.target)
+                .draggable(true)   // Marker is draggable
+        )
         map!!.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinates, 15f))
-        marker = map!!.addMarker(MarkerOptions().position(coordinates))
+
+        map!!.setOnCameraMoveListener {
+            val center = map!!.cameraPosition.target
+            marker!!.position = center
+        }
     }
 
     private val requestPermissionLauncher = registerForActivityResult(
