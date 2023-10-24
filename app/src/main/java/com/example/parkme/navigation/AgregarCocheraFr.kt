@@ -1,11 +1,8 @@
 package com.example.parkme.navigation
 
-import android.Manifest.permission
 import android.annotation.SuppressLint
 import android.app.Activity.RESULT_CANCELED
 import android.app.Activity.RESULT_OK
-import android.content.pm.PackageManager
-import com.example.parkme.entities.Cochera
 import android.content.res.Resources.NotFoundException
 import android.location.Location
 import android.os.Bundle
@@ -13,17 +10,17 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewStub
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.addTextChangedListener
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
-import com.example.parkme.databinding.FragmentAgregarCocheraBinding
+import com.example.parkme.MainActivity
 import com.example.parkme.R
+import com.example.parkme.databinding.FragmentAgregarCocheraBinding
+import com.example.parkme.entities.Cochera
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
@@ -40,6 +37,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.maps.android.SphericalUtil.computeDistanceBetween
 import java.text.Normalizer
 import java.util.*
+
 
 class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
     OnMapReadyCallback {
@@ -104,10 +102,13 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
         if (!Places.isInitialized()) {
             Places.initialize(requireContext(), apiKey)
         }
-
+        if (activity is MainActivity) {
+            (activity as MainActivity).setBottomNavViewVisibility(View.GONE)
+        }
         binding = FragmentAgregarCocheraBinding.inflate(inflater, container, false)
         binding.eTDireccion.setOnClickListener(startAutocompleteIntentListener)
-        val buttonAgregarCochera = binding.button5
+        val buttonAgregarCochera = binding.button6
+        val volverAgregarCochera = binding.button5
         val eTNombreCochera = binding.eTNombreCochera
         val eTPrecioPorHora = binding.eTPrecioPorHora
         val eTDireccion = binding.eTDireccion
@@ -136,6 +137,10 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
             agregarCochera()
         }
 
+        volverAgregarCochera.setOnClickListener {
+            navegarAMisCocheras()
+        }
+
         buttonAgregarCochera.isEnabled = false
 
         return binding.root
@@ -144,6 +149,9 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
     private fun navegarAMisCocheras(){
         val navController = binding.root.findNavController()
         navController.popBackStack(R.id.navigation_container, false)
+        if (activity is MainActivity) {
+            (activity as MainActivity).setBottomNavViewVisibility(View.VISIBLE)
+        }
         navController.navigate(R.id.misCocherasFr)
     }
 
