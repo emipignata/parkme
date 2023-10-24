@@ -38,14 +38,19 @@
                 android:id="@+id/eTNombreCochera"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Nombre Cochera"/>
+                android:hint="Nombre Cochera"
+                android:maxLength="@integer/ETNombreCocheraLength"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/direccionContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp">
+            android:layout_marginTop="16dp"
+            app:helperText="@string/Required"
+            app:helperTextTextColor="@color/design_default_color_primary_dark"
+            app:counterEnabled="true"
+            app:counterMaxLength="@integer/ETDireccionLength">
             <com.example.parkme.models.AutocompleteEditText
                 android:id="@+id/eTDireccion"
                 android:layout_width="300dp"
@@ -68,7 +73,9 @@
             android:id="@+id/precioPorHoraContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp">
+            android:layout_marginTop="16dp"
+            app:helperText="@string/Required"
+            app:helperTextTextColor="@color/design_default_color_primary_dark">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/eTPrecioPorHora"
                 android:layout_width="match_parent"
@@ -80,33 +87,43 @@
             android:id="@+id/descripcionContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp">
+            android:layout_marginTop="16dp"
+            app:helperText="@string/Required"
+            app:helperTextTextColor="@color/design_default_color_primary_dark"
+            app:counterMaxLength="@integer/ETDescripcionLength"
+            app:counterEnabled="true">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/eTDescripcion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Descripción"/>
+                android:hint="Descripción"
+                android:maxLength="@integer/ETDescripcionLength"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/disponibilidadContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp">
+            android:layout_marginTop="16dp"
+            app:helperText="@string/Required"
+            app:helperTextTextColor="@color/design_default_color_primary_dark"
+            app:counterEnabled="true"
+            app:counterMaxLength="@integer/ETDisponibilidadLength">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/eTDisponibilidad"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Disponibilidad"/>
+                android:hint="Disponibilidad"
+                android:maxLength="@integer/ETDisponibilidadLength"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/button5"
-            android:layout_margin="20dp"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/autocomplete_save_button"/>
+            android:layout_marginTop="16dp"
+            android:text="Aceptar/Agregar"/>
 
     </LinearLayout>
 </ScrollView>

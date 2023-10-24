@@ -43,6 +43,7 @@ import java.util.*
 
 class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
     OnMapReadyCallback {
+
     private val db = FirebaseFirestore.getInstance()
     private val uid = FirebaseAuth.getInstance().currentUser?.uid
     private lateinit var mapPanel: View
@@ -311,34 +312,35 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
             Log.d(TAG, "User denied permission")
         }
     }
-    /*
-        private fun disponibilidadFocusListener() : Boolean {
-            binding.eTDisponibilidad.setOnFocusChangeListener { _, focused ->
-                if(!focused){
-                    binding.disponibilidadContainer.helperText = validarDisponibilidad()
-                }
+    private fun disponibilidadFocusListener() : Boolean {
+        binding.eTDisponibilidad.setOnFocusChangeListener { _, focused ->
+            if(!focused){
+                binding.disponibilidadContainer.helperText = validarDisponibilidad()
+//                actualizarEstadoDelBoton()
             }
-            return binding.disponibilidadContainer.helperText == null
         }
+        return binding.disponibilidadContainer.helperText == null
+    }
 
-        private fun validarDisponibilidad(): String? {
-            val disponibilidadNormalized = Normalizer.normalize(binding.eTDisponibilidad.text.toString(), Normalizer.Form.NFD)
-            if(disponibilidadNormalized.length < 5){
-                return "Minimo 5 caracteres"
-            }
-            if(!disponibilidadNormalized.matches(".*[A-Z].*".toRegex())){
-                return "Debe contener al menos 1 mayuscula"
-            }
-            if(!disponibilidadNormalized.matches(".*[a-z].*".toRegex())){
-                return "Debe contener al menos 1 minuscula"
-            }
-            return null
+    private fun validarDisponibilidad(): String? {
+        val disponibilidadNormalized = Normalizer.normalize(binding.eTDisponibilidad.text.toString(), Normalizer.Form.NFD)
+        if(disponibilidadNormalized.length < 5){
+            return "Minimo 5 caracteres"
         }
-    */
+        if(!disponibilidadNormalized.matches(".*[A-Z].*".toRegex())){
+            return "Debe contener al menos 1 mayuscula"
+        }
+        if(!disponibilidadNormalized.matches(".*[a-z].*".toRegex())){
+            return "Debe contener al menos 1 minuscula"
+        }
+        return null
+    }
+
     private fun descripcionFocusListener() : Boolean{
         binding.eTDescripcion.setOnFocusChangeListener { _, focused ->
             if(!focused){
                 binding.descripcionContainer.helperText = validarDescripcion()
+
             }
         }
         return binding.descripcionContainer.helperText == null
@@ -362,6 +364,7 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
         binding.eTDireccion.setOnFocusChangeListener { _, focused ->
             if(!focused){
                 binding.direccionContainer.helperText = validarDireccion()
+
             }
         }
         return binding.direccionContainer.helperText == null
