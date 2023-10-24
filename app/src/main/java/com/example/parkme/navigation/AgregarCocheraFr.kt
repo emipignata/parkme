@@ -1,10 +1,8 @@
 package com.example.parkme.navigation
 
-import android.Manifest.permission
 import android.annotation.SuppressLint
 import android.app.Activity.RESULT_CANCELED
 import android.app.Activity.RESULT_OK
-import android.content.pm.PackageManager
 import com.example.parkme.entities.Cochera
 import android.content.res.Resources.NotFoundException
 import android.location.Location
@@ -13,13 +11,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewStub
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.example.parkme.databinding.FragmentAgregarCocheraBinding
 import com.example.parkme.R
 import com.google.android.gms.location.LocationServices
@@ -96,11 +94,37 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
             Places.initialize(requireContext(), apiKey)
         }
         binding = FragmentAgregarCocheraBinding.inflate(inflater, container, false)
+        val buttonAgregarCochera = binding.autocompleteSaveButton
+        val eTNombreCochera = binding.eTNombreCochera
+        val eTPrecioPorHora = binding.eTPrecioPorHora
+        val eTDireccion = binding.eTDireccion
+        val eTDescripcion = binding.eTDescripcion
+        val eTDisponibilidad = binding.eTDisponibilidad
+
+        // Función para habilitar o deshabilitar el botón según la validación
+        fun updateButtonState() {
+            val isNombreCocheraValid = eTNombreCochera.text?.isNotEmpty()
+            val isPrecioPorHoraValid = eTPrecioPorHora.text?.toString()?.toFloatOrNull() != null
+            val isDireccionValid = eTDireccion.text?.isNotEmpty()
+            val isDescripcionValid = eTDescripcion.text?.isNotEmpty()
+            val isDisponibilidadValid = eTDisponibilidad.text?.isNotEmpty()
+
+            buttonAgregarCochera.isEnabled =
+                isNombreCocheraValid == true && isPrecioPorHoraValid && isDireccionValid == true && isDescripcionValid == true && isDisponibilidadValid == true
+        }
         binding.eTDireccion.setOnClickListener(startAutocompleteIntentListener)
-        val saveButton = binding.autocompleteSaveButton
-        saveButton.setOnClickListener {
+
+        eTNombreCochera.addTextChangedListener { updateButtonState() }
+        eTPrecioPorHora.addTextChangedListener { updateButtonState() }
+        eTDireccion.addTextChangedListener { updateButtonState() }
+        eTDescripcion.addTextChangedListener { updateButtonState() }
+        eTDisponibilidad.addTextChangedListener { updateButtonState() }
+        buttonAgregarCochera.setOnClickListener {
             agregarCochera()
         }
+
+        buttonAgregarCochera.isEnabled = false
+
         return binding.root
     }
 
@@ -129,13 +153,11 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
                 .addOnSuccessListener { documentReference ->
                     val cocheraId = documentReference.id
                     cochera.cocheraId = cocheraId
-                    Toast.makeText(requireContext(), "Cochera guardada", Toast.LENGTH_SHORT).show()
-                    Log.e("ExploreFr", "Cochera Agregada: $cochera")
                     db.collection("cocheras").document(cocheraId).set(cochera) // Guarda el objeto cochera en Firestore
                     Toast.makeText(requireContext(), "Cochera Agregada: ${cochera.cocheraId}", Toast.LENGTH_SHORT).show()
-                    //val navController = binding.root.findNavController()
-                    //navController.popBackStack(R.id.navigation_container, false)
-                    //navController.navigate(R.id.misCocherasFr)
+                    val navController = binding.root.findNavController()
+                    navController.popBackStack(R.id.navigation_container, false)
+                    navController.navigate(R.id.misCocherasFr)
                 }
                 .addOnFailureListener { e ->
                     Log.w("ExploreFr", "Error al agregar el documento", e)
