@@ -32,6 +32,27 @@ class AgregarCocheraFr : Fragment() {
         descripcionFocusListener()
         direccionFocusListener()
         nombreCocheraFocusListener()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         val buttonAgregarCochera = binding.button5
         val eTNombreCochera = binding.eTNombreCochera
         val eTPrecioPorHora = binding.eTPrecioPorHora
