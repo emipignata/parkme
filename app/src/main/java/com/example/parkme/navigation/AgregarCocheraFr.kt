@@ -3,7 +3,7 @@ package com.example.parkme.navigation
 import android.annotation.SuppressLint
 import android.app.Activity.RESULT_CANCELED
 import android.app.Activity.RESULT_OK
-import android.content.Context
+import com.example.parkme.entities.Cochera
 import android.content.res.Resources.NotFoundException
 import android.location.Location
 import android.os.Bundle
@@ -11,17 +11,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
-import com.example.parkme.MainActivity
-import com.example.parkme.R
 import com.example.parkme.databinding.FragmentAgregarCocheraBinding
-import com.example.parkme.entities.Cochera
+import com.example.parkme.R
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
@@ -33,7 +30,6 @@ import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.model.TypeFilter
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
-import com.google.android.material.internal.ViewUtils.hideKeyboard
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.maps.android.SphericalUtil.computeDistanceBetween
@@ -104,17 +100,14 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
         }
 
         binding = FragmentAgregarCocheraBinding.inflate(inflater, container, false)
-        binding.eTDireccion.setOnClickListener(startAutocompleteIntentListener)
-
         val buttonAgregarCochera = binding.button5
         val eTNombreCochera = binding.eTNombreCochera
         val eTPrecioPorHora = binding.eTPrecioPorHora
         val eTDireccion = binding.eTDireccion
         val eTDescripcion = binding.eTDescripcion
+        val eTDisponibilidad = binding.eTDisponibilidad
 
-
-
-
+        // Función para habilitar o deshabilitar el botón según la validación
         fun updateButtonState() {
             val isNombreCocheraValid = eTNombreCochera.text?.isNotEmpty()
             val isPrecioPorHoraValid = eTPrecioPorHora.text?.toString()?.toFloatOrNull() != null
@@ -131,10 +124,13 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
         eTPrecioPorHora.addTextChangedListener { updateButtonState() }
         eTDireccion.addTextChangedListener { updateButtonState() }
         eTDescripcion.addTextChangedListener { updateButtonState() }
-        //eTDisponibilidad.addTextChangedListener { updateButtonState() }
+        eTDisponibilidad.addTextChangedListener { updateButtonState() }
         buttonAgregarCochera.setOnClickListener {
             agregarCochera()
         }
+
+        buttonAgregarCochera.isEnabled = false
+
         return binding.root
     }
 
@@ -172,7 +168,6 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
                 .addOnSuccessListener { documentReference ->
                     val cocheraId = documentReference.id
                     cochera.cocheraId = cocheraId
-
                     Log.e("ExploreFr", "Cochera Agregada: $cochera")
                     db.collection("cocheras").document(cocheraId)
                         .set(cochera)

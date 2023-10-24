@@ -43,7 +43,7 @@ class MisCocherasFr : Fragment() {
         val button3 = view.findViewById<Button>(R.id.button3)
 
         button3.setOnClickListener {
-            val action = MisCocherasFrDirections.actionMisCocherasFrToFragmentAgregarCochera()
+            val action = MisCocherasFrDirections.actionMisCocherasFrToAgregarCocheraFr()
             view.findNavController().navigate(action)
         }
         return view

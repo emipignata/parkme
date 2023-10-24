@@ -34,9 +34,8 @@
         android:label="fragment_mis_cocheras"
         tools:layout="@layout/fragment_mis_cocheras">
         <action
-            android:id="@+id/action_misCocherasFr_to_fragmentAgregarCochera"
-            app:destination="@id/fragmentAgregarCochera"
-            />
+            android:id="@+id/action_misCocherasFr_to_agregarCocheraFr"
+            app:destination="@id/agregarCocheraFr" />
     </fragment>
 
     <fragment
@@ -44,15 +43,6 @@
         android:name="com.example.parkme.navigation.PerfilFr"
         android:label="fragment_perfil"
         tools:layout="@layout/fragment_perfil"/>
-
-    <fragment
-        android:id="@+id/fragmentAgregarCochera"
-        android:name="com.example.parkme.navigation.AgregarCocheraFr"
-        android:label="FragmentAgregarCochera">
-        <action
-            android:id="@+id/action_fragmentAgregarCochera_to_mainActivity"
-            app:destination="@id/mainActivity" />
-    </fragment>
 
     <fragment
         android:id="@+id/cocheraDetailFr"
@@ -89,10 +79,10 @@
             app:destination="@id/pagarFr" />
         <argument android:name="reserva" />
     </fragment>
-    <activity
-        android:id="@+id/mainActivity"
-        android:name="com.example.parkme.MainActivity"
-        android:label="fragment_agregar_cochera_map"
-        tools:layout="@layout/fragment_agregar_cochera_map" />
+    <fragment
+        android:id="@+id/agregarCocheraFr"
+        android:name="com.example.parkme.navigation.AgregarCocheraFr"
+        android:label="AgregarCocheraFr" >
+    </fragment>
 
 </navigation>
