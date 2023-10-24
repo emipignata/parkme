@@ -77,6 +77,7 @@
 
     <!-- Text for the toast message for a skilled proximity match. -->
     <string name="autocomplete_skipped_message" translatable="false">Address accepted without checking proximity</string>
+    <string name="direccion_1">Direccion 1</string>
 
 
 </resources>
