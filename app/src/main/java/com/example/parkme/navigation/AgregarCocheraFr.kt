@@ -106,7 +106,7 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
         binding = FragmentAgregarCocheraBinding.inflate(inflater, container, false)
         binding.eTDireccion.setOnClickListener(startAutocompleteIntentListener)
 
-        val buttonAgregarCochera = binding.autocompleteSaveButton
+        val buttonAgregarCochera = binding.button5
         val eTNombreCochera = binding.eTNombreCochera
         val eTPrecioPorHora = binding.eTPrecioPorHora
         val eTDireccion = binding.eTDireccion
@@ -402,4 +402,3 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
         return null
     }
 }
-ChatGPT
