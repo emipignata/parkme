@@ -1,8 +1,10 @@
 package com.example.parkme.navigation
 
+import android.Manifest.permission
 import android.annotation.SuppressLint
 import android.app.Activity.RESULT_CANCELED
 import android.app.Activity.RESULT_OK
+import android.content.pm.PackageManager
 import com.example.parkme.entities.Cochera
 import android.content.res.Resources.NotFoundException
 import android.location.Location
@@ -11,10 +13,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewStub
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.addTextChangedListener
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.parkme.databinding.FragmentAgregarCocheraBinding
@@ -45,6 +50,7 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
     private lateinit var coordinates: LatLng
     private var map: GoogleMap? = null
     private var marker: Marker? = null
+    private var checkProximity = false
     private lateinit var binding: FragmentAgregarCocheraBinding
     private var deviceLocation: LatLng? = null
     private val acceptedProximity = 150.0
@@ -59,21 +65,20 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
     }
 
     private val startAutocomplete = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result: ActivityResult ->
-        binding.eTDireccion.setOnClickListener(startAutocompleteIntentListener)
-
-        if (result.resultCode == RESULT_OK) {
-            val intent = result.data
-            if (intent != null) {
-                val place = Autocomplete.getPlaceFromIntent(intent)
-                Log.d(TAG, "Place: " + place.addressComponents)
-                fillInAddress(place)
+        ActivityResultContracts.StartActivityForResult(),
+        ActivityResultCallback { result: ActivityResult ->
+            binding.eTDireccion.setOnClickListener(startAutocompleteIntentListener)
+            if (result.resultCode == RESULT_OK) {
+                val intent = result.data
+                if (intent != null) {
+                    val place = Autocomplete.getPlaceFromIntent(intent)
+                    Log.d(TAG, "Place: " + place.addressComponents)
+                    fillInAddress(place)
+                }
+            } else if (result.resultCode == RESULT_CANCELED) {
+                Log.i(TAG, "User canceled autocomplete")
             }
-        } else if (result.resultCode == RESULT_CANCELED) {
-            Log.i(TAG, "User canceled autocomplete")
-        }
-    }
+        } as ActivityResultCallback<ActivityResult>)
 
     private fun startAutocompleteIntent() {
         val fields = listOf(
@@ -100,6 +105,7 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
         }
 
         binding = FragmentAgregarCocheraBinding.inflate(inflater, container, false)
+        binding.eTDireccion.setOnClickListener(startAutocompleteIntentListener)
         val buttonAgregarCochera = binding.button5
         val eTNombreCochera = binding.eTNombreCochera
         val eTPrecioPorHora = binding.eTPrecioPorHora
