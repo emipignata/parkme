@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.app.Activity.RESULT_CANCELED
 import android.app.Activity.RESULT_OK
 import android.content.pm.PackageManager
+import com.example.parkme.entities.Cochera
 import android.content.res.Resources.NotFoundException
 import android.location.Location
 import android.os.Bundle
@@ -19,7 +20,7 @@ import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.example.parkme.databinding.AutocompleteAddressActivityBinding
+import com.example.parkme.databinding.FragmentAgregarCocheraBinding
 import com.example.parkme.R
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.*
@@ -32,19 +33,22 @@ import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.model.TypeFilter
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.maps.android.SphericalUtil.computeDistanceBetween
 import java.util.*
 
-class AgregarCocheraFr : Fragment(R.layout.autocomplete_address_activity),
+class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
     OnMapReadyCallback {
+    private val db = FirebaseFirestore.getInstance()
+    private val uid = FirebaseAuth.getInstance().currentUser?.uid
     private lateinit var mapPanel: View
-
     private var mapFragment: SupportMapFragment? = null
     private lateinit var coordinates: LatLng
     private var map: GoogleMap? = null
     private var marker: Marker? = null
     private var checkProximity = false
-    private lateinit var binding: AutocompleteAddressActivityBinding
+    private lateinit var binding: FragmentAgregarCocheraBinding
     private var deviceLocation: LatLng? = null
     private val acceptedProximity = 150.0
     private var startAutocompleteIntentListener = View.OnClickListener { view: View ->
@@ -55,7 +59,7 @@ class AgregarCocheraFr : Fragment(R.layout.autocomplete_address_activity),
     private val startAutocomplete = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult(),
         ActivityResultCallback { result: ActivityResult ->
-            binding.autocompleteAddress1.setOnClickListener(startAutocompleteIntentListener)
+            binding.eTDireccion.setOnClickListener(startAutocompleteIntentListener)
             if (result.resultCode == RESULT_OK) {
                 val intent = result.data
                 if (intent != null) {
@@ -91,31 +95,51 @@ class AgregarCocheraFr : Fragment(R.layout.autocomplete_address_activity),
         if (!Places.isInitialized()) {
             Places.initialize(requireContext(), apiKey)
         }
-        binding = AutocompleteAddressActivityBinding.inflate(inflater, container, false)
-        binding.autocompleteAddress1.setOnClickListener(startAutocompleteIntentListener)
+        binding = FragmentAgregarCocheraBinding.inflate(inflater, container, false)
+        binding.eTDireccion.setOnClickListener(startAutocompleteIntentListener)
         val saveButton = binding.autocompleteSaveButton
-        saveButton.setOnClickListener { saveForm() }
+        saveButton.setOnClickListener {
+            agregarCochera()
+        }
         return binding.root
     }
 
-    private fun saveForm() {
-        Log.d(TAG, "checkProximity = $checkProximity")
-        if (checkProximity) {
-            checkLocationPermissions()
-        } else {
-            Toast.makeText(requireContext(), R.string.autocomplete_skipped_message, Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    private fun checkLocationPermissions() {
-        if (ContextCompat.checkSelfPermission(requireContext(), permission.ACCESS_FINE_LOCATION)
-            == PackageManager.PERMISSION_GRANTED
-        ) {
-            getAndCompareLocations()
-        } else {
-            requestPermissionLauncher.launch(
-                permission.ACCESS_FINE_LOCATION
+    private fun agregarCochera() {
+        val nombreCochera = binding.eTNombreCochera.text.toString()
+        val precioPorHora = binding.eTPrecioPorHora.text.toString()
+        val direccion = binding.eTDireccion.text.toString()
+        val descripcion = binding.eTDescripcion.text.toString()
+        val disponibilidad = binding.eTDisponibilidad.text.toString()
+        val lat = coordinates.latitude
+        val lng = coordinates.longitude
+        if (uid != null) {
+            val cochera = Cochera(
+                "",
+                nombreCochera,
+                direccion,
+                lat, // Latitud (cambia a la latitud correcta)
+                lng, // Longitud (cambia a la longitud correcta)
+                precioPorHora.toFloatOrNull() ?: 0.0f,
+                "https://raicesdeperaleda.com/recursos/cache/cochera-1555889699-250x250.jpg", // URL de imagen (cambia a la URL correcta)
+                disponibilidad,
+                uid // Usuario (cambia al usuario correcto)
             )
+            db.collection("cocheras")
+                .add(cochera)
+                .addOnSuccessListener { documentReference ->
+                    val cocheraId = documentReference.id
+                    cochera.cocheraId = cocheraId
+                    Toast.makeText(requireContext(), "Cochera guardada", Toast.LENGTH_SHORT).show()
+                    Log.e("ExploreFr", "Cochera Agregada: $cochera")
+                    db.collection("cocheras").document(cocheraId).set(cochera) // Guarda el objeto cochera en Firestore
+                    Toast.makeText(requireContext(), "Cochera Agregada: ${cochera.cocheraId}", Toast.LENGTH_SHORT).show()
+                    //val navController = binding.root.findNavController()
+                    //navController.popBackStack(R.id.navigation_container, false)
+                    //navController.navigate(R.id.misCocherasFr)
+                }
+                .addOnFailureListener { e ->
+                    Log.w("ExploreFr", "Error al agregar el documento", e)
+                }
         }
     }
 
@@ -166,13 +190,16 @@ class AgregarCocheraFr : Fragment(R.layout.autocomplete_address_activity),
                 }
             }
         }
-        binding.autocompleteAddress1.setText(address1.toString())
+        //hideKeyboard(binding.eTDireccion)
+        binding.eTDireccion.clearFocus()
+        binding.eTDireccion.setText(address1.toString())
         showMap(place)
     }
 
     private fun showMap(place: Place) {
         coordinates = place.latLng as LatLng
         mapFragment = childFragmentManager.findFragmentByTag(MAP_FRAGMENT_TAG) as SupportMapFragment?
+
         if (mapFragment == null) {
             mapPanel = binding.stubMap.inflate()
             val mapOptions = GoogleMapOptions()
@@ -202,6 +229,10 @@ class AgregarCocheraFr : Fragment(R.layout.autocomplete_address_activity),
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
+        googleMap.mapType = GoogleMap.MAP_TYPE_NORMAL
+        googleMap.uiSettings.isZoomControlsEnabled = true
+        googleMap.uiSettings.isMyLocationButtonEnabled = true
+        googleMap.uiSettings.isMapToolbarEnabled = false
         try {
             val success = map!!.setMapStyle(
                 MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.style_json)

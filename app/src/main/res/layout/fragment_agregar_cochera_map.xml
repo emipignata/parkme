@@ -1,40 +1,22 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/map_panel_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="@dimen/spacing_large"
-    tools:context=".MainActivity">
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/autocomplete_scroll_container"
-        android:layout_width="match_parent"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:text="@string/autocomplete_map_label"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/autocomplete_address1_label"/>
+    <!-- A map will be added here programmatically
+    for visual confirmation of the selected address -->
+    <!-- [START maps_solutions_android_autocomplete_map_fragment] -->
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:id="@+id/confirmation_map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    <!-- [END maps_solutions_android_autocomplete_map_fragment] -->
 
-        <com.example.parkme.models.AutocompleteEditText
-            android:id="@+id/autocomplete_address1"
-            android:layout_width="300dp"
-            android:layout_height="50dp"
-            android:autofillHints=""
-            android:hint="@string/autocomplete_address1_label"
-            android:imeOptions="actionNext"
-            android:textColor="@color/common_google_signin_btn_text_dark"
-            android:inputType="text"
-            />
-
-        <Button
-            android:id="@+id/autocomplete_save_button"
-            android:layout_width="300dp"
-            android:layout_height="50dp"
-            android:text="@string/autocomplete_save_button"/>
-    </LinearLayout>
-</ScrollView>
-
+</LinearLayout>

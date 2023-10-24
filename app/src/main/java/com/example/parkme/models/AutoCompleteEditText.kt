@@ -3,10 +3,9 @@ package com.example.parkme.models
 import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
-import androidx.appcompat.widget.AppCompatAutoCompleteTextView
 import androidx.appcompat.widget.AppCompatEditText
 
-class AutocompleteEditText : AppCompatAutoCompleteTextView {
+class AutocompleteEditText : AppCompatEditText {
     constructor(context: Context?) : super(context!!) {}
     constructor(context: Context?, attrs: AttributeSet?) : super(
         context!!, attrs
