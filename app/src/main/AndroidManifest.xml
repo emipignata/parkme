@@ -22,7 +22,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustPan|stateAlwaysVisible"/>
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".activitys.LoginActivity"
             android:exported="false" />

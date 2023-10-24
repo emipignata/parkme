@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.Activity.RESULT_CANCELED
 import android.app.Activity.RESULT_OK
 import android.content.res.Resources.NotFoundException
-import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -21,7 +20,6 @@ import com.example.parkme.MainActivity
 import com.example.parkme.R
 import com.example.parkme.databinding.FragmentAgregarCocheraBinding
 import com.example.parkme.entities.Cochera
-import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
@@ -34,10 +32,8 @@ import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.maps.android.SphericalUtil.computeDistanceBetween
 import java.text.Normalizer
 import java.util.*
-
 
 class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
     OnMapReadyCallback {
@@ -53,6 +49,7 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
     private lateinit var binding: FragmentAgregarCocheraBinding
     private var deviceLocation: LatLng? = null
     private val acceptedProximity = 150.0
+
     companion object {
         private val TAG = AgregarCocheraFr::class.java.simpleName
         private const val MAP_FRAGMENT_TAG = "MAP"
@@ -64,20 +61,20 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
     }
 
     private val startAutocomplete = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult(),
-        ActivityResultCallback { result: ActivityResult ->
-            binding.eTDireccion.setOnClickListener(startAutocompleteIntentListener)
-            if (result.resultCode == RESULT_OK) {
-                val intent = result.data
-                if (intent != null) {
-                    val place = Autocomplete.getPlaceFromIntent(intent)
-                    Log.d(TAG, "Place: " + place.addressComponents)
-                    fillInAddress(place)
-                }
-            } else if (result.resultCode == RESULT_CANCELED) {
-                Log.i(TAG, "User canceled autocomplete")
+        ActivityResultContracts.StartActivityForResult()
+    ) { result: ActivityResult ->
+        binding.eTDireccion.setOnClickListener(startAutocompleteIntentListener)
+        if (result.resultCode == RESULT_OK) {
+            val intent = result.data
+            if (intent != null) {
+                val place = Autocomplete.getPlaceFromIntent(intent)
+                Log.d(TAG, "Place: " + place.addressComponents)
+                fillInAddress(place)
             }
-        } as ActivityResultCallback<ActivityResult>)
+        } else if (result.resultCode == RESULT_CANCELED) {
+            Log.i(TAG, "User canceled autocomplete")
+        }
+    }
 
     private fun startAutocompleteIntent() {
         val fields = listOf(
@@ -121,10 +118,10 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
             val isPrecioPorHoraValid = eTPrecioPorHora.text?.toString()?.toFloatOrNull() != null
             val isDireccionValid = eTDireccion.text?.isNotEmpty()
             val isDescripcionValid = eTDescripcion.text?.isNotEmpty()
-            //val isDisponibilidadValid = eTDisponibilidad.text?.isNotEmpty()
+            val isDisponibilidadValid = eTDisponibilidad.text?.isNotEmpty()
 
             buttonAgregarCochera.isEnabled =
-                isNombreCocheraValid == true && isPrecioPorHoraValid && isDireccionValid == true && isDescripcionValid == true // && isDisponibilidadValid == true deshabilitamos temporalmente validar la disponibilidad
+                isNombreCocheraValid == true && isPrecioPorHoraValid && isDireccionValid == true && isDescripcionValid == true && isDisponibilidadValid == true
 
         }
 
@@ -156,14 +153,14 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
     }
 
     private fun agregarCochera() {
-        //disponibilidadFocusListener()
+        disponibilidadFocusListener()
         descripcionFocusListener()
         nombreCocheraFocusListener()
         direccionFocusListener()
         val nombreCochera = binding.eTNombreCochera.text.toString()
         val precioPorHora = binding.eTPrecioPorHora.text.toString()
         val direccion = binding.eTDireccion.text.toString()
-        //val disponibilidad = binding.eTDisponibilidad.text.toString()
+        val disponibilidad = binding.eTDisponibilidad.text.toString()
         val lat = coordinates.latitude
         val lng = coordinates.longitude
         if (uid != null) {
@@ -175,7 +172,7 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
                 lng,
                 precioPorHora.toFloatOrNull() ?: 0.0f,
                 "https://raicesdeperaleda.com/recursos/cache/cochera-1555889699-250x250.jpg", // URL de imagen (cambia a la URL correcta)
-                "disponible",
+                disponibilidad,
                 uid
             )
             db.collection("cocheras")
@@ -198,30 +195,6 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
                 }
         }
 
-    }
-
-    @SuppressLint("MissingPermission")
-    private fun getAndCompareLocations() {
-        val enteredLocation = coordinates
-        map!!.isMyLocationEnabled = true
-
-        val fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
-        fusedLocationClient.lastLocation
-            .addOnSuccessListener(requireActivity()) { location: Location? ->
-                if (location == null) {
-                    return@addOnSuccessListener
-                }
-                deviceLocation = LatLng(location.latitude, location.longitude)
-                Log.d(TAG, "device location = " + deviceLocation.toString())
-                Log.d(TAG, "entered location = $enteredLocation")
-                val distanceInMeters: Double =
-                    computeDistanceBetween(deviceLocation, enteredLocation)
-                if (distanceInMeters <= acceptedProximity) {
-                    Log.d(TAG, "location matched")
-                } else {
-                    Log.d(TAG, "location not matched")
-                }
-            }
     }
 
     private fun fillInAddress(place: Place) {
@@ -282,6 +255,7 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
             mapPanel.visibility = View.VISIBLE
         }
     }
+
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
         googleMap.mapType = GoogleMap.MAP_TYPE_NORMAL
@@ -301,30 +275,19 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
         marker = map!!.addMarker(
             MarkerOptions()
                 .position(map!!.cameraPosition.target)
-                .draggable(true)   // Marker is draggable
+                .draggable(true)
         )
         map!!.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinates, 15f))
-
         map!!.setOnCameraMoveListener {
             val center = map!!.cameraPosition.target
             marker!!.position = center
         }
     }
 
-    private val requestPermissionLauncher = registerForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { isGranted: Boolean ->
-        if (isGranted) {
-            getAndCompareLocations()
-        } else {
-            Log.d(TAG, "User denied permission")
-        }
-    }
     private fun disponibilidadFocusListener() : Boolean {
         binding.eTDisponibilidad.setOnFocusChangeListener { _, focused ->
             if(!focused){
                 binding.disponibilidadContainer.helperText = validarDisponibilidad()
-//                actualizarEstadoDelBoton()
             }
         }
         return binding.disponibilidadContainer.helperText == null
@@ -348,7 +311,6 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
         binding.eTDescripcion.setOnFocusChangeListener { _, focused ->
             if(!focused){
                 binding.descripcionContainer.helperText = validarDescripcion()
-
             }
         }
         return binding.descripcionContainer.helperText == null
@@ -372,7 +334,6 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
         binding.eTDireccion.setOnFocusChangeListener { _, focused ->
             if(!focused){
                 binding.direccionContainer.helperText = validarDireccion()
-
             }
         }
         return binding.direccionContainer.helperText == null

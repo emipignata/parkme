@@ -29,7 +29,7 @@
     <string name="autocomplete_proximity_check" translatable="false">Check device proximity</string>
 
     <!-- Label for the address form's confirmation map. -->
-    <string name="autocomplete_map_label" translatable="false">Map view of the selected address</string>
+    <string name="autocomplete_map_label" translatable="false">Mapa de la dirección seleccionada</string>
 
     <!-- Text for the address form submit button. -->
     <string name="autocomplete_save_button" translatable="false">Aceptar/Agregar</string>
