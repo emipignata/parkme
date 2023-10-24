@@ -15,7 +15,7 @@ import com.example.parkme.databinding.FragmentAgregarCocheraBinding
 import com.example.parkme.entities.Cochera
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-
+import java.text.Normalizer
 class AgregarCocheraFr : Fragment() {
     private val db = FirebaseFirestore.getInstance()
     lateinit var binding: FragmentAgregarCocheraBinding
@@ -97,5 +97,100 @@ class AgregarCocheraFr : Fragment() {
         buttonAgregarCochera.isEnabled = false
 
         return binding.root
+    }
+    private fun disponibilidadFocusListener() : Boolean {
+        binding.eTDisponibilidad.setOnFocusChangeListener { _, focused ->
+            if(!focused){
+                binding.disponibilidadContainer.helperText = validarDisponibilidad()
+//                actualizarEstadoDelBoton()
+            }
+        }
+        return binding.disponibilidadContainer.helperText == null
+    }
+
+    private fun validarDisponibilidad(): String? {
+        val disponibilidadNormalized = Normalizer.normalize(binding.eTDisponibilidad.text.toString(), Normalizer.Form.NFD)
+        if(disponibilidadNormalized.length < 5){
+            return "Minimo 5 caracteres"
+        }
+        if(!disponibilidadNormalized.matches(".*[A-Z].*".toRegex())){
+            return "Debe contener al menos 1 mayuscula"
+        }
+        if(!disponibilidadNormalized.matches(".*[a-z].*".toRegex())){
+            return "Debe contener al menos 1 minuscula"
+        }
+        return null
+    }
+
+    private fun descripcionFocusListener() : Boolean{
+        binding.eTDescripcion.setOnFocusChangeListener { _, focused ->
+            if(!focused){
+                binding.descripcionContainer.helperText = validarDescripcion()
+//                actualizarEstadoDelBoton()
+            }
+        }
+        return binding.descripcionContainer.helperText == null
+    }
+
+    private fun validarDescripcion(): String? {
+        val descripcionNormalized = Normalizer.normalize(binding.eTDescripcion.text.toString(), Normalizer.Form.NFD)
+        if(descripcionNormalized.length < 4){
+            return "Minimo 4 caracteres"
+        }
+        if(!descripcionNormalized.matches(".*[A-Z].*".toRegex())){
+            return "Debe contener al menos 1 mayuscula"
+        }
+        if(!descripcionNormalized.matches(".*[a-z].*".toRegex())){
+            return "Debe contener al menos 1 minuscula"
+        }
+        return null
+    }
+
+    private fun direccionFocusListener() : Boolean {
+        binding.eTDireccion.setOnFocusChangeListener { _, focused ->
+            if(!focused){
+                binding.direccionContainer.helperText = validarDireccion()
+//                actualizarEstadoDelBoton()
+            }
+        }
+        return binding.direccionContainer.helperText == null
+    }
+
+    private fun validarDireccion(): String? {
+        //le saco los acentos para validar la expresion regular
+        val direccionNormalized = Normalizer.normalize(binding.eTDireccion.text.toString(), Normalizer.Form.NFD)
+        if(direccionNormalized.length < 10){
+            return "Minimo 10 caracteres"
+        }
+        if(!direccionNormalized.matches(".*[A-Z].*".toRegex())){
+            return "Debe contener al menos 1 mayuscula"
+        }
+        if(!direccionNormalized.matches(".*[a-z].*".toRegex())){
+            return "Debe contener al menos 1 minuscula"
+        }
+        if(!direccionNormalized.matches(".*[0-9].*".toRegex())){
+            return "Debe contener al menos 1 numero"
+        }
+        if(direccionNormalized.matches(".*[@$#!%|^&*()_+=].*".toRegex())){
+            return "No debe incluir caracteres especiales"
+        }
+        return null
+    }
+
+    private fun nombreCocheraFocusListener() : Boolean{
+        binding.eTNombreCochera.setOnFocusChangeListener { _, focused ->
+            if(!focused){
+                binding.nombreCocheraContainer.helperText = validarNombreCochera()
+//                actualizarEstadoDelBoton()
+            }
+        }
+        return binding.nombreCocheraContainer.helperText == null
+    }
+
+    private fun validarNombreCochera(): String? {
+        if(binding.eTNombreCochera.text.toString().length < 8){
+            return "Minimo 8 caracteres"
+        }
+        return null
     }
 }
