@@ -124,7 +124,10 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
                 isNombreCocheraValid == true && isPrecioPorHoraValid && isDireccionValid == true && isDescripcionValid == true && isDisponibilidadValid == true
 
         }
-
+        disponibilidadFocusListener()
+        descripcionFocusListener()
+        nombreCocheraFocusListener()
+        direccionFocusListener()
         eTNombreCochera.addTextChangedListener { updateButtonState() }
         eTPrecioPorHora.addTextChangedListener { updateButtonState() }
         eTDireccion.addTextChangedListener { updateButtonState() }
@@ -153,10 +156,6 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
     }
 
     private fun agregarCochera() {
-        disponibilidadFocusListener()
-        descripcionFocusListener()
-        nombreCocheraFocusListener()
-        direccionFocusListener()
         val nombreCochera = binding.eTNombreCochera.text.toString()
         val precioPorHora = binding.eTPrecioPorHora.text.toString()
         val direccion = binding.eTDireccion.text.toString()
