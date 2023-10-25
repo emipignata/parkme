@@ -15,7 +15,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <ImageButton
+        <ImageView
             android:id="@+id/simpleImageButton"
             android:layout_margin="20dp"
             android:layout_width="100dp"
