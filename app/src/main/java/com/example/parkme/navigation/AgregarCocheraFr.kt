@@ -1,14 +1,20 @@
 package com.example.parkme.navigation
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.Activity.RESULT_CANCELED
 import android.app.Activity.RESULT_OK
+import android.content.Intent
 import android.content.res.Resources.NotFoundException
+import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
@@ -16,6 +22,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import com.bumptech.glide.Glide
 import com.example.parkme.MainActivity
 import com.example.parkme.R
 import com.example.parkme.databinding.FragmentAgregarCocheraBinding
@@ -53,6 +60,7 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
     companion object {
         private val TAG = AgregarCocheraFr::class.java.simpleName
         private const val MAP_FRAGMENT_TAG = "MAP"
+        private const val PICK_IMAGE_REQUEST = 1
     }
 
     private var startAutocompleteIntentListener = View.OnClickListener { view: View ->
@@ -104,6 +112,7 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
         }
         binding = FragmentAgregarCocheraBinding.inflate(inflater, container, false)
         binding.eTDireccion.setOnClickListener(startAutocompleteIntentListener)
+        val imageAgregarFoto = binding.simpleImageButton
         val buttonAgregarCochera = binding.button6
         val volverAgregarCochera = binding.button5
         val eTNombreCochera = binding.eTNombreCochera
@@ -133,6 +142,13 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
         eTDireccion.addTextChangedListener { updateButtonState() }
         eTDescripcion.addTextChangedListener { updateButtonState() }
         eTDisponibilidad.addTextChangedListener { updateButtonState() }
+
+        imageAgregarFoto.setOnClickListener {
+            val intent = Intent(Intent.ACTION_GET_CONTENT)
+            intent.type = "image/*"
+            startActivityForResult(intent, PICK_IMAGE_REQUEST)
+        }
+
         buttonAgregarCochera.setOnClickListener {
             agregarCochera()
         }
@@ -194,6 +210,26 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
                 }
         }
 
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK) {
+            // Get the image URI from the result
+            val imageUri = data?.data
+            imageUri?.let {
+                //uploadImageToFirebaseStorage(it)
+                guardarImagen(it)
+            }
+        }
+    }
+
+    private fun guardarImagen(it: Uri) {
+        val imageButton = view?.findViewById<ImageView>(R.id.simpleImageButton)
+        if (imageButton != null) {
+            Glide.with(this).load(it).into(imageButton)
+        }
     }
 
     private fun fillInAddress(place: Place) {
