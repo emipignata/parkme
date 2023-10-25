@@ -144,7 +144,6 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
         eTDisponibilidad.addTextChangedListener { updateButtonState() }
 
         imageAgregarFoto.setOnClickListener {
-            // Let the user pick a file
             val intent = Intent(Intent.ACTION_GET_CONTENT)
             intent.type = "image/*"
             startActivityForResult(intent, PICK_IMAGE_REQUEST)
@@ -224,7 +223,6 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
             // Get the image URI from the result
             val imageUri = data?.data
             imageUri?.let {
-                // Upload the image to Firebase Storage
                 //uploadImageToFirebaseStorage(it)
                 guardarImagen(it)
             }

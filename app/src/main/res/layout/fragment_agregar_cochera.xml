@@ -17,13 +17,12 @@
 
         <ImageView
             android:id="@+id/simpleImageButton"
-            android:layout_margin="20dp"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="124dp"
+            android:layout_height="108dp"
             android:layout_gravity="center"
-            android:clickable="true"
-            android:contentDescription="Arrastra tu imagen"
-            android:background="@color/design_default_color_primary_dark"/>
+            android:layout_margin="20dp"
+            android:background="@drawable/upload_image_icon"
+            android:clickable="true" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/nombreCocheraContainer"
