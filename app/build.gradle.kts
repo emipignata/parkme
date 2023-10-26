@@ -64,6 +64,8 @@ dependencies {
     implementation("com.google.firebase:firebase-auth-ktx:22.2.0")
     implementation("com.google.firebase:firebase-firestore-ktx:24.9.0")
     implementation("com.firebaseui:firebase-ui-firestore:7.2.0")
+    implementation("com.google.firebase:firebase-storage:20.3.0")
+
 
     // Google Services
     implementation("com.google.android.gms:play-services-auth:20.7.0")
@@ -79,6 +81,7 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.google.code.gson:gson:2.9.0")
+
 
     // Testing
     testImplementation("junit:junit:4.13.2")
