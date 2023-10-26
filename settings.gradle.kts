@@ -15,4 +15,3 @@ dependencyResolutionManagement {
 
 rootProject.name = "Parkme"
 include(":app")
- 

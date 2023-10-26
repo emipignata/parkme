@@ -7,4 +7,80 @@
     <string name="web_client_id">653166425105-jjlbis77vg874gkam3lhn402muest8b5.apps.googleusercontent.com</string>
     <string name="web_client_secret">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</string>
     <string name="aqu_est_n_tus_ltimas_reservas">Aquí están tus últimas reservas</string>
+
+    <string name="GOOGLE_MAPS_API_KEY">AIzaSyDW5u0qurjfVpPY3PVH0yZpauP75T2w1FY</string>
+
+    <string name="eTDireccion_hint" translatable="false">Dirección</string>
+
+    <!-- Label for the address form's second address line field. -->
+    <string name="autocomplete_address2_label" translatable="false">Apartment, unit, suite, or floor #</string>
+
+    <!-- Label for the address form's city field. -->
+    <string name="autocomplete_city_label" translatable="false">City</string>
+
+    <!-- Label for the address form's state field. -->
+    <string name="autocomplete_state_label" translatable="false">State/Province</string>
+
+    <!-- Label for the address form's postal code field. -->
+    <string name="autocomplete_postal_label" translatable="false">Postal code</string>
+
+    <!-- Label for the address form's country field. -->
+    <string name="autocomplete_country_label" translatable="false">Country/Region</string>
+
+    <!-- Label for the address form's proximity check setting. -->
+    <string name="autocomplete_proximity_check" translatable="false">Check device proximity</string>
+
+    <!-- Label for the address form's confirmation map. -->
+    <string name="autocomplete_map_label" translatable="false">Mapa de la dirección seleccionada</string>
+
+    <!-- Text for the address form submit button. -->
+    <string name="autocomplete_save_button" translatable="false">Aceptar/Agregar</string>
+
+    <!-- Text for the address form reset button. -->
+    <string name="autocomplete_reset_button" translatable="false">Clear form</string>
+
+    <!-- Label for the autocomplete prediction's and widget's location origin field. -->
+    <string name="autocomplete_location_origin_label" translatable="false">Location Origin (format: -33.2, 128.2)</string>
+
+    <!-- Label for the autocomplete prediction's and widget's location bias related fields. -->
+    <string name="autocomplete_location_bias_label" translatable="false">Location Bias (format: -33.2, 128.2)</string>
+
+    <!-- Label for the autocomplete prediction's and widget's location restriction related fields. -->
+    <string name="autocomplete_location_restriction_label" translatable="false">Location Restriction (format: -33.2, 128.2)</string>
+
+    <!-- Hint for the autocomplete prediction's and widget's location origin field. -->
+    <string name="autocomplete_location_origin_hint" translatable="false">Origin (lat, lng)</string>
+
+    <!-- Hint for the autocomplete prediction's and widget's location southwest field. -->
+    <string name="autocomplete_location_south_west_hint" translatable="false">South West (lat, lng)</string>
+
+    <!-- Hint for the autocomplete prediction's and widget's location northeast field. -->
+    <string name="autocomplete_location_north_east_hint" translatable="false">North East (lat, lng)</string>
+
+    <!-- Text for enabling autocomplete prediction's use of session tokens. -->
+    <string name="autocomplete_use_session_token" translatable="false">(Predictions-only) Use session token?</string>
+
+    <!-- Text for autocomplete activity mode (overlay or fullscreen) checkbox. -->
+    <string name="autocomplete_activity_overlay_mode" translatable="false">Overlay mode?</string>
+
+    <!-- Text for the autocomplete support fragment section label. -->
+    <string name="autocomplete_support_fragment_text_label" translatable="false">Autocomplete Support Fragment:</string>
+
+    <!-- Text for the autocomplete fragment section label. -->
+    <string name="autocomplete_fragment_text_label" translatable="false">Autocomplete Fragment:</string>
+
+    <!-- Text for the autocomplete support fragment update button. -->
+    <string name="autocomplete_support_fragment_update_button" translatable="false">Update Support Fragment</string>
+
+    <!-- Text for the autocomplete fragment update button. -->
+    <string name="autocomplete_fragment_update_button" translatable="false">Update Fragment</string>
+
+    <!-- Text for starting the autocomplete activity button. -->
+    <string name="autocomplete_activity_button" translatable="false">Open Activity</string>
+
+    <!-- Text for the toast message for a skilled proximity match. -->
+    <string name="autocomplete_skipped_message" translatable="false">Address accepted without checking proximity</string>
+    <string name="direccion_1">Direccion 1</string>
+    <string name="Required">Campo Requerido</string>
+
 </resources>
