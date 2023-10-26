@@ -2,6 +2,8 @@
     <string name="app_name">Parkme</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="sign_in_google">Inicia sesión con Google</string>
+    <string name="welcome">Bienvenidos</string>
     <string name="web_client_id">653166425105-jjlbis77vg874gkam3lhn402muest8b5.apps.googleusercontent.com</string>
     <string name="web_client_secret">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</string>
     <string name="aqu_est_n_tus_ltimas_reservas">Aquí están tus últimas reservas</string>
