@@ -1,19 +1,25 @@
-package com.example.parkme.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
+import androidx.navigation.findNavController
 import com.example.parkme.R
 import com.example.parkme.entities.Cochera
 import com.example.parkme.holders.CocheraHolder
+import com.example.parkme.navigation.MisCocherasFrDirections
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 
-class CocheraFirestoreRecyclerAdapter(options: FirestoreRecyclerOptions<Cochera>) :
+class MisCocherasFirestoreAdapter(options: FirestoreRecyclerOptions<Cochera>) :
     FirestoreRecyclerAdapter<Cochera, CocheraHolder>(options) {
 
     override fun onBindViewHolder(holder: CocheraHolder, position: Int, model: Cochera) {
-        holder.setCard(model.nombre, model.direccion, model.price, model.urlImage)
+        holder.setCard(model.nombre, model.direccion, model.price, model.urlImage, model.ocupada)
+
+        // Agrega un clic en el elemento para navegar a la pantalla detallada
+        holder.itemView.setOnClickListener {
+            val action = MisCocherasFrDirections.actionMisCocherasFrToCocheraDetailOwnerFr(model)
+            holder.itemView.findNavController().navigate(action)
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CocheraHolder {

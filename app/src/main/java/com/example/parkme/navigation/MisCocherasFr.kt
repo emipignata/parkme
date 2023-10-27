@@ -1,5 +1,6 @@
 package com.example.parkme.navigation
 
+import MisCocherasFirestoreAdapter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,16 +11,15 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.parkme.adapter.CocheraFirestoreRecyclerAdapter
+import com.example.parkme.R
 import com.example.parkme.entities.Cochera
 import com.example.parkme.viewmodels.MisCocherasViewModel
-import com.google.firebase.firestore.FirebaseFirestore
-import com.example.parkme.R
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class MisCocherasFr : Fragment() {
-    private lateinit var adapter: CocheraFirestoreRecyclerAdapter
+    private lateinit var adapter: MisCocherasFirestoreAdapter
     private lateinit var viewModel: MisCocherasViewModel
     private val db = FirebaseFirestore.getInstance()
     private lateinit var recyclerView: RecyclerView
@@ -37,7 +37,7 @@ class MisCocherasFr : Fragment() {
             .setQuery(query, Cochera::class.java)
             .build()
         viewModel = ViewModelProvider(this).get(MisCocherasViewModel::class.java)
-        adapter = CocheraFirestoreRecyclerAdapter(options)
+        adapter = MisCocherasFirestoreAdapter(options)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
         val button3 = view.findViewById<Button>(R.id.button3)
