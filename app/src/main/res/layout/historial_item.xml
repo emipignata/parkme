@@ -16,49 +16,51 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
-            android:id="@+id/reserva_detailLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toTopOf="@id/reservarButton"
-            app:layout_constraintTop_toTopOf="parent">
+                android:id="@+id/reserva_detailLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toTopOf="@id/reservarButton"
+                app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/reserva_reservaIdTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="TextView" />
+                    android:id="@+id/reserva_reservaIdTextView"
+                    android:textSize="30dp"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"/>
 
             <TextView
-                android:id="@+id/reserva_usuarioIdTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="TextView" />
+                    android:id="@+id/reserva_usuarioIdTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"/>
 
             <TextView
-                android:id="@+id/reserva_fechaTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="TextView" />
+                    android:id="@+id/reserva_fechaTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"/>
 
             <TextView
-                android:id="@+id/reserva_cocheraIdTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="TextView" />
+                    android:id="@+id/reserva_cocheraIdTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"/>
 
             <TextView
-                android:id="@+id/reserva_ownerIdTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="150dp"
-                android:text="TextView" />
+                    android:id="@+id/reserva_ownerIdTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="150dp"
+                    android:text="TextView"/>
 
             <TextView
-                android:id="@+id/reserva_precioTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="TextView" />
+                    android:id="@+id/reserva_precioTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"/>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

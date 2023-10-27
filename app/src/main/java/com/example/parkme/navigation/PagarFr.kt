@@ -1,24 +1,11 @@
 package com.example.parkme.navigation
 
-import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.navArgs
-import com.example.parkme.databinding.FragmentCocheraDetailBinding
-import com.example.parkme.entities.Cochera
-import com.google.firebase.auth.FirebaseAuth
 
 class PagarFr : Fragment() {
-    private val args: CocheraDetailFrArgs by navArgs()
+/*   // private val args: CocheraItemOwnerViewFragmentArgs by navArgs()
     private lateinit var binding: FragmentCocheraDetailBinding
-    private val cochera: Cochera by lazy { args.cochera } // Use lazy initialization
+   //private val cochera: Cochera by lazy { args.cochera } // Use lazy initialization
     private val uid: String? by lazy { FirebaseAuth.getInstance().currentUser?.uid }
 
     override fun onCreateView(
@@ -44,7 +31,7 @@ Log.e("CocheraDetailFr", "Cochera: $cochera")
         }
 
         reservarButton.setOnClickListener {
-            val action = CocheraDetailFrDirections.actionCocheraDetailFrToReservaCocheraFr(cochera)
+            val action = CocheraDetailUserFrDirections.actionCocheraDetailFrToReservaCocheraFr(cochera)
             Log.e("CocheraDetailFr", "Botón Reservar Apretado")
             Log.e("CocheraDetailFr", "Cochera a Reservar: $cochera")
             binding.root.findNavController()?.navigate(action)
@@ -55,5 +42,5 @@ Log.e("CocheraDetailFr", "Cochera: $cochera")
         }
 
         return binding.root
-    }
+    }*/
 }

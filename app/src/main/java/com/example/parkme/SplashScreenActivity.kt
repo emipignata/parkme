@@ -9,13 +9,11 @@ import android.os.Handler
 import android.os.Looper
 import android.provider.Settings
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.example.parkme.activitys.LoginActivity
 import com.example.parkme.databinding.ActivitySplashScreenBinding
-import com.example.parkme.viewmodels.UserViewModel
 
 class SplashScreenActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySplashScreenBinding
