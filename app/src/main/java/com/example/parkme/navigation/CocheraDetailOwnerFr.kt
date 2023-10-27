@@ -13,6 +13,7 @@ import com.example.parkme.databinding.FragmentCocheraDetailOwnerBinding
 import com.example.parkme.entities.Cochera
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+
 private val db = FirebaseFirestore.getInstance()
 private val uid = FirebaseAuth.getInstance().currentUser?.uid
 
@@ -28,13 +29,13 @@ class CocheraDetailOwnerFr : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentCocheraDetailOwnerBinding.inflate(inflater, container, false)
-        val cocheraNombre  = binding.tVNombreCocheraItemView
+        val cocheraNombre = binding.tVNombreCocheraItemView
         cocheraNombre.text = cochera.nombre
-        val cocheraDireccion  = binding.tVDireccionItemView
+        val cocheraDireccion = binding.tVDireccionItemView
         cocheraDireccion.text = cochera.direccion
-        val cocheraPrecio  = binding.tVprecioPorHoraContainerItemView
+        val cocheraPrecio = binding.tVprecioPorHoraContainerItemView
         cocheraPrecio.text = cochera.price.toString()
-        val cocheraDisponibilidad  = binding.tVDisponibilidadItemView
+        val cocheraDisponibilidad = binding.tVDisponibilidadItemView
         cocheraDisponibilidad.text = cochera.ocupada
 
 
@@ -48,10 +49,8 @@ class CocheraDetailOwnerFr : Fragment() {
         }
 
         editarButton.setOnClickListener {
-            Toast.makeText(requireContext(), "Esta funcionalidad aún no está disponible", Toast.LENGTH_SHORT).show()
-            // val action = CocheraDetailUserFrDirections.
-            //  Log.e("CocheraDetailFr", "Cochera a Reservar: $cochera")
-            // binding.root.findNavController()?.navigate(action)
+            val action = CocheraDetailOwnerFrDirections.actionCocheraDetailOwnerFrToCocheraOwnerEditFr(cochera)
+            binding.root.findNavController()?.navigate(action)
         }
 
         eliminarButton.setOnClickListener {

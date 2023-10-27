@@ -94,6 +94,15 @@
         <argument
                 android:name="cochera"
                 app:argType="com.example.parkme.entities.Cochera"/>
+        <action android:id="@+id/action_cocheraDetailOwnerFr_to_cocheraOwnerEditFr"
+                app:destination="@id/cocheraOwnerEditFr"/>
+    </fragment>
+    <fragment android:id="@+id/cocheraOwnerEditFr"
+              android:name="com.example.parkme.CocheraOwnerEditFr"
+              android:label="fragment_cochera_owner_edit"
+              tools:layout="@layout/fragment_cochera_owner_edit">
+        <argument android:name="cochera"
+                  app:argType="com.example.parkme.entities.Cochera"/>
     </fragment>
 
 </navigation>
