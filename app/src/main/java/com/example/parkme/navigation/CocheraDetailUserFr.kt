@@ -15,8 +15,8 @@ import com.example.parkme.databinding.FragmentCocheraDetailBinding
 import com.example.parkme.entities.Cochera
 import com.google.firebase.auth.FirebaseAuth
 
-class CocheraDetailFr : Fragment() {
-    private val args: CocheraDetailFrArgs by navArgs()
+class CocheraDetailUserFr : Fragment() {
+    private val args: CocheraDetailUserFrArgs by navArgs()
     private lateinit var binding: FragmentCocheraDetailBinding
     private val cochera: Cochera by lazy { args.cochera } // Use lazy initialization
     private val uid: String? by lazy { FirebaseAuth.getInstance().currentUser?.uid }
@@ -38,14 +38,14 @@ class CocheraDetailFr : Fragment() {
         val volverButton: Button = binding.CocheraDetailVolverButton
         val reservarButton: Button = binding.CocheraDetailReservarButton
         val programarButton: Button = binding.CocheraDetailProgramarButton
-Log.e("CocheraDetailFr", "Cochera: $cochera")
+        Log.e("CocheraDetailFr", "Cochera: $cochera")
         volverButton.setOnClickListener {
             binding.root.findNavController().navigateUp()
         }
 
         reservarButton.setOnClickListener {
 
-            val action = CocheraDetailFrDirections.actionCocheraDetailFrToReservaCocheraFr(cochera)
+            val action = CocheraDetailUserFrDirections.actionCocheraDetailUserFrToReservaCocheraFr(cochera)
             Log.e("CocheraDetailFr", "Botón Reservar Apretado")
             Log.e("CocheraDetailFr", "Cochera a Reservar: $cochera")
             binding.root.findNavController()?.navigate(action)

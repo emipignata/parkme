@@ -20,7 +20,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class ReservarCocheraFr() : Fragment() {
-    val args: CocheraDetailFrArgs by navArgs()
+    val args: CocheraDetailUserFrArgs by navArgs()
     private lateinit var binding: FragmentReservarCocheraBinding
     private lateinit var fragmentManager: FragmentManager
     private val db = FirebaseFirestore.getInstance()

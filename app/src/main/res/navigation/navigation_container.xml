@@ -1,88 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/navigation_container"
-    app:startDestination="@id/exploreFr">
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/navigation_container"
+            app:startDestination="@id/exploreFr">
 
     <fragment
-        android:id="@+id/exploreFr"
-        android:name="com.example.parkme.navigation.ExploreFr"
-        android:label="fragment_explore"
-        tools:layout="@layout/fragment_explore_map">
+            android:id="@+id/exploreFr"
+            android:name="com.example.parkme.navigation.ExploreFr"
+            android:label="fragment_explore"
+            tools:layout="@layout/fragment_explore_map">
         <action
-            android:id="@+id/action_exploreFr_to_cocheraDetailFr"
-            app:destination="@id/cocheraDetailFr" />
+                android:id="@+id/action_exploreFr_to_cocheraDetailFr"
+                app:destination="@id/cocheraDetailUserFr"/>
         <action
-            android:id="@+id/action_global_exploreFr"
-            app:destination="@id/exploreFr" />
+                android:id="@+id/action_global_exploreFr"
+                app:destination="@id/exploreFr"/>
     </fragment>
 
     <fragment
-        android:id="@+id/historialFr"
-        android:name="com.example.parkme.navigation.HistorialFr"
-        android:label="fragment_historial"
-        tools:layout="@layout/fragment_historial_reservas">
+            android:id="@+id/historialFr"
+            android:name="com.example.parkme.navigation.HistorialFr"
+            android:label="fragment_historial"
+            tools:layout="@layout/fragment_historial_reservas">
         <action
-            android:id="@+id/action_historialFr_to_estadoReservaFr"
-            app:destination="@id/estadoReservaFr" />
+                android:id="@+id/action_historialFr_to_estadoReservaFr"
+                app:destination="@id/estadoReservaFr"/>
     </fragment>
 
     <fragment
-        android:id="@+id/misCocherasFr"
-        android:name="com.example.parkme.navigation.MisCocherasFr"
-        android:label="fragment_mis_cocheras"
-        tools:layout="@layout/fragment_mis_cocheras">
+            android:id="@+id/misCocherasFr"
+            android:name="com.example.parkme.navigation.MisCocherasFr"
+            android:label="fragment_mis_cocheras"
+            tools:layout="@layout/fragment_mis_cocheras">
         <action
-            android:id="@+id/action_misCocherasFr_to_agregarCocheraFr"
-            app:destination="@id/agregarCocheraFr" />
+                android:id="@+id/action_misCocherasFr_to_agregarCocheraFr"
+                app:destination="@id/agregarCocheraFr"/>
+        <action android:id="@+id/action_misCocherasFr_to_cocheraDetailOwnerFr"
+                app:destination="@id/cocheraDetailOwnerFr"/>
+
     </fragment>
 
     <fragment
-        android:id="@+id/perfilFr"
-        android:name="com.example.parkme.navigation.PerfilFr"
-        android:label="fragment_perfil"
-        tools:layout="@layout/fragment_perfil"/>
+            android:id="@+id/perfilFr"
+            android:name="com.example.parkme.navigation.PerfilFr"
+            android:label="fragment_perfil"
+            tools:layout="@layout/fragment_perfil"/>
 
     <fragment
-        android:id="@+id/cocheraDetailFr"
-        android:name="com.example.parkme.navigation.CocheraDetailFr"
-        tools:layout="@layout/fragment_cochera_detail"
-        android:label="CocheraDetailFr">
+            android:id="@+id/cocheraDetailUserFr"
+            android:name="com.example.parkme.navigation.CocheraDetailUserFr"
+            tools:layout="@layout/fragment_cochera_detail"
+            android:label="CocheraDetailUserFr">
         <argument
-            android:name="cochera"
-            app:argType="com.example.parkme.entities.Cochera" />
+                android:name="cochera"
+                app:argType="com.example.parkme.entities.Cochera"/>
         <action
-            android:id="@+id/action_cocheraDetailFr_to_reservaCocheraFr"
-            app:destination="@id/reservaCocheraFr" />
+                android:id="@+id/action_cocheraDetailUserFr_to_reservaCocheraFr"
+                app:destination="@id/reservaCocheraFr"/>
     </fragment>
     <fragment
-        android:id="@+id/reservaCocheraFr"
-        android:name="com.example.parkme.navigation.ReservarCocheraFr"
-        android:label="ReservaCocheraFr" >
+            android:id="@+id/reservaCocheraFr"
+            android:name="com.example.parkme.navigation.ReservarCocheraFr"
+            android:label="ReservaCocheraFr">
         <argument
-            android:name="cochera"
-            app:argType="com.example.parkme.entities.Cochera"/>
+                android:name="cochera"
+                app:argType="com.example.parkme.entities.Cochera"/>
     </fragment>
     <fragment
-        android:id="@+id/pagarFr"
-        android:name="com.example.parkme.navigation.PagarFr"
-        android:label="PagarFr" >
-        <argument android:name="Pago" />
+            android:id="@+id/pagarFr"
+            android:name="com.example.parkme.navigation.PagarFr"
+            android:label="PagarFr">
+        <argument android:name="Pago"/>
     </fragment>
     <fragment
-        android:id="@+id/estadoReservaFr"
-        android:name="com.example.parkme.navigation.ReservaFr"
-        android:label="EstadoReservaFr" >
+            android:id="@+id/estadoReservaFr"
+            android:name="com.example.parkme.navigation.ReservaFr"
+            android:label="EstadoReservaFr">
         <action
-            android:id="@+id/action_estadoReservaFr_to_pagarFr"
-            app:destination="@id/pagarFr" />
-        <argument android:name="reserva" />
+                android:id="@+id/action_estadoReservaFr_to_pagarFr"
+                app:destination="@id/pagarFr"/>
+        <argument android:name="reserva"/>
     </fragment>
     <fragment
-        android:id="@+id/agregarCocheraFr"
-        android:name="com.example.parkme.navigation.AgregarCocheraFr"
-        android:label="AgregarCocheraFr" >
+            android:id="@+id/agregarCocheraFr"
+            android:name="com.example.parkme.navigation.AgregarCocheraFr"
+            android:label="AgregarCocheraFr">
+    </fragment>
+
+    <fragment android:id="@+id/cocheraDetailOwnerFr"
+              android:name="com.example.parkme.navigation.CocheraDetailOwnerFr"
+              android:label="CocheraDetailOwnerFr">
+        <argument
+                android:name="cochera"
+                app:argType="com.example.parkme.entities.Cochera"/>
+        <action android:id="@+id/action_cocheraDetailOwnerFr_to_cocheraOwnerEditFr"
+                app:destination="@id/cocheraOwnerEditFr"/>
+    </fragment>
+    <fragment android:id="@+id/cocheraOwnerEditFr"
+              android:name="com.example.parkme.CocheraOwnerEditFr"
+              android:label="fragment_cochera_owner_edit"
+              tools:layout="@layout/fragment_cochera_owner_edit">
+        <argument android:name="cochera"
+                  app:argType="com.example.parkme.entities.Cochera"/>
     </fragment>
 
 </navigation>
