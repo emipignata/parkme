@@ -26,6 +26,9 @@
         <action
                 android:id="@+id/action_historialFr_to_estadoReservaFr"
                 app:destination="@id/estadoReservaFr"/>
+        <action
+            android:id="@+id/action_historialFr_to_checkoutActivity"
+            app:destination="@id/checkoutActivity" />
     </fragment>
 
     <fragment
@@ -104,5 +107,13 @@
         <argument android:name="cochera"
                   app:argType="com.example.parkme.entities.Cochera"/>
     </fragment>
+    <activity
+        android:id="@+id/checkoutActivity"
+        android:name="com.example.parkme.activitys.CheckoutActivity"
+        android:label="CheckoutActivity" >
+        <argument
+            android:name="precio"
+            app:argType="float" />
+    </activity>
 
 </navigation>
