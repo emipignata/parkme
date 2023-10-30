@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import com.example.parkme.R
+import com.example.parkme.entities.Cochera
 import com.example.parkme.entities.Reserva
 import com.example.parkme.holders.ReservaHolder
 import com.example.parkme.navigation.HistorialFrDirections
@@ -15,7 +16,7 @@ class HistorialUserFirestoreAdapter(options: FirestoreRecyclerOptions<Reserva>) 
     override fun onBindViewHolder(holder: ReservaHolder, position: Int, model: Reserva) {
         holder.setCard(model.reservaId, model.usuarioId, model.fecha, model.cocheraId, model.ownerId, model.precio)
         holder.itemView.setOnClickListener {
-            val action = HistorialFrDirections.actionHistorialFrToCheckoutActivity(100.0f)
+            val action = HistorialFrDirections.actionHistorialFrToEstadoReservaFr(Reserva())
             holder.itemView.findNavController().navigate(action)
         }
     }

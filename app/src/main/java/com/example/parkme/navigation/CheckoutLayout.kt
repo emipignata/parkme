@@ -26,6 +26,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -78,6 +79,10 @@ fun ProductScreen(
                     .height(200.dp)
             )
             Text(text = "Pago completado ! Ya puede retirarse del garaje")
+            Button(onClick = {})
+            {
+                    Text("Volver")
+            }
         }
     } else {
         Column(
@@ -120,7 +125,7 @@ fun ProductScreen(
                     allowedPaymentMethods = PaymentsUtil.allowedPaymentMethods.toString()
                 )
             }
-            if (state.googleWalletAvailable == true) {
+            if (state.googleWalletAvailable == false) {
                 Spacer(Modifier)
                 Text(
                     text = "Or add a pass to your Google Wallet:",
