@@ -68,19 +68,15 @@
                 app:argType="com.example.parkme.entities.Cochera"/>
     </fragment>
     <fragment
-            android:id="@+id/pagarFr"
-            android:name="com.example.parkme.navigation.PagarFr"
-            android:label="PagarFr">
-        <argument android:name="Pago"/>
-    </fragment>
-    <fragment
-            android:id="@+id/estadoReservaFr"
-            android:name="com.example.parkme.navigation.ReservaFr"
-            android:label="EstadoReservaFr">
+        android:id="@+id/estadoReservaFr"
+        android:name="com.example.parkme.navigation.EstadoReservaFr"
+        android:label="EstadoReservaFr">
+        <argument
+            android:name="reserva"
+            app:argType="com.example.parkme.entities.Reserva" />
         <action
-                android:id="@+id/action_estadoReservaFr_to_pagarFr"
-                app:destination="@id/pagarFr"/>
-        <argument android:name="reserva"/>
+            android:id="@+id/action_estadoReservaFr_to_checkoutActivity"
+            app:destination="@id/checkoutActivity" />
     </fragment>
     <fragment
             android:id="@+id/agregarCocheraFr"
@@ -96,13 +92,21 @@
                 app:argType="com.example.parkme.entities.Cochera"/>
         <action android:id="@+id/action_cocheraDetailOwnerFr_to_cocheraOwnerEditFr"
                 app:destination="@id/cocheraOwnerEditFr"/>
+
+
     </fragment>
-    <fragment android:id="@+id/cocheraOwnerEditFr"
-              android:name="com.example.parkme.CocheraOwnerEditFr"
-              android:label="fragment_cochera_owner_edit"
-              tools:layout="@layout/fragment_cochera_owner_edit">
-        <argument android:name="cochera"
-                  app:argType="com.example.parkme.entities.Cochera"/>
+    <fragment android:name="com.example.parkme.navigation.CocheraOwnerEditFr"
+              android:label="CocheraOwnerEditFr" android:id="@+id/cocheraOwnerEditFr">
+        <argument android:name="cochera" app:argType="com.example.parkme.entities.Cochera"/>
     </fragment>
+    <activity
+        android:id="@+id/checkoutActivity"
+        android:name="com.example.parkme.activitys.CheckoutActivity"
+        android:label="CheckoutActivity" >
+        <argument
+            android:name="precio"
+            app:argType="float" />
+    </activity>
+
 
 </navigation>
