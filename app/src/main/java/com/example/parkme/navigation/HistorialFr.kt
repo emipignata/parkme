@@ -28,7 +28,6 @@ class HistorialFr : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_historial_reservas, container, false)
-        //val query = db.collection("historial").whereEqualTo("usuarioId", uid)
         val query = db.collection("historial").whereEqualTo("usuarioId", uid)
         recyclerView = view.findViewById(R.id.recyclerViewHistorialReservas)
         val options = FirestoreRecyclerOptions.Builder<Reserva>()
