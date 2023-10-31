@@ -6,7 +6,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="15dp"
-        android:scrollbars="vertical"
         tools:context=".MainActivity">
 
 
@@ -21,9 +20,9 @@
                 android:layout_width="124dp"
                 android:layout_height="108dp"
                 android:layout_gravity="center"
-                android:layout_margin="20dp"
+                android:layout_margin="0dp"
                 android:background="@drawable/upload_image_icon"
-                android:clickable="true" />
+                android:clickable="true"/>
 
         <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/nombreCocheraContainer_item_view"
@@ -39,7 +38,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Nombre Cochera"
-                    android:maxLength="@integer/ETNombreCocheraLength"/>
+                    android:maxLength="@integer/ETNombreCocheraLength" tools:ignore="MissingClass"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -53,12 +52,12 @@
                 app:counterMaxLength="@integer/ETDireccionLength">
             <com.example.parkme.models.AutocompleteEditText
                     android:id="@+id/eTDireccion_item_view"
-                    android:layout_width="300dp"
-                    android:layout_height="50dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:autofillHints=""
                     android:hint="@string/eTDireccion_hint"
                     android:imeOptions="actionNext"
-                    android:inputType="text" />
+                    android:inputType="text"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <ViewStub
@@ -67,7 +66,7 @@
                 android:layout="@layout/fragment_agregar_cochera_map"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:layout_gravity="bottom" />
+                android:layout_gravity="bottom"/>
 
         <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/precioPorHoraContainer_item_view"
@@ -116,33 +115,25 @@
                     android:hint="Disponibilidad"
                     android:maxLength="@integer/ETDisponibilidadLength"/>
         </com.google.android.material.textfield.TextInputLayout>
+
         <LinearLayout
-                android:layout_marginTop="20dp"
-                android:layout_width="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="30dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="30dp"
-                android:layout_gravity="center"
-                android:orientation="horizontal">
+                android:layout_gravity="center_horizontal">
             <Button
-                    android:id="@+id/button_volver_item_view"
+                    android:id="@+id/button_volver_edit"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:layout_marginLeft="50dp"
                     android:text="Volver"/>
             <Button
-                    android:id="@+id/button_editar_item_view"
-                    android:layout_width="100dp"
-                    android:layout_margin="10dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="Editar"/>
-
-            <Button
-                    android:id="@+id/button_eliminar_item_view"
+                    android:id="@+id/button_aceptar_edit"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="Eliminar"/>
+                    android:layout_marginLeft="50dp"
+                    android:text="Aceptar"/>
         </LinearLayout>
 
     </LinearLayout>
