@@ -5,13 +5,13 @@ import android.os.Parcelable
 
 data class Cochera(
     var cocheraId: String,
-    val nombre: String,
-    val direccion: String,
-    val lat: Double,
-    val lng: Double,
-    val price: Float,
-    val urlImage: String,
-    val ocupada: String,
+    var nombre: String,
+    var direccion: String,
+    var lat: Double,
+    var lng: Double,
+    var price: Float,
+    var urlImage: String,
+    var ocupada: String,
     val owner: String
 ) : Parcelable {
     constructor(parcel: Parcel) : this(

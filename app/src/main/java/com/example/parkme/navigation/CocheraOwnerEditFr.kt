@@ -31,39 +31,40 @@ class CocheraOwnerEditFr : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentCocheraOwnerEditBinding.inflate(inflater, container, false)
-        val cocheraNombre = binding.eTNombreCocheraItemView
-        cocheraNombre.setText(cochera.nombre)
-        val cocheraDireccion = binding.eTDireccionItemView
-        cocheraDireccion.setText(cochera.direccion)
-        val cocheraPrecio = binding.eTPrecioPorHoraItemView
-        cocheraPrecio.setText(cochera.price.toString())
-        val cocheraDisponibilidad = binding.eTDisponibilidadItemView
-        cocheraDisponibilidad.setText(cochera.ocupada)
-        val urlImage = binding.simpleImageButtonItemView
-        val aceptarEditButton: Button = binding.buttonAceptarEdit
-        val vovlerEditButton: Button = binding.buttonVolverEdit
+        var cocheraNombre = binding.eTNombreCocheraItemView
+         cocheraNombre.setText(cochera.nombre)
+        var cocheraDireccion = binding.eTDireccionItemView
+          cocheraDireccion.setText(cochera.direccion)
+        var cocheraPrecio = binding.eTPrecioPorHoraItemView
+           cocheraPrecio.setText(cochera.price.toString())
+        var cocheraDisponibilidad = binding.eTDisponibilidadItemView
+          cocheraDisponibilidad.setText(cochera.ocupada)
+        var urlImage = binding.simpleImageButtonItemView
+        var aceptarEditButton: Button = binding.buttonAceptarEdit
+        var vovlerEditButton: Button = binding.buttonVolverEdit
 
-        vovlerEditButton.setOnClickListener(){
+        vovlerEditButton.setOnClickListener() {
             binding.root.findNavController().navigateUp()
-           // binding.root.findNavController().navigateUp() te hace el salto de 2 pantallas esta genial
+            // binding.root.findNavController().navigateUp() te hace el salto de 2 pantallas esta genial
         }
 
-        val cocheraNueva = Cochera(
-            cochera.cocheraId,
-            cocheraNombre.text.toString(),
-            cocheraDireccion.text.toString(),
-            lat = cochera.lat, // Proporciona el valor apropiado para "lat" (puedes cambiar esto)
-            lng = cochera.lat,// Proporciona el valor apropiado para "lng" (puedes cambiar esto)
-            cocheraPrecio.text.toString().toFloat(),
-            if (urlImage.toString() == "") cochera.urlImage else urlImage.toString(),
-            cocheraDisponibilidad.text.toString(),
-           owner = cochera.owner // Proporciona el valor apropiado para "owner" (puedes cambiar esto)
-        )
-        aceptarEditButton.setOnClickListener(){
 
-            //val cocheraNueva = Cochera(parcelableCreator<Cochera>(cochera.cocheraId,cocheraNombre,cocheraDireccion,cocheraPrecio,cocheraDisponibilidad))
-            db.collection("cocheras").document(cochera.cocheraId).set(cocheraNueva)
-            Toast.makeText(requireContext(), "La cochera ${cochera.nombre} se ha editado con éxito", Toast.LENGTH_SHORT).show()
+        aceptarEditButton.setOnClickListener() {
+
+            val nuevoNombre = cocheraNombre.text.toString()
+            val nuevaDireccion = cocheraDireccion.text.toString()
+            val nuevoPrecio = cocheraPrecio.text.toString().toDouble()
+            val nuevaDisponibilidad = cocheraDisponibilidad.text.toString()
+
+            cochera.nombre = nuevoNombre
+            cochera.direccion = nuevaDireccion
+            cochera.price = nuevoPrecio.toFloat()
+            cochera.ocupada = nuevaDisponibilidad
+            cochera.urlImage =  "https://raicesdeperaleda.com/recursos/cache/cochera-1555889699-250x250.jpg"
+
+            db.collection("cocheras").document(cochera.cocheraId).set(cochera)
+            Toast.makeText(requireContext(), "La cochera ${cochera.nombre} se ha editado con éxito", Toast.LENGTH_SHORT)
+                .show()
             binding.root.findNavController().navigateUp()
             binding.root.findNavController().navigateUp()
         }
@@ -72,7 +73,6 @@ class CocheraOwnerEditFr : Fragment() {
         return binding.root
 
     }
-
 
 
 }
