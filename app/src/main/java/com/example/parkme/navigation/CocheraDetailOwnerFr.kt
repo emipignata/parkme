@@ -1,6 +1,5 @@
 package com.example.parkme.navigation
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,8 +14,6 @@ import com.example.parkme.entities.Cochera
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
-
-@SuppressLint("StaticFieldLeak")
 private val db = FirebaseFirestore.getInstance()
 //private val uid = FirebaseAuth.getInstance().currentUser?.uid
 

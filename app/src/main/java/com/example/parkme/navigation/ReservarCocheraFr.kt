@@ -34,10 +34,10 @@ class ReservarCocheraFr() : Fragment() {
         fragmentManager = requireActivity().supportFragmentManager
         reserva = Reserva()
 
-        val pagarText = binding.root.findViewById<TextView>(R.id.detalleReservaText)
+        val pagarText = binding.detalleReservaText
         pagarText.text = "Usted va a realizar la reserva: ${reserva}"
 
-        val reservarButton = binding.root.findViewById<Button>(R.id.reservarButton)
+        val reservarButton = binding.reservarButton
         reservarButton.setOnClickListener{
             addReserva()
         }

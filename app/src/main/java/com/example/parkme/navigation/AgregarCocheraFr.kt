@@ -149,7 +149,9 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
         }
 
         buttonAgregarCochera.setOnClickListener {
+
             agregarCochera()
+
         }
 
         volverAgregarCochera.setOnClickListener {
