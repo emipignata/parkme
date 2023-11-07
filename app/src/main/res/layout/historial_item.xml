@@ -1,66 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="350dp">
+    android:layout_height="200dp"
+    android:layout_marginTop="7dp">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardReserva"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="50dp"
+        android:layout_margin="0dp"
+        android:padding="0dp"
+        app:cardBackgroundColor="@color/md_theme_light_outline"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+
         <LinearLayout
-                android:id="@+id/reserva_detailLayout"
+            android:id="@+id/reserva_detailLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@id/reservarButton"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="5dp">
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toTopOf="@id/reservarButton"
-                app:layout_constraintTop_toTopOf="parent">
+                android:layout_height="match_parent">
 
-            <TextView
-                    android:id="@+id/reserva_reservaIdTextView"
-                    android:textSize="30dp"
-                    android:textStyle="bold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="TextView"/>
+                <LinearLayout
+                    android:id="@+id/reserva_linerLayout"
+                    android:layout_width="250dp"
+                    android:layout_height="175dp"
+                    android:layout_marginTop="8dp"
+                    android:orientation="vertical"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:layout_editor_absoluteX="11dp">
 
-            <TextView
-                    android:id="@+id/reserva_usuarioIdTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="TextView"/>
+                    <TextView
+                        android:id="@+id/reserva_reservaIdTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="TextView"
+                        android:textSize="30dp"
+                        android:textStyle="bold" />
 
-            <TextView
-                    android:id="@+id/reserva_fechaTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="TextView"/>
+                    <TextView
+                        android:id="@+id/reserva_usuarioIdTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="TextView" />
 
-            <TextView
-                    android:id="@+id/reserva_cocheraIdTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="TextView"/>
+                    <TextView
+                        android:id="@+id/reserva_fechaTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="TextView" />
 
-            <TextView
-                    android:id="@+id/reserva_ownerIdTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="150dp"
-                    android:text="TextView"/>
+                    <TextView
+                        android:id="@+id/reserva_cocheraIdTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="TextView" />
 
-            <TextView
-                    android:id="@+id/reserva_precioTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="TextView"/>
+                    <TextView
+                        android:id="@+id/reserva_ownerIdTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="TextView" />
+
+                    <TextView
+                        android:id="@+id/reserva_precioTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="TextView" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/imageView6"
+                    android:layout_width="144dp"
+                    android:layout_height="160dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/reserva_linerLayout"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:srcCompat="@tools:sample/avatars" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
