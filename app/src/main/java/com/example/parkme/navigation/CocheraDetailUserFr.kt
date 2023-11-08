@@ -27,12 +27,11 @@ class CocheraDetailUserFr : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentCocheraDetailBinding.inflate(inflater, container, false)
-        binding.ownerIdText.text = "Owner: ${cochera.nombre}"
+        binding.ownerIdText.text = cochera.direccion
         binding.cocheraDetailText.text = cochera.direccion
         binding.precioPorHoraDetail.text = cochera.price.toString()
-        binding.currentUserText.text = "CurrentUserId: $uid"
-        binding.cocheraDetailText.text = "Cochera Details: ${cochera.ocupada}"
-
+        binding.cocheraOwnerName.text = "Dueño: ${cochera.owner}"
+        binding.cocheraDetailText.text = "Detalle de la Cochera: ${cochera.ocupada}"
         Glide.with(requireContext())
             .load(cochera.urlImage)
             .centerCrop()

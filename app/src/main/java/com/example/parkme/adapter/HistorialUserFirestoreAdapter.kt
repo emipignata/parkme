@@ -22,7 +22,6 @@ import com.google.firebase.firestore.toObject
 class HistorialUserFirestoreAdapter(options: FirestoreRecyclerOptions<Reserva>) :
     FirestoreRecyclerAdapter<Reserva, ReservaHolder>(options) {
     val db = FirebaseFirestore.getInstance()
-    private lateinit var pago: Pago
     override fun onBindViewHolder(holder: ReservaHolder, position: Int, model: Reserva) {
 
         holder.setCard(model)
