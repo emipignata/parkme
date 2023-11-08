@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:layout_margin="0dp"
         android:padding="30dp"
-        app:cardBackgroundColor="@color/md_theme_light_outline"
+        app:cardBackgroundColor="@color/md_theme_light_onError"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,67 +35,65 @@
                 android:layout_height="match_parent">
 
                 <LinearLayout
-                    android:id="@+id/reserva_linerLayout"
-                    android:layout_width="250dp"
-                    android:layout_height="175dp"
-                    android:padding="15dp"
-                    android:layout_marginTop="8dp"
-                    android:orientation="vertical"
-                    app:layout_constraintTop_toTopOf="parent"
-
-                    tools:layout_editor_absoluteX="11dp">
-
-                    <TextView
-                        android:id="@+id/tvReservaCardAddress"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Direccion"
-                        android:textSize="17dp"
-                        android:textStyle="bold" />
+                        android:id="@+id/reserva_linerLayout"
+                        android:layout_width="250dp"
+                        android:layout_height="190dp"
+                        android:padding="15dp"
+                        android:orientation="vertical"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="0.132">
 
                     <TextView
-                        android:id="@+id/tvReservaCardTotalPrice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Importe Total" />
+                            android:id="@+id/tvReservaCardAddress"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Direccion"
+                            android:textSize="17dp"
+                            android:textStyle="bold"/>
 
                     <TextView
-                        android:id="@+id/tvReservaCardPricePerHour"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Precio por hora" />
+                            android:id="@+id/tvReservaCardTotalPrice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Importe Total"/>
 
                     <TextView
-                        android:id="@+id/tvReservaCardStartTime"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="hora_de_ingreso" />
+                            android:id="@+id/tvReservaCardPricePerHour"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Precio por hora"/>
 
                     <TextView
-                        android:id="@+id/tvReservaCardFinishTime"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="hora_de_egreso" />
+                            android:id="@+id/tvReservaCardStartTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="hora_de_ingreso"/>
 
                     <TextView
-                        android:id="@+id/tvReservaCardTotalTime"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="tiempo total" />
+                            android:id="@+id/tvReservaCardFinishTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="hora_de_egreso"/>
 
                     <TextView
-                        android:id="@+id/tvReservaCardNombreDueno"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="nombre_dueño" />
+                            android:id="@+id/tvReservaCardTotalTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="tiempo total"/>
 
                     <TextView
-                        android:id="@+id/tvReservaCardTelDueno"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="tel_dueno" />
+                            android:id="@+id/tvReservaCardNombreDueno"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="nombre_dueño"/>
+
+                    <TextView
+                            android:id="@+id/tvReservaCardTelDueno"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="11-2264-7382"/>
                 </LinearLayout>
-
                 <ImageView
                     android:id="@+id/imageView6"
                     android:layout_width="144dp"
