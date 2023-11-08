@@ -1,5 +1,7 @@
 package com.example.parkme.navigation
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -57,7 +59,18 @@ class EstadoReservaFr : Fragment() {
         binding.DetailOwnerName.text = reserva.ownerName
         binding.DetailDescripcion.text = reserva.fecha
         binding.cantHsDetailPlaceHolder.text = "${reserva.horaEntrada} - ${reserva.horaSalida}"
+        binding.DetailCallButton.setOnClickListener {
+            initiateCall("123456789")
+        }
     }
+
+    private fun initiateCall(phoneNumber: String) {
+        val intent = Intent(Intent.ACTION_DIAL).apply {
+            data = Uri.parse("tel:$phoneNumber")
+        }
+        startActivity(intent)
+    }
+
 
     private fun findCochera(cocheraId: String) {
         db.collection("cocheras").document(cocheraId).get()
