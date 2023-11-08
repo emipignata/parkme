@@ -11,10 +11,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="150dp"
         android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/reservarButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        android:textStyle="bold"
+        android:gravity="center_horizontal"
+        android:paddingHorizontal="30dp"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/reservarButton"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button

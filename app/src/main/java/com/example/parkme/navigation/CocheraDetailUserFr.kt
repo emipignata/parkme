@@ -30,7 +30,7 @@ class CocheraDetailUserFr : Fragment() {
         binding.ownerIdText.text = cochera.direccion
         binding.cocheraDetailText.text = cochera.direccion
         binding.precioPorHoraDetail.text = cochera.price.toString()
-        binding.cocheraOwnerName.text = "Dueño: ${cochera.owner}"
+        binding.cocheraOwnerName.text = "Dueño: ${cochera.ownerName}"
         binding.cocheraDetailText.text = "Detalle de la Cochera: ${cochera.ocupada}"
         Glide.with(requireContext())
             .load(cochera.urlImage)
