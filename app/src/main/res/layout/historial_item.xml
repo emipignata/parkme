@@ -38,9 +38,11 @@
                     android:id="@+id/reserva_linerLayout"
                     android:layout_width="250dp"
                     android:layout_height="175dp"
+                    android:padding="15dp"
                     android:layout_marginTop="8dp"
                     android:orientation="vertical"
                     app:layout_constraintTop_toTopOf="parent"
+
                     tools:layout_editor_absoluteX="11dp">
 
                     <TextView
@@ -48,7 +50,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Direccion"
-                        android:textSize="30dp"
+                        android:textSize="17dp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -98,7 +100,7 @@
                     android:id="@+id/imageView6"
                     android:layout_width="144dp"
                     android:layout_height="160dp"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginRight="13dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
