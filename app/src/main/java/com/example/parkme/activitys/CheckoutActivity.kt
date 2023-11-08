@@ -26,11 +26,17 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts.StartIntentSenderForResult
 import androidx.activity.viewModels
+import androidx.navigation.fragment.navArgs
+import androidx.navigation.navArgs
+import com.bumptech.glide.Glide
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.pay.PayClient
 import com.example.parkme.R
+import com.example.parkme.entities.Cochera
+import com.example.parkme.entities.Pago
+import com.example.parkme.navigation.CocheraDetailUserFrArgs
 import com.example.parkme.navigation.ProductScreen
 import com.example.parkme.viewmodels.CheckoutViewModel
 import com.google.android.gms.wallet.AutoResolveHelper
@@ -42,20 +48,22 @@ import org.json.JSONObject
 class CheckoutActivity : ComponentActivity() {
 
     private val addToGoogleWalletRequestCode = 1000
+    private val args: CheckoutActivityArgs by navArgs()
     private val model: CheckoutViewModel by viewModels()
-
+    private val pago: Pago by lazy { args.Pago } // Use lazy initialization
+    private val contexto = applicationContext
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContent {
             ProductScreen(
-                title = "Men's Tech Shell Full-Zip",
-                description = "A versatile full-zip that you can wear all day long and even...",
-                price = "$50.20",
-                image = R.drawable.auto,
+                title = pago.duenio,
+                description = pago.duenio,
+                price = (pago.precio).toString(),
+                image = "https://i.pinimg.com/originals/16/1a/cf/161acfbe0420d1676dabf4599caebd32.jpg",
                 viewModel = model,
                 googlePayButtonOnClick = { requestPayment() },
                 googleWalletButtonOnClick = { requestSavePass() },
+                contexto = contexto
             )
         }
     }

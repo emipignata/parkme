@@ -16,7 +16,7 @@ class HistorialUserFirestoreAdapter(options: FirestoreRecyclerOptions<Reserva>) 
     override fun onBindViewHolder(holder: ReservaHolder, position: Int, model: Reserva) {
         holder.setCard(model.reservaId, model.usuarioId, model.fecha, model.cocheraId, model.ownerId, model.precio)
         holder.itemView.setOnClickListener {
-            val action = HistorialFrDirections.actionHistorialFrToEstadoReservaFr(Reserva())
+            val action = HistorialFrDirections.actionHistorialFrToEstadoReservaFr(model)
             holder.itemView.findNavController().navigate(action)
         }
     }

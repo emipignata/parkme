@@ -104,8 +104,8 @@
         android:name="com.example.parkme.activitys.CheckoutActivity"
         android:label="CheckoutActivity" >
         <argument
-            android:name="precio"
-            app:argType="float" />
+            android:name="Pago"
+            app:argType="com.example.parkme.entities.Pago" />
     </activity>
 
 

@@ -110,4 +110,7 @@ dependencies {
 
     implementation ("androidx.activity:activity-compose:1.8.0")
 
+
+    implementation ("io.coil-kt:coil-compose:1.4.0") // Use the latest version
+
 }

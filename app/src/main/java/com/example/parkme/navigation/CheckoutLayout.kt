@@ -16,6 +16,7 @@
 
 package com.example.parkme.navigation
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -39,6 +40,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberImagePainter
+import com.bumptech.glide.Glide
 import com.example.parkme.viewmodels.CheckoutViewModel
 import com.example.parkme.R
 import com.example.parkme.utils.PaymentsUtil
@@ -50,11 +53,13 @@ fun ProductScreen(
     title:String,
     description:String,
     price:String,
-    image:Int,
+    image:String,
     viewModel: CheckoutViewModel,
     googlePayButtonOnClick: () -> Unit,
     googleWalletButtonOnClick: () -> Unit,
+    contexto : Context
 ) {
+
     val state by viewModel.state.collectAsState()
     val padding = 20.dp
     val black = Color(0xff000000.toInt())
@@ -73,7 +78,12 @@ fun ProductScreen(
         ) {
             Image(
                 contentDescription = null,
-                painter = painterResource(R.drawable.garaje),
+                painter =  rememberImagePainter(
+                    data = "https://i.pinimg.com/originals/16/1a/cf/161acfbe0420d1676dabf4599caebd32.jpg",
+                    builder = {
+                        crossfade(true)
+                    }
+                ),
                 modifier = Modifier
                     .width(200.dp)
                     .height(200.dp)
@@ -94,11 +104,17 @@ fun ProductScreen(
         ) {
             Image(
                 contentDescription = null,
-                painter = painterResource(image),
-                modifier = Modifier
+                painter = rememberImagePainter(
+                        data = "https://i.pinimg.com/originals/16/1a/cf/161acfbe0420d1676dabf4599caebd32.jpg",
+                builder = {
+                    crossfade(true)
+                }
+            ) ,
+                    modifier = Modifier
                     .fillMaxWidth()
                     .height(350.dp)
             )
+            }
             Text(
                 text = title,
                 color = black,
@@ -138,4 +154,4 @@ fun ProductScreen(
             }
         }
     }
-}
+
