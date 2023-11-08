@@ -18,12 +18,14 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.example.parkme.MainActivity
 import com.example.parkme.R
 import com.example.parkme.databinding.FragmentAgregarCocheraBinding
 import com.example.parkme.entities.Cochera
+import com.example.parkme.entities.User
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
@@ -38,6 +40,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import kotlinx.coroutines.launch
 import java.text.Normalizer
 import java.util.*
 
@@ -54,6 +57,7 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
     private var marker: Marker? = null
     private var imageURL: String = "https://raicesdeperaleda.com/recursos/cache/cochera-1555889699-250x250.jpg"
     private lateinit var binding: FragmentAgregarCocheraBinding
+    private lateinit var ownerName: String
 
     companion object {
         private val TAG = AgregarCocheraFr::class.java.simpleName
@@ -94,6 +98,22 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
             .build(requireContext())
         startAutocomplete.launch(intent)
     }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        // Start fetching the user name early
+        getCurrentUserName { userName ->
+            if (userName != null) {
+                ownerName = userName
+                // If the view is already created, update the UI
+            } else {
+                // Handle the case where the user name couldn't be retrieved
+                Log.d("UserName", "Failed to retrieve the user name.")
+            }
+        }
+    }
+
 
     @SuppressLint("SuspiciousIndentation")
     override fun onCreateView(
@@ -161,6 +181,33 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
         return binding.root
     }
 
+
+    fun getCurrentUserName(onResult: (String?) -> Unit) {
+
+        if (uid == null) {
+            onResult(null) // No user logged in
+            return
+        }
+
+        val db = FirebaseFirestore.getInstance()
+        val usersCollectionRef = db.collection("users")
+
+        usersCollectionRef.document(uid).get()
+            .addOnSuccessListener { documentSnapshot ->
+                if (documentSnapshot != null && documentSnapshot.exists()) {
+                    val user = documentSnapshot.toObject(User::class.java)
+                    onResult(user?.nombre) // Send back the name of the user
+                } else {
+                    onResult(null) // User document doesn't exist
+                }
+            }
+            .addOnFailureListener { exception ->
+                // Handle any errors here
+                onResult(null)
+            }
+    }
+
+
     private fun navegarAMisCocheras(){
         val navController = binding.root.findNavController()
         navController.popBackStack(R.id.navigation_container, false)
@@ -187,7 +234,8 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
                 precioPorHora.toFloatOrNull() ?: 0.0f,
                 imageURL,
                 disponibilidad,
-                uid
+                uid,
+                ownerName
             )
             db.collection("cocheras")
                 .add(cochera)
@@ -244,19 +292,25 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
         val data = hashMapOf("imageUrl" to url)
         db.collection("images")
             .add(data)
-            .addOnSuccessListener {
+            .addOnSuccessListener { documentReference ->
+                // Check if Fragment is added and not destroyed
+                if (isAdded && !isRemoving) {
+                    // Load the image into the ImageView using Glide
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        Glide.with(requireContext())
+                            .load(url)
+                            .into(binding.simpleImageButton)
+                    }
+                }
                 imageURL = url
-                // Load the image into the ImageView using Glide
-                Glide.with(this)
-                    .load(url)
-                    .into(binding.simpleImageButton)
             }
             .addOnFailureListener {
                 // Handle any failures
-                Toast.makeText(context, "Failed to save image URL", Toast.LENGTH_SHORT).show()
+                if (isAdded) {
+                    Toast.makeText(requireContext(), "Failed to save image URL", Toast.LENGTH_SHORT).show()
+                }
             }
     }
-
     private fun fillInAddress(place: Place) {
         val components = place.addressComponents
         val address1 = StringBuilder()

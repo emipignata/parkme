@@ -28,8 +28,9 @@ class ReservaHolder (v: View) : RecyclerView.ViewHolder(v) {
         val cardEndTime: TextView = view.findViewById(R.id.tvReservaCardFinishTime)
         val cardTotalTime: TextView = view.findViewById(R.id.tvReservaCardTotalTime)
         val cardImagen: ImageView = view.findViewById(R.id.imageView6)
+        val cardOwnerName: TextView =  view.findViewById((R.id.tvReservaCardNombreDueno))
 
-        if (reserva.horaSalida == null ){
+        if (reserva.horaSalida == "" ){
             cardEndTime.text = "En curso"
             cardTotalTime.text = "En curso"
         } else {
@@ -40,7 +41,8 @@ class ReservaHolder (v: View) : RecyclerView.ViewHolder(v) {
         cardReservaId.text = reserva.direccion
         cardPrecio.text = ((reserva.precio)*2).toString()
         cardPrecioPorHora.text = reserva.precio.toString()
-        cardStartTime.text = reserva.fecha
+        cardStartTime.text = reserva.horaEntrada
+        cardOwnerName.text = reserva.ownerName
 
         Glide.with(view).load(reserva.urlImage).into(cardImagen)
     }

@@ -30,14 +30,18 @@ import com.google.android.gms.pay.PayClient
 import com.google.android.gms.wallet.AutoResolveHelper
 import com.google.android.gms.wallet.PaymentData
 import com.google.android.gms.wallet.WalletConstants
+import com.google.firebase.Timestamp
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
 import org.json.JSONException
 import org.json.JSONObject
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 
 class ProductFragment : Fragment() {
     private lateinit var binding: FragmentProductBinding
-
+    val db = FirebaseFirestore.getInstance()
     private val model: CheckoutViewModel by viewModels()
     private val args: ProductFragmentArgs by navArgs()
     private val addToGoogleWalletRequestCode = 1000
@@ -83,12 +87,36 @@ class ProductFragment : Fragment() {
     private fun handleState(state: CheckoutViewModel.State) {
         // Here you can handle the state updates, for example:
         if (state.checkoutSuccess) {
-            // Navigate back to the desired fragment using NavController
+            setReservaState()
             findNavController().popBackStack(R.id.historialFr,false)
         }
 
     }
     // Add methods to update UI based on state if needed
+
+    fun extractHour(dateString: String): String {
+        // Define the original pattern of the date string
+        val originalFormat = SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH)
+
+        // Parse the date string into a Date object
+        val date = originalFormat.parse(dateString)
+
+        // Define the new pattern to extract just the hour
+        val hourFormat = SimpleDateFormat("HH", Locale.ENGLISH)
+
+        // Return the formatted hour
+        return hourFormat.format(date)
+    }
+
+    private fun setReservaState(){
+        reserva.horaSalida = extractHour(Timestamp.now().toDate().toString())
+
+        val docRef = db.collection("historial").document(reserva.reservaId)
+        docRef
+            .update("estado", "Finalizada")
+            .addOnSuccessListener { Log.d("TAG", "DocumentSnapshot successfully updated!") }
+            .addOnFailureListener { e -> Log.w("TAG", "Error updating document", e) }
+    }
 
 
     private fun requestPayment() {

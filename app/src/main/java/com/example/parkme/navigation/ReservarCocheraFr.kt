@@ -19,6 +19,8 @@ import com.example.parkme.entities.Reserva
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class ReservarCocheraFr() : Fragment() {
     val args: CocheraDetailUserFrArgs by navArgs()
@@ -45,17 +47,47 @@ class ReservarCocheraFr() : Fragment() {
         return binding.root
     }
 
+
+    fun extractHour(dateString: String): String {
+        // Define the original pattern of the date string
+        val originalFormat = SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH)
+
+        // Parse the date string into a Date object
+        val date = originalFormat.parse(dateString)
+
+        // Define the new pattern to extract just the hour
+        val hourFormat = SimpleDateFormat("HH", Locale.ENGLISH)
+
+        // Return the formatted hour
+        return hourFormat.format(date)
+    }
+
+    fun extractDate(dateString: String): String {
+        // Define the original pattern of the date string
+        val originalFormat = SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH)
+
+        // Parse the date string into a Date object
+        val date = originalFormat.parse(dateString)
+
+        // Define the new pattern to extract just the hour
+        val hourFormat = SimpleDateFormat("MMM", Locale.ENGLISH)
+
+        // Return the formatted hour
+        return hourFormat.format(date)
+    }
+
     private fun addReserva() {
         val cochera: Cochera = args.cochera
         reserva.precio = cochera.price
         reserva.usuarioId = uid.toString()
         reserva.cocheraId = cochera.cocheraId
         reserva.ownerId = cochera.owner
-        reserva.fecha = "2023-10-21"
-        reserva.horaEntrada = Timestamp.now().toDate().toString()
+        reserva.fecha = extractDate(Timestamp.now().toDate().toString())
+        reserva.horaEntrada = extractHour(Timestamp.now().toDate().toString())
         reserva.horaSalida = ""
         reserva.direccion = cochera.direccion
         reserva.urlImage = cochera.urlImage
+        reserva.ownerName = cochera.ownerName
 
         db.collection("historial")
             .add(reserva)

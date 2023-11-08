@@ -80,6 +80,7 @@ class EstadoReservaFr : Fragment() {
         binding.DetailLocation.text = cochera.direccion
         binding.DetailName.text = cochera.nombre
         binding.precioPorHoraDetail.text = cochera.price.toString()
+        binding.DetailOwnerName.text = cochera.ownerName
     }
 
     private fun findUser(ownerId: String) {
