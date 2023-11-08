@@ -54,7 +54,7 @@ class EstadoReservaFr : Fragment() {
         }
 
         // Non-Firestore-dependent initializations
-        binding.DetailOwnerName.text = reserva.ownerId
+        binding.DetailOwnerName.text = reserva.ownerName
         binding.DetailDescripcion.text = reserva.fecha
         binding.cantHsDetailPlaceHolder.text = "${reserva.horaEntrada} - ${reserva.horaSalida}"
     }
