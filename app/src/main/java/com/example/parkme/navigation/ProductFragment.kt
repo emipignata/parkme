@@ -110,12 +110,19 @@ class ProductFragment : Fragment() {
 
     private fun setReservaState(){
         reserva.horaSalida = extractHour(Timestamp.now().toDate().toString())
+        reserva.estado = "Finalizada"
+        val updates = mapOf(
+            "estado" to reserva.estado,
+            "horaSalida" to reserva.horaSalida
+        )
+
+        // Update the Firestore document with the new values
 
         val docRef = db.collection("historial").document(reserva.reservaId)
-        docRef
-            .update("estado", "Finalizada")
+        docRef.update(updates)
             .addOnSuccessListener { Log.d("TAG", "DocumentSnapshot successfully updated!") }
             .addOnFailureListener { e -> Log.w("TAG", "Error updating document", e) }
+
     }
 
 

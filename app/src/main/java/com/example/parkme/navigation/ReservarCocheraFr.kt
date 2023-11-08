@@ -56,7 +56,7 @@ class ReservarCocheraFr() : Fragment() {
         val date = originalFormat.parse(dateString)
 
         // Define the new pattern to extract just the hour
-        val hourFormat = SimpleDateFormat("HH", Locale.ENGLISH)
+        val hourFormat = SimpleDateFormat("HH:mm", Locale.ENGLISH)
 
         // Return the formatted hour
         return hourFormat.format(date)
@@ -70,7 +70,7 @@ class ReservarCocheraFr() : Fragment() {
         val date = originalFormat.parse(dateString)
 
         // Define the new pattern to extract just the hour
-        val hourFormat = SimpleDateFormat("MMM", Locale.ENGLISH)
+        val hourFormat = SimpleDateFormat("MMM dd HH:mm", Locale.ENGLISH)
 
         // Return the formatted hour
         return hourFormat.format(date)
@@ -84,10 +84,11 @@ class ReservarCocheraFr() : Fragment() {
         reserva.ownerId = cochera.owner
         reserva.fecha = extractDate(Timestamp.now().toDate().toString())
         reserva.horaEntrada = extractHour(Timestamp.now().toDate().toString())
-        reserva.horaSalida = ""
+        reserva.horaSalida = "0"
         reserva.direccion = cochera.direccion
         reserva.urlImage = cochera.urlImage
         reserva.ownerName = cochera.ownerName
+        reserva.estado = "CheckIn"
 
         db.collection("historial")
             .add(reserva)
@@ -96,7 +97,7 @@ class ReservarCocheraFr() : Fragment() {
                 reserva.reservaId = reservaId
                 Log.e("ReservaCocheraFr", "Reserva Agregada: $reserva")
                 db.collection("historial").document(reservaId).set(reserva) // Guarda el objeto cochera en Firestore
-                Toast.makeText(requireContext(), "Reserva Agregada: ${reserva.reservaId}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Reserva Agregada", Toast.LENGTH_SHORT).show()
                 val navController = binding.root.findNavController()
                 navController.popBackStack(R.id.navigation_container, false)
                 navController.navigate(R.id.historialFr)

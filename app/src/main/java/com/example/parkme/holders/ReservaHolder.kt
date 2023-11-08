@@ -7,10 +7,8 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.parkme.R
-import com.example.parkme.entities.Cochera
-import com.example.parkme.entities.Pago
 import com.example.parkme.entities.Reserva
-import com.example.parkme.entities.User
+
 
 class ReservaHolder (v: View) : RecyclerView.ViewHolder(v) {
 
@@ -30,7 +28,7 @@ class ReservaHolder (v: View) : RecyclerView.ViewHolder(v) {
         val cardImagen: ImageView = view.findViewById(R.id.imageView6)
         val cardOwnerName: TextView =  view.findViewById((R.id.tvReservaCardNombreDueno))
 
-        if (reserva.horaSalida == "" ){
+        if (reserva.horaSalida == "0" ){
             cardEndTime.text = "En curso"
             cardTotalTime.text = "En curso"
         } else {
@@ -39,8 +37,8 @@ class ReservaHolder (v: View) : RecyclerView.ViewHolder(v) {
         }
 
         cardReservaId.text = reserva.direccion
-        cardPrecio.text = ((reserva.precio)*2).toString()
-        cardPrecioPorHora.text = reserva.precio.toString()
+        cardPrecio.text = "$ Total: " + ((reserva.precio)*2).toString()
+        cardPrecioPorHora.text = "$/Hs: " + reserva.precio.toString()
         cardStartTime.text = reserva.horaEntrada
         cardOwnerName.text = reserva.ownerName
 

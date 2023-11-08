@@ -14,6 +14,8 @@ data class Cochera(
     var ocupada: String,
     val owner: String,
     val ownerName: String,
+    val descripcion: String,
+
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "",
@@ -25,11 +27,12 @@ data class Cochera(
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
+        parcel.readString() ?: "",
         parcel.readString() ?: ""
     )
     // No-argument constructor is added here
     constructor() : this(
-        "", "", "", 0.0, 0.0, 0.0f, "", "desocupada", "", ""
+        "", "", "", 0.0, 0.0, 0.0f, "", "desocupada", "", "", ""
     )
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(cocheraId)
@@ -42,6 +45,7 @@ data class Cochera(
         parcel.writeString(ocupada)
         parcel.writeString(owner)
         parcel.writeString(ownerName)
+        parcel.writeString(descripcion)
     }
 
     override fun describeContents(): Int {

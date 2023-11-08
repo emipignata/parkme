@@ -151,7 +151,7 @@
                         android:id="@+id/cantidadDeHorasDetail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="aqui van la hs"
+                        android:text="Tiempo de Reserva"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.045"
@@ -299,13 +299,13 @@
                 android:layout_marginRight="50dp"
 
         />
+
         <Button
-                android:id="@+id/pagarReserva"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Pagar"
-                android:layout_gravity="center"
-                android:layout_marginLeft="50dp"
-        />
+            android:id="@+id/pagarReserva"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="50dp"
+            android:text="Checkout" />
     </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -222,6 +222,7 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
         val precioPorHora = binding.eTPrecioPorHora.text.toString()
         val direccion = binding.eTDireccion.text.toString()
         val disponibilidad = binding.eTDisponibilidad.text.toString()
+        val descripcion = binding.eTDescripcion.text.toString()
         val lat = coordinates.latitude
         val lng = coordinates.longitude
         if (uid != null) {
@@ -235,7 +236,8 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
                 imageURL,
                 disponibilidad,
                 uid,
-                ownerName
+                ownerName,
+                descripcion
             )
             db.collection("cocheras")
                 .add(cochera)
@@ -247,7 +249,7 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
                         .set(cochera)
                     Toast.makeText(
                         requireContext(),
-                        "Cochera Agregada: ${cochera.cocheraId}",
+                        "Cochera Agregada: ${cochera.nombre}",
                         Toast.LENGTH_SHORT
                     ).show()
                     navegarAMisCocheras()
