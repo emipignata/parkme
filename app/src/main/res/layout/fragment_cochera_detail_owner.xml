@@ -1,88 +1,176 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="15dp"
-        android:scrollbars="vertical"
         tools:context=".MainActivity">
 
 
-    <LinearLayout
-            android:id="@+id/fragment_container_agregarCochera_item_view"
+    <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="150dp"
+            android:layout_marginHorizontal="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@+id/img_item_view"
+            android:layout_marginTop="44dp" android:id="@+id/constraintLayout">
+
 
         <ImageView
-                android:id="@+id/img_item_view"
-                android:layout_width="124dp"
-                android:layout_height="108dp"
-                android:layout_gravity="center"
-                android:layout_margin="20dp"
-                android:clickable="true"/>
-
+                android:id="@+id/unicacionIconContainer"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.056"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.955"
+                app:srcCompat="@drawable/ubicacion"/>
         <TextView
                 android:id="@+id/tVNombreCochera_item_view"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Nombre Cochera"
-                android:maxLength="@integer/ETNombreCocheraLength"/>
+                android:layout_marginStart="20dp"
+                android:text="Nombre Cochera"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0"/>
         <TextView
                 android:id="@+id/tVDireccion_item_view"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Direccion"
-                android:maxLength="@integer/ETNombreCocheraLength"/>
+                android:layout_marginStart="20dp"
+                android:text="Buenos Aires"
+                android:textSize="12dp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.096"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.962"/>
+        <TextView
+                android:id="@+id/precioPorHoraDetailPlaceHolder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Precio x Hs: $"
+                android:textSize="14dp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.07"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.274"/>
+        <TextView
+                android:id="@+id/currentUserText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nombre dueño Cochera"
+                android:textSize="14dp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.09"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.503"/>
+        <TextView
+                android:id="@+id/tVDisponibilidadItemViewPlaceholder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Disponibilidad Cochera: "
+                android:textSize="14dp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.092"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.709"/>
+        <TextView
+                android:id="@+id/tVDisponibilidadItemView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="9Hs"
+                android:textSize="14dp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.709" app:layout_constraintHorizontal_bias="0.505"/>
         <TextView
                 android:id="@+id/tVprecioPorHoraContainer_item_view"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Precio x Hora"
-                android:maxLength="@integer/ETNombreCocheraLength"/>
-        <TextView
-                android:id="@+id/tVDescripcion_item_view"
-                android:layout_width="match_parent"
+                android:text="1200"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                android:textColor="@color/md_theme_dark_inversePrimary"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintVertical_bias="0.257"
+                app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.356"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+            android:id="@+id/cochera_detail_buttons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout" app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+                android:id="@+id/button_volver_item_view"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:hint="Descripcion"
-                android:maxLength="@integer/ETNombreCocheraLength"/>
-        <TextView
-                android:id="@+id/tVDisponibilidad_item_view"
-                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:text="Volver"/>
+        <Button
+                android:id="@+id/button_editar_item_view"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:hint="Disponibilidad"
-                android:layout_marginBottom="30dp"
-                android:maxLength="@integer/ETNombreCocheraLength"/>
-
-
-        <LinearLayout
-                android:layout_marginTop="0dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                >
-            <Button
-                    android:id="@+id/button_volver_item_view"
-                    android:layout_width="110dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="3dp"
-                    android:text="Volver"/>
-            <Button
-                    android:id="@+id/button_editar_item_view"
-                    android:layout_width="110dp"
-                    android:layout_margin="3dp"
-                    android:layout_height="wrap_content"
-
-                    android:text="Editar"/>
-
-            <Button
-                    android:id="@+id/button_eliminar_item_view"
-                    android:layout_width="110dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="3dp"
-                    android:text="Eliminar"/>
-        </LinearLayout>
-
+                android:layout_weight="1"
+                android:text="Editar"/>
+        <Button
+                android:id="@+id/button_eliminar_item_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Eliminar"/>
     </LinearLayout>
-</ScrollView>
+
+    <ImageView
+            android:id="@+id/img_item_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/cars"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.154"/>
+    <TextView
+            android:id="@+id/tVDescripcion_item_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem pellentesque velit donec congue. Lorem ipsum dolor sit amet,  "
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/cochera_detail_buttons"
+            android:layout_marginBottom="16dp" app:layout_constraintTop_toBottomOf="@+id/img_item_view"
+            app:layout_constraintHorizontal_bias="0.6" app:layout_constraintVertical_bias="1.0"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

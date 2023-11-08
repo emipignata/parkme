@@ -17,6 +17,8 @@
 package com.example.parkme.navigation
 
 import android.content.Context
+import android.app.Activity
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -35,6 +37,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -43,10 +46,14 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
 import com.bumptech.glide.Glide
 import com.example.parkme.viewmodels.CheckoutViewModel
+import androidx.core.content.ContextCompat.startActivity
+import androidx.navigation.NavController
+import com.example.parkme.MainActivity
 import com.example.parkme.R
 import com.example.parkme.utils.PaymentsUtil
 import com.google.pay.button.PayButton
 import com.google.wallet.button.WalletButton
+
 
 @Composable
 fun ProductScreen(
@@ -60,6 +67,7 @@ fun ProductScreen(
     contexto : Context
 ) {
 
+    val activity = LocalContext.current as Activity
     val state by viewModel.state.collectAsState()
     val padding = 20.dp
     val black = Color(0xff000000.toInt())
@@ -89,7 +97,9 @@ fun ProductScreen(
                     .height(200.dp)
             )
             Text(text = "Pago completado ! Ya puede retirarse del garaje")
-            Button(onClick = {})
+            Button(onClick = {
+                activity.finish()
+            })
             {
                     Text("Volver")
             }
