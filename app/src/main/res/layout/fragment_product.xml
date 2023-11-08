@@ -45,10 +45,27 @@
         android:text="product_description"
         android:textColor="#000000" />
 
-    <Button
-        android:id="@+id/googlePayButton"
-        android:layout_width="wrap_content"
+
+    <LinearLayout
+        android:id="@+id/cochera_detail_buttons"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Pay with Google" />
+        android:layout_margin="20dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/button_volver_pago"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Volver"/>
+
+        <Button
+            android:id="@+id/googlePayButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:text="Pay with Google" />
+    </LinearLayout>
 
 </LinearLayout>

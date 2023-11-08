@@ -15,6 +15,7 @@ import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
@@ -60,6 +61,11 @@ class ProductFragment : Fragment() {
 
         binding.googlePayButton.setOnClickListener {
             requestPayment()
+        }
+
+        val volverButton: Button = binding.buttonVolverPago
+        volverButton.setOnClickListener {
+            binding.root.findNavController().navigateUp()
         }
 
         binding.productTitle.text = reserva.direccion
