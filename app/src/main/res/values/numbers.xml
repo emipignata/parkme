@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="ETNombreCocheraLength">16</integer>
-    <integer name="ETDireccionLength">30</integer>
+    <integer name="ETDireccionLength">50</integer>
     <integer name="ETDescripcionLength">50</integer>
     <integer name="ETDisponibilidadLength">50</integer>
 </resources>

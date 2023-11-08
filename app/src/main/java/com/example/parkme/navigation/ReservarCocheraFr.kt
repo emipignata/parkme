@@ -37,8 +37,13 @@ class ReservarCocheraFr() : Fragment() {
         fragmentManager = requireActivity().supportFragmentManager
         reserva = Reserva()
 
+        val volverButton: Button = binding.cocheraReservarVolverButton
+        volverButton.setOnClickListener {
+            binding.root.findNavController().navigateUp()
+        }
+
         val pagarText = binding.root.findViewById<TextView>(R.id.detalleReservaText)
-        pagarText.text = "Usted va a realizar la reserva: ${reserva}"
+        pagarText.text = "Usted está por asumir el compromiso de utilizar y cuidar este espacio. ¿Está seguro que quiere realizar la reserva?" // ${reserva}
 
         val reservarButton = binding.root.findViewById<Button>(R.id.reservarButton)
         reservarButton.setOnClickListener{
