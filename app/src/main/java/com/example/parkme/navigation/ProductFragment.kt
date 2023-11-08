@@ -15,6 +15,7 @@ import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
@@ -62,9 +63,15 @@ class ProductFragment : Fragment() {
             requestPayment()
         }
 
-        binding.productTitle.text = pago.duenio
-        binding.productPrice.text = pago.precio.toString()
-        binding.productDescription.text = pago.reserva.estado
+        val volverButton: Button = binding.buttonVolverPago
+        volverButton.setOnClickListener {
+            binding.root.findNavController().navigateUp()
+        }
+
+        binding.productTitle.text = reserva.direccion
+        binding.productPrice.text = "\$pago.precio.toString()"
+        binding.productDescription.text = "Detalle de la operacion: \n Desde: ${reserva.horaEntrada}hs \n" +
+                " Hasta: ${reserva.horaSalida}hs"
 
         Glide.with(this)
             .load(reserva.urlImage)
