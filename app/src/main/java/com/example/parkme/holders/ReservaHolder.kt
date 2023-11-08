@@ -1,12 +1,10 @@
 package com.example.parkme.holders
 
 import android.view.View
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.parkme.R
-import com.bumptech.glide.Glide
 
 class ReservaHolder (v: View) : RecyclerView.ViewHolder(v) {
 
@@ -17,12 +15,12 @@ class ReservaHolder (v: View) : RecyclerView.ViewHolder(v) {
 
 
     fun setCard(reservaId: String, usuarioId: String, fecha: String, cocheraId: String, ownerId: String, precio: Float) {
-        val cardReservaId: TextView = view.findViewById(R.id.reserva_reservaIdTextView)
-        val cardUsuarioId: TextView = view.findViewById(R.id.reserva_usuarioIdTextView)
-        val cardFecha: TextView = view.findViewById(R.id.reserva_fechaTextView)
-        val cardCocheraId: TextView = view.findViewById(R.id.reserva_cocheraIdTextView)
-        val cardOwnerId: TextView = view.findViewById(R.id.reserva_ownerIdTextView)
-        val cardPrecio: TextView = view.findViewById(R.id.reserva_precioTextView)
+        val cardReservaId: TextView = view.findViewById(R.id.tvReservaCardAddress)
+        val cardUsuarioId: TextView = view.findViewById(R.id.tvReservaCardTotalPrice)
+        val cardFecha: TextView = view.findViewById(R.id.tvReservaCardPricePerHour)
+        val cardCocheraId: TextView = view.findViewById(R.id.tvReservaCardStartTime)
+        val cardOwnerId: TextView = view.findViewById(R.id.tvReservaCardFinishTime)
+        val cardPrecio: TextView = view.findViewById(R.id.tvReservaCardTotalTime)
 
         cardReservaId.text = reservaId
         cardUsuarioId.text = usuarioId

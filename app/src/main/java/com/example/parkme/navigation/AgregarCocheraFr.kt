@@ -6,18 +6,15 @@ import android.app.Activity.RESULT_CANCELED
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.content.res.Resources.NotFoundException
-import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
-import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
@@ -39,6 +36,8 @@ import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import java.text.Normalizer
 import java.util.*
 
@@ -47,15 +46,14 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
 
     private val db = FirebaseFirestore.getInstance()
     private val uid = FirebaseAuth.getInstance().currentUser?.uid
+    private var storageReference = FirebaseStorage.getInstance().reference
     private lateinit var mapPanel: View
     private var mapFragment: SupportMapFragment? = null
     private lateinit var coordinates: LatLng
     private var map: GoogleMap? = null
     private var marker: Marker? = null
-    private var checkProximity = false
+    private var imageURL: String = "https://raicesdeperaleda.com/recursos/cache/cochera-1555889699-250x250.jpg"
     private lateinit var binding: FragmentAgregarCocheraBinding
-    private var deviceLocation: LatLng? = null
-    private val acceptedProximity = 150.0
 
     companion object {
         private val TAG = AgregarCocheraFr::class.java.simpleName
@@ -133,6 +131,7 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
                 isNombreCocheraValid == true && isPrecioPorHoraValid && isDireccionValid == true && isDescripcionValid == true && isDisponibilidadValid == true
 
         }
+
         disponibilidadFocusListener()
         descripcionFocusListener()
         nombreCocheraFocusListener()
@@ -186,7 +185,7 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
                 lat,
                 lng,
                 precioPorHora.toFloatOrNull() ?: 0.0f,
-                "https://raicesdeperaleda.com/recursos/cache/cochera-1555889699-250x250.jpg", // URL de imagen (cambia a la URL correcta)
+                imageURL,
                 disponibilidad,
                 uid
             )
@@ -209,27 +208,53 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
                     Log.w("ExploreFr", "Error al agregar el documento", e)
                 }
         }
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK) {
-            // Get the image URI from the result
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK) {
             val imageUri = data?.data
             imageUri?.let {
-                //uploadImageToFirebaseStorage(it)
-                guardarImagen(it)
+                uploadImageToFirebaseStorage(it)
+                //guardarImagen(it)
             }
         }
     }
 
-    private fun guardarImagen(it: Uri) {
-        val imageButton = view?.findViewById<ImageView>(R.id.simpleImageButton)
-        if (imageButton != null) {
-            Glide.with(this).load(it).into(imageButton)
-        }
+    private fun uploadImageToFirebaseStorage(uri: Uri) {
+        val filename = UUID.randomUUID().toString()
+        Log.e("ExploreFr", "uploadImageToFirebaseStorage: $filename")
+        val ref = storageReference.child("images/$filename")
+        Log.e("ExploreFr", "uploadImageToFirebaseStorage: $ref")
+        ref.putFile(uri)
+            .addOnSuccessListener {
+                ref.downloadUrl.addOnSuccessListener { downloadUri ->
+                    Log.e("ExploreFr", "uploadImageToFirebaseStorage: $downloadUri")
+                    // Save the image URL to Firestore
+                    saveImageURLToFirestore(downloadUri.toString())
+                }
+            }
+            .addOnFailureListener {
+                // Handle unsuccessful uploads
+                Toast.makeText(context, "Failed to upload image", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    private fun saveImageURLToFirestore(url: String) {
+        val data = hashMapOf("imageUrl" to url)
+        db.collection("images")
+            .add(data)
+            .addOnSuccessListener {
+                imageURL = url
+                // Load the image into the ImageView using Glide
+                Glide.with(this)
+                    .load(url)
+                    .into(binding.simpleImageButton)
+            }
+            .addOnFailureListener {
+                // Handle any failures
+                Toast.makeText(context, "Failed to save image URL", Toast.LENGTH_SHORT).show()
+            }
     }
 
     private fun fillInAddress(place: Place) {

@@ -1,6 +1,8 @@
 package com.example.parkme.navigation
 
 import android.Manifest
+import android.app.Activity
+import android.content.ContentValues.TAG
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Looper
@@ -9,6 +11,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -29,6 +33,10 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.model.TypeFilter
+import com.google.android.libraries.places.widget.Autocomplete
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -63,6 +71,67 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
                 }
             }
         }
+    }
+
+    private var startAutocompleteIntentListener = View.OnClickListener { view: View ->
+        view.setOnClickListener(null)
+        startAutocompleteIntent()
+    }
+
+    private val startAutocomplete = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result: ActivityResult ->
+        binding.searchBar.setOnClickListener(startAutocompleteIntentListener)
+        if (result.resultCode == Activity.RESULT_OK) {
+            val intent = result.data
+            if (intent != null) {
+                val place = Autocomplete.getPlaceFromIntent(intent)
+                Log.d(TAG, "Place: " + place.addressComponents)
+                fillInAddress(place)
+            }
+        } else if (result.resultCode == Activity.RESULT_CANCELED) {
+            Log.i(TAG, "User canceled autocomplete")
+        }
+    }
+
+    private fun fillInAddress(place: Place) {
+        val components = place.addressComponents
+        val address1 = StringBuilder()
+        val postcode = StringBuilder()
+        if (components != null) {
+            for (component in components.asList()) {
+                when (component.types[0]) {
+                    "street_number" -> {
+                        address1.insert(0, component.name)
+                    }
+                    "route" -> {
+                        address1.append(" ")
+                        address1.append(component.shortName)
+                    }
+                    "postal_code" -> {
+                        postcode.insert(0, component.name)
+                    }
+                    "postal_code_suffix" -> {
+                        postcode.append("-").append(component.name)
+                    }
+                }
+            }
+        }
+        binding.searchBar.clearFocus()
+        binding.searchBar.setText(address1.toString())
+    }
+
+    private fun startAutocompleteIntent() {
+        val fields = listOf(
+            Place.Field.ADDRESS_COMPONENTS,
+            Place.Field.LAT_LNG, Place.Field.VIEWPORT
+        )
+        val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
+            .setCountries(listOf("AR"))
+            //TODO: https://developers.google.com/maps/documentation/places/android-sdk/autocomplete
+            .setTypesFilter(listOf(TypeFilter.ADDRESS.toString().lowercase()))
+            .build(requireContext())
+        startAutocomplete.launch(intent)
     }
 
     override fun onCreateView(
@@ -105,8 +174,8 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
                 val location = LatLng(marker.lat, marker.lng)
                 val markerOptions = MarkerOptions()
                     .position(location)
-                    .title(marker.nombre)
-                    .snippet(marker.direccion)
+                    .title(marker.direccion)
+                    .snippet("\$ " + marker.price.toString())
                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_icon32))
                     .draggable(true)
                     .visible(true)

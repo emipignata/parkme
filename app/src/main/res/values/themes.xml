@@ -6,5 +6,14 @@
 
     </style>
 
+    <style name="Widget.App.AutocompleteEditText" parent="Widget.MaterialComponents.AutoCompleteTextView.FilledBox">
+        <!-- Add attributes here to style your view similarly to SearchBar -->
+        <!-- For example: -->
+        <item name="android:background">@color/design_default_color_primary</item>
+        <item name="android:textColor">@color/quantum_white_100</item>
+        <item name="android:inputType">text</item>
+        <!-- You may need to define more attributes or even a new style to perfectly match the SearchBar's look -->
+    </style>
+
     <style name="Theme.Parkme" parent="Base.Theme.Parkme" />
 </resources>
