@@ -32,14 +32,14 @@ class ReservaHolder (v: View) : RecyclerView.ViewHolder(v) {
             cardEndTime.text = "En curso"
             cardTotalTime.text = "En curso"
         } else {
-            cardEndTime.text = reserva.horaSalida
-            cardTotalTime.text = reserva.horaSalida
+            cardEndTime.text = "Hs Salida: " + reserva.horaSalida
+            cardTotalTime.text = "Hs Salida: " + reserva.horaSalida
         }
 
         cardReservaId.text = reserva.direccion
         cardPrecio.text = "$ Total: " + ((reserva.precio)*2).toString()
         cardPrecioPorHora.text = "$/Hs: " + reserva.precio.toString()
-        cardStartTime.text = reserva.horaEntrada
+        cardStartTime.text = "Hs Entrada: " + reserva.horaEntrada
         cardOwnerName.text = reserva.ownerName
 
         Glide.with(view).load(reserva.urlImage).into(cardImagen)
