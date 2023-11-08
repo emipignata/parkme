@@ -16,15 +16,17 @@
         android:id="@+id/product_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="TITULO"
+        android:textColor="#000000"
         android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="#000000" />
+        android:textStyle="bold" />
 
     <!-- TextView for Price -->
     <TextView
         android:id="@+id/product_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Precio"
         android:textColor="#000000" />
 
     <!-- TextView for Description Title -->

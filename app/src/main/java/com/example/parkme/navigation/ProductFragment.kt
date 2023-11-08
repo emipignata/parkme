@@ -62,9 +62,10 @@ class ProductFragment : Fragment() {
             requestPayment()
         }
 
-        binding.productTitle.text = pago.duenio
-        binding.productPrice.text = pago.precio.toString()
-        binding.productDescription.text = pago.reserva.estado
+        binding.productTitle.text = reserva.direccion
+        binding.productPrice.text = "\$pago.precio.toString()"
+        binding.productDescription.text = "Detalle de la operacion: \n Desde: ${reserva.horaEntrada}hs \n" +
+                " Hasta: ${reserva.horaSalida}hs"
 
         Glide.with(this)
             .load(reserva.urlImage)
