@@ -39,15 +39,15 @@ class EstadoReservaFr : Fragment() {
         Log.e("Estado Resservaaaaaaaaaaaa: ", reserva.ownerId)
         findUser(reserva.ownerId)
 
-
         botonVolver.setOnClickListener{
             binding.root.findNavController().navigateUp()
 
         }
+
         botonPagar.setOnClickListener{
-            val pago = Pago(reserva,reserva.ownerId,reserva.fecha, Timestamp.now(),
-                Timestamp.now(),100.1)
-            binding.root.findNavController().navigate(EstadoReservaFrDirections.actionEstadoReservaFrToCheckoutActivity(pago))
+            val pago = Pago(reserva,reserva.ownerId,reserva.fecha, reserva.fecha,
+                reserva.fecha,100.1)
+            binding.root.findNavController().navigate(EstadoReservaFrDirections.actionEstadoReservaFrToProductFragment(pago, reserva))
         }
 
 

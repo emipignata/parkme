@@ -1,10 +1,16 @@
 package com.example.parkme.holders
 
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.parkme.R
+import com.example.parkme.entities.Cochera
+import com.example.parkme.entities.Pago
+import com.example.parkme.entities.Reserva
+import com.example.parkme.entities.User
 
 class ReservaHolder (v: View) : RecyclerView.ViewHolder(v) {
 
@@ -13,22 +19,30 @@ class ReservaHolder (v: View) : RecyclerView.ViewHolder(v) {
         this.view = v
     }
 
+    fun setCard(reserva: Reserva) {
 
-    fun setCard(reservaId: String, usuarioId: String, fecha: String, cocheraId: String, ownerId: String, precio: Float) {
         val cardReservaId: TextView = view.findViewById(R.id.tvReservaCardAddress)
-        val cardUsuarioId: TextView = view.findViewById(R.id.tvReservaCardTotalPrice)
-        val cardFecha: TextView = view.findViewById(R.id.tvReservaCardPricePerHour)
-        val cardCocheraId: TextView = view.findViewById(R.id.tvReservaCardStartTime)
-        val cardOwnerId: TextView = view.findViewById(R.id.tvReservaCardFinishTime)
-        val cardPrecio: TextView = view.findViewById(R.id.tvReservaCardTotalTime)
+        val cardPrecio: TextView = view.findViewById(R.id.tvReservaCardTotalPrice)
+        val cardPrecioPorHora: TextView = view.findViewById(R.id.tvReservaCardPricePerHour)
+        val cardStartTime: TextView = view.findViewById(R.id.tvReservaCardStartTime)
+        val cardEndTime: TextView = view.findViewById(R.id.tvReservaCardFinishTime)
+        val cardTotalTime: TextView = view.findViewById(R.id.tvReservaCardTotalTime)
+        val cardImagen: ImageView = view.findViewById(R.id.imageView6)
 
-        cardReservaId.text = reservaId
-        cardUsuarioId.text = usuarioId
-        cardFecha.text = fecha
-        cardCocheraId.text = cocheraId
-        cardOwnerId.text = ownerId
-        cardPrecio.text = precio.toString()
+        if (reserva.horaSalida == null ){
+            cardEndTime.text = "En curso"
+            cardTotalTime.text = "En curso"
+        } else {
+            cardEndTime.text = reserva.horaSalida
+            cardTotalTime.text = reserva.horaSalida
+        }
 
+        cardReservaId.text = reserva.direccion
+        cardPrecio.text = ((reserva.precio)*2).toString()
+        cardPrecioPorHora.text = reserva.precio.toString()
+        cardStartTime.text = reserva.fecha
+
+        Glide.with(view).load(reserva.urlImage).into(cardImagen)
     }
 
     fun getCardLayout(): CardView {

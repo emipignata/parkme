@@ -7,8 +7,8 @@ data class Pago(
     val reserva: Reserva,
     val duenio: String,
     val fecha: String,
-    val horaEntrada: Timestamp,
-    val horaSalida: Timestamp,
+    val horaEntrada: String,
+    val horaSalida: String,
     val precio: Double
 ) : Parcelable {
 
@@ -16,8 +16,8 @@ data class Pago(
          parcel.readParcelable(Reserva::class.java.classLoader)!!,
         parcel.readString()?: "",
         parcel.readString()?: "",
-        parcel.readParcelable(Timestamp::class.java.classLoader)!! ,
-         parcel.readParcelable(Timestamp::class.java.classLoader)!!,
+        parcel.readString()?: "",
+        parcel.readString()?: "",
          parcel.readDouble(),
     )
 
@@ -25,8 +25,8 @@ data class Pago(
         parcel.writeParcelable(reserva,flags)
         parcel.writeString(duenio)
         parcel.writeString(fecha)
-        parcel.writeParcelable(horaEntrada,flags)
-        parcel.writeParcelable(horaSalida,flags)
+        parcel.writeString(horaEntrada)
+        parcel.writeString(horaSalida)
         parcel.writeDouble(precio)
     }
 

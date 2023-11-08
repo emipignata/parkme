@@ -5,16 +5,28 @@ import android.view.ViewGroup
 import androidx.navigation.findNavController
 import com.example.parkme.R
 import com.example.parkme.entities.Cochera
+import com.example.parkme.entities.Pago
 import com.example.parkme.entities.Reserva
+import com.example.parkme.entities.User
 import com.example.parkme.holders.ReservaHolder
 import com.example.parkme.navigation.HistorialFrDirections
 import com.example.parkme.navigation.MisCocherasFrDirections
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.google.android.gms.tasks.Tasks
+import com.google.firebase.Timestamp
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.toObject
+
 class HistorialUserFirestoreAdapter(options: FirestoreRecyclerOptions<Reserva>) :
     FirestoreRecyclerAdapter<Reserva, ReservaHolder>(options) {
+    val db = FirebaseFirestore.getInstance()
+    private lateinit var pago: Pago
     override fun onBindViewHolder(holder: ReservaHolder, position: Int, model: Reserva) {
-        holder.setCard(model.reservaId, model.usuarioId, model.fecha, model.cocheraId, model.ownerId, model.precio)
+
+        holder.setCard(model)
+
         holder.itemView.setOnClickListener {
             val action = HistorialFrDirections.actionHistorialFrToEstadoReservaFr(model)
             holder.itemView.findNavController().navigate(action)

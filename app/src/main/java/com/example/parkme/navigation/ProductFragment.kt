@@ -1,72 +1,95 @@
-/*
- * Copyright 2023 Google Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-package com.example.parkme.activitys
+package com.example.parkme.navigation
 
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.IntentSenderRequest
-import androidx.activity.result.contract.ActivityResultContracts.StartIntentSenderForResult
-import androidx.activity.viewModels
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.navigation.navArgs
 import com.bumptech.glide.Glide
+import com.example.parkme.R
+import com.example.parkme.databinding.FragmentProductBinding
+import com.example.parkme.entities.Pago
+import com.example.parkme.entities.Reserva
+import com.example.parkme.viewmodels.CheckoutViewModel
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.pay.PayClient
-import com.example.parkme.R
-import com.example.parkme.entities.Cochera
-import com.example.parkme.entities.Pago
-import com.example.parkme.navigation.CocheraDetailUserFrArgs
-import com.example.parkme.navigation.ProductScreen
-import com.example.parkme.viewmodels.CheckoutViewModel
 import com.google.android.gms.wallet.AutoResolveHelper
 import com.google.android.gms.wallet.PaymentData
 import com.google.android.gms.wallet.WalletConstants
+import kotlinx.coroutines.launch
 import org.json.JSONException
 import org.json.JSONObject
 
-class CheckoutActivity : ComponentActivity() {
 
-    private val addToGoogleWalletRequestCode = 1000
-    private val args: CheckoutActivityArgs by navArgs()
+class ProductFragment : Fragment() {
+    private lateinit var binding: FragmentProductBinding
+
     private val model: CheckoutViewModel by viewModels()
-    private val pago: Pago by lazy { args.Pago } // Use lazy initialization
-    private val contexto = applicationContext
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            ProductScreen(
-                title = pago.duenio,
-                description = pago.duenio,
-                price = (pago.precio).toString(),
-                image = "https://i.pinimg.com/originals/16/1a/cf/161acfbe0420d1676dabf4599caebd32.jpg",
-                viewModel = model,
-                googlePayButtonOnClick = { requestPayment() },
-                googleWalletButtonOnClick = { requestSavePass() },
-                contexto = contexto
-            )
-        }
+    private val args: ProductFragmentArgs by navArgs()
+    private val addToGoogleWalletRequestCode = 1000
+    private val pago: Pago by lazy { args.pago }
+    private val reserva: Reserva by lazy { args.reserva }
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentProductBinding.inflate(layoutInflater, container, false)
+        return binding.root
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.googlePayButton.setOnClickListener {
+            requestPayment()
+        }
+
+        binding.productTitle.text = pago.duenio
+        binding.productPrice.text = pago.precio.toString()
+        binding.productDescription.text = pago.reserva.estado
+
+        Glide.with(this)
+            .load(reserva.urlImage)
+            .into(binding.productImage)
+
+        // Observe ViewModel LiveData or StateFlow and update UI accordingly
+        // viewModel.state.observe(viewLifecycleOwner) { state ->
+        //     update UI based on state
+        // }
+
+        //        findNavController().navigate(R.id.action_productFragment_to_successFragment)
+        lifecycleScope.launch {
+            model.state.collect { state ->
+                handleState(state)
+            }
+        }
+        // Handle button clicks and other interactions
+    }
+
+    private fun handleState(state: CheckoutViewModel.State) {
+        // Here you can handle the state updates, for example:
+        if (state.checkoutSuccess) {
+            // Navigate back to the desired fragment using NavController
+            findNavController().popBackStack(R.id.historialFr,false)
+        }
+
+    }
+    // Add methods to update UI based on state if needed
+
 
     private fun requestPayment() {
         // Disables the button to prevent multiple clicks.
@@ -109,47 +132,23 @@ class CheckoutActivity : ComponentActivity() {
 
     // Handle potential conflict from calling loadPaymentData
     private val resolvePaymentForResult =
-        registerForActivityResult(StartIntentSenderForResult()) { result: ActivityResult ->
+        registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result: ActivityResult ->
             when (result.resultCode) {
-                RESULT_OK ->
+                ComponentActivity.RESULT_OK ->
                     result.data?.let { intent ->
                         PaymentData.getFromIntent(intent)?.let(::handlePaymentSuccess)
                     }
 
                 WalletConstants.RESULT_ERROR -> {
                     val status = AutoResolveHelper.getStatusFromIntent(result.data)
-                    /**
-                     * Use the information in the intent to react to the error appropriately.
-                     * Learn more at: https://developers.google.com/pay/api/android/support/troubleshooting
-                     * For example:
-                     * when (status?.statusCode) {
-                     *     WalletConstants.ERROR_CODE_DEVELOPER_ERROR -> {
-                     *         // Handle DEVELOPER_ERROR. Not expected on production. Consider
-                     *         // informing the user and reporting the issue to your error services.
-                     *     }
-                     *     else -> {
-                     *         // Transient or internal error. Inspect the message and report the issue
-                     *         // to your error reporting or telemetry services. Inform the user and
-                     *         // provide an alternative payment method.
-                     *     }
-                     * }
-                     */
                 }
 
-                RESULT_CANCELED -> {
+                ComponentActivity.RESULT_CANCELED -> {
                     // The user cancelled the payment attempt
                 }
             }
         }
 
-    /**
-     * PaymentData response object contains the payment information, as well as any additional
-     * requested information, such as billing and shipping address.
-     *
-     * @param paymentData A response object returned by Google after a payer approves payment.
-     * @see [Payment
-     * Data](https://developers.google.com/pay/api/android/reference/object.PaymentData)
-     */
     private fun handlePaymentSuccess(paymentData: PaymentData) {
         val paymentInformation = paymentData.toJson()
 
@@ -162,7 +161,7 @@ class CheckoutActivity : ComponentActivity() {
             Log.d("BillingName", billingName)
 
             Toast.makeText(
-                this,
+                context,
                 getString(R.string.payments_show_name, billingName),
                 Toast.LENGTH_LONG
             ).show()
@@ -181,42 +180,24 @@ class CheckoutActivity : ComponentActivity() {
         }
     }
 
-    /**
-     * At this stage, the user has already seen a popup informing them an error occurred. Normally,
-     * only logging is required.
-     *
-     * @param statusCode will hold the value of any constant from CommonStatusCode or one of the
-     * WalletConstants.ERROR_CODE_* constants.
-     * @see [
-     * Wallet Constants Library](https://developers.google.com/android/reference/com/google/android/gms/wallet/WalletConstants.constant-summary)
-     */
     private fun handleError(statusCode: Int, message: String?) {
         Log.e("Google Pay API error", "Error code: $statusCode, Message: $message")
     }
 
-    private fun requestSavePass() {
-
-        // Disables the button to prevent multiple clicks.
-        model.setGoogleWalletButtonClickable(false)
-
-        model.savePassesJwt(model.genericObjectJwt, this, addToGoogleWalletRequestCode)
-    }
-
-    @Deprecated("Deprecated and in use by Google Pay")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == addToGoogleWalletRequestCode) {
             when (resultCode) {
-                RESULT_OK -> Toast
+                ComponentActivity.RESULT_OK -> Toast
                     .makeText(
-                        this,
+                        context,
                         getString(R.string.add_google_wallet_success),
                         Toast.LENGTH_LONG
                     )
                     .show()
 
-                RESULT_CANCELED -> {
+                ComponentActivity.RESULT_CANCELED -> {
                     // Save canceled
                 }
 
@@ -237,4 +218,5 @@ class CheckoutActivity : ComponentActivity() {
 
         }
     }
+
 }

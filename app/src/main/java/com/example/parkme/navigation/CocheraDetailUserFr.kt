@@ -35,6 +35,7 @@ class CocheraDetailUserFr : Fragment() {
 
         Glide.with(requireContext())
             .load(cochera.urlImage)
+            .centerCrop()
             .into(binding.imageView2)
 
         val volverButton: Button = binding.CocheraDetailVolverButton

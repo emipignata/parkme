@@ -75,8 +75,8 @@
             android:name="reserva"
             app:argType="com.example.parkme.entities.Reserva" />
         <action
-            android:id="@+id/action_estadoReservaFr_to_checkoutActivity"
-            app:destination="@id/checkoutActivity" />
+            android:id="@+id/action_estadoReservaFr_to_productFragment"
+            app:destination="@id/productFragment" />
     </fragment>
     <fragment
             android:id="@+id/agregarCocheraFr"
@@ -99,14 +99,17 @@
               android:label="CocheraOwnerEditFr" android:id="@+id/cocheraOwnerEditFr">
         <argument android:name="cochera" app:argType="com.example.parkme.entities.Cochera"/>
     </fragment>
-    <activity
-        android:id="@+id/checkoutActivity"
-        android:name="com.example.parkme.activitys.CheckoutActivity"
-        android:label="CheckoutActivity" >
+    <fragment
+        android:id="@+id/productFragment"
+        android:name="com.example.parkme.navigation.ProductFragment"
+        android:label="ProductFragment" >
         <argument
-            android:name="Pago"
+            android:name="pago"
             app:argType="com.example.parkme.entities.Pago" />
-    </activity>
+        <argument
+            android:name="reserva"
+            app:argType="com.example.parkme.entities.Reserva" />
+    </fragment>
 
 
 </navigation>

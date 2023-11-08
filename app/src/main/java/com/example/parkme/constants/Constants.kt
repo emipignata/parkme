@@ -18,25 +18,6 @@ package com.example.parkme.constants
 
 import com.google.android.gms.wallet.WalletConstants
 
-/**
- * This file contains several constants you must edit before proceeding.
- * Please take a look at PaymentsUtil.java to see where the constants are used and to potentially
- * remove ones not relevant to your integration.
- *
- *
- * Required changes:
- *
- *  1.  Update SUPPORTED_NETWORKS and SUPPORTED_METHODS if required (consult your processor if
- * unsure)
- *  1.  Update CURRENCY_CODE to the currency you use.
- *  1.  Update SHIPPING_SUPPORTED_COUNTRIES to list the countries where you currently ship. If this
- * is not applicable to your app, remove the relevant bits from PaymentsUtil.java.
- *  1.  If you're integrating with your `PAYMENT_GATEWAY`, update
- * PAYMENT_GATEWAY_TOKENIZATION_NAME and PAYMENT_GATEWAY_TOKENIZATION_PARAMETERS per the
- * instructions they provided. You don't need to update DIRECT_TOKENIZATION_PUBLIC_KEY.
- *  1.  If you're using `DIRECT` integration, please edit protocol version and public key as
- * per the instructions.
- */
 object Constants {
     /**
      * Changing this to ENVIRONMENT_PRODUCTION will make the API return chargeable card information.
@@ -75,14 +56,14 @@ object Constants {
      *
      * @value #COUNTRY_CODE Your local country
      */
-    const val COUNTRY_CODE = "US"
+    const val COUNTRY_CODE = "AR"
 
     /**
      * Required by the API, but not visible to the user.
      *
      * @value #CURRENCY_CODE Your local currency
      */
-    const val CURRENCY_CODE = "USD"
+    const val CURRENCY_CODE = "ARS"
 
     /**
      * Supported countries for shipping (use ISO 3166-1 alpha-2 country codes). Relevant only when
@@ -90,7 +71,6 @@ object Constants {
      *
      * @value #SHIPPING_SUPPORTED_COUNTRIES
      */
-    val SHIPPING_SUPPORTED_COUNTRIES = listOf("US", "GB")
 
     /**
      * The name of your payment processor/gateway. Please refer to their documentation for more
