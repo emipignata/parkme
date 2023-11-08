@@ -43,42 +43,54 @@
                     tools:layout_editor_absoluteX="11dp">
 
                     <TextView
-                        android:id="@+id/reserva_reservaIdTextView"
+                        android:id="@+id/tvReservaCardAddress"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="TextView"
+                        android:text="Direccion"
                         android:textSize="30dp"
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/reserva_usuarioIdTextView"
+                        android:id="@+id/tvReservaCardTotalPrice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="TextView" />
+                        android:text="Importe Total" />
 
                     <TextView
-                        android:id="@+id/reserva_fechaTextView"
+                        android:id="@+id/tvReservaCardPricePerHour"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="TextView" />
+                        android:text="Precio por hora" />
 
                     <TextView
-                        android:id="@+id/reserva_cocheraIdTextView"
+                        android:id="@+id/tvReservaCardStartTime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="TextView" />
+                        android:text="hora_de_ingreso" />
 
                     <TextView
-                        android:id="@+id/reserva_ownerIdTextView"
+                        android:id="@+id/tvReservaCardFinishTime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="TextView" />
+                        android:text="hora_de_egreso" />
 
                     <TextView
-                        android:id="@+id/reserva_precioTextView"
+                        android:id="@+id/tvReservaCardTotalTime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="TextView" />
+                        android:text="tiempo total" />
+
+                    <TextView
+                        android:id="@+id/tvReservaCardNombreDueno"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="nombre_dueño" />
+
+                    <TextView
+                        android:id="@+id/tvReservaCardTelDueno"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="tel_dueno" />
                 </LinearLayout>
 
                 <ImageView

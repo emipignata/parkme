@@ -7,7 +7,8 @@ import androidx.appcompat.widget.AppCompatEditText
 
 class AutocompleteEditText : AppCompatEditText {
     constructor(context: Context?) : super(context!!) {}
-    constructor(context: Context?, attrs: AttributeSet?) : super(
+    constructor(context: Context?, attrs: AttributeSet?)
+            : super(
         context!!, attrs
     ) {
     }

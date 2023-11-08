@@ -12,17 +12,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/search_bar">
+        app:layout_constraintBottom_toTopOf="@id/map_container">
 
+        <com.google.android.material.search.SearchBar
+            android:id="@+id/search_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="encontrá tu parkme" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <com.google.android.material.search.SearchBar
-        android:id="@+id/search_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="encontrá tu parkme"
-        app:layout_constraintTop_toBottomOf="@id/appBarLayout"
-        app:layout_constraintBottom_toTopOf="@id/map_container"/>
 
     <FrameLayout
         android:id="@+id/map_container"
@@ -31,7 +29,7 @@
         android:layout_marginTop="15dp"
         android:layout_marginBottom="35dp"
         android:background="@color/md_theme_dark_onSecondaryContainer"
-        app:layout_constraintTop_toBottomOf="@id/search_bar">
+        app:layout_constraintTop_toBottomOf="@id/appBarLayout">
         <fragment
             android:id="@+id/map"
             android:name="com.google.android.gms.maps.SupportMapFragment"
