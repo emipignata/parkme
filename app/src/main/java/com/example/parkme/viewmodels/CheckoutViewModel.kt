@@ -34,6 +34,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import org.json.JSONObject
+import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
+import com.example.parkme.R
+
 
 class CheckoutViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -58,6 +63,8 @@ class CheckoutViewModel(application: Application) : AndroidViewModel(application
         fetchCanUseGooglePay()
         fetchCanAddPassesToGoogleWallet()
     }
+
+
 
     /**
      * Determine the user's ability to pay with a payment method supported by your app and display
@@ -87,10 +94,28 @@ class CheckoutViewModel(application: Application) : AndroidViewModel(application
      * @see [](https://developers.google.com/android/reference/com/google/android/gms/wallet/PaymentsClient#loadPaymentData(com.google.android.gms.wallet.PaymentDataRequest)
     ) */
     fun getLoadPaymentDataTask(priceCents: Long): Task<PaymentData> {
-        val paymentDataRequestJson = PaymentsUtil.getPaymentDataRequest(priceCents)
+
+        // Assuming priceCents is already in the smallest currency unit (like cents for USD)
+        // Convert to a string format expected by Google Pay API, which is a decimal number as a string
+
+        // Obtain the base request from the utility class and modify necessary fields
+        val baseRequest = PaymentsUtil.getPaymentDataRequest(priceCents).toString()
+
+        // Convert it to a mutable JSONObject
+        val paymentDataRequestJson = JSONObject(baseRequest)
+
+        // Modify the "transactionInfo" to add currency code for Argentina "ARS" and pric
+
+        // Specify that the shipping address is not required
+        paymentDataRequestJson.put("shippingAddressRequired", false)
+
+        // Create the PaymentDataRequest object from the modified JSON
         val request = PaymentDataRequest.fromJson(paymentDataRequestJson.toString())
+
+        // Start the payment task with the updated request
         return paymentsClient.loadPaymentData(request)
     }
+
 
     /**
      * Determine whether the API to save passes to Google Pay is available on the device.

@@ -9,21 +9,29 @@ data class Reserva(
     var cocheraId: String,
     var ownerId: String,
     var estado: String,
-    var precio: Float
-
+    var precio: Float,
+    var horaEntrada: String,
+    var horaSalida: String,
+    var direccion: String,
+    var urlImage: String
 ) : Parcelable {
         constructor(parcel: Parcel) : this(
+    parcel.readString() ?: "",
+    parcel.readString() ?: "",
         parcel.readString() ?: "",
-        parcel.readString() ?: "",
-        parcel.readString() ?: "",
-        parcel.readString() ?: "",
-        parcel.readString() ?: "",
+    parcel.readString() ?: "",
+    parcel.readString() ?: "",
+    parcel.readString() ?: "",
+            parcel.readFloat(),
             parcel.readString() ?: "",
-        parcel.readFloat()
+parcel.readString() ?: "",
+parcel.readString() ?: "",
+parcel.readString() ?: "",
+
         )
         // No-argument constructor is added here
         constructor() : this(
-        "", "", "", "", "", "",0.0f
+        "", "", "", "", "", "",0.0f, "","", "", ""
         )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -34,6 +42,10 @@ data class Reserva(
         parcel.writeString(ownerId)
         parcel.writeString(estado)
         parcel.writeFloat(precio)
+        parcel.writeString(horaEntrada)
+        parcel.writeString(horaSalida)
+        parcel.writeString(direccion)
+        parcel.writeString(urlImage)
     }
 
     override fun describeContents(): Int {

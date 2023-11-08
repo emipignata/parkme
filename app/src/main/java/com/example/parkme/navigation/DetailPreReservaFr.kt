@@ -29,7 +29,7 @@ class DetailPreReservaFr : Fragment() {
         val cocheraDetailText: TextView = binding.cocheraDetailText
         cocheraDetailText.text = "Cochera Details: ${cochera}"
 
-        val currentUserText: TextView = binding.currentUserText
+        val currentUserText: TextView = binding.cocheraOwnerName
         currentUserText.text = "CurrentUserId: $uid"
 
         val ownerIdText: TextView = binding.ownerIdText

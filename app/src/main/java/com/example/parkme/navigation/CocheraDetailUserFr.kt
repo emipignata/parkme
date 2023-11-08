@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
 import com.example.parkme.databinding.FragmentCocheraDetailBinding
 import com.example.parkme.entities.Cochera
 import com.google.firebase.auth.FirebaseAuth
@@ -26,14 +27,15 @@ class CocheraDetailUserFr : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentCocheraDetailBinding.inflate(inflater, container, false)
-        val cocheraDetailText: TextView = binding.cocheraDetailText
-        cocheraDetailText.text = "Cochera Details: ${cochera}"
-
-        val currentUserText: TextView = binding.currentUserText
-        currentUserText.text = "CurrentUserId: $uid"
-
-        val ownerIdText: TextView = binding.ownerIdText
-        ownerIdText.text = "OwnerId: ${cochera.owner}"
+        binding.ownerIdText.text = cochera.direccion
+        binding.cocheraDetailText.text = cochera.direccion
+        binding.precioPorHoraDetail.text = cochera.price.toString()
+        binding.cocheraOwnerName.text = "Dueño: ${cochera.owner}"
+        binding.cocheraDetailText.text = "Detalle de la Cochera: ${cochera.ocupada}"
+        Glide.with(requireContext())
+            .load(cochera.urlImage)
+            .centerCrop()
+            .into(binding.imageView2)
 
         val volverButton: Button = binding.CocheraDetailVolverButton
         val reservarButton: Button = binding.CocheraDetailReservarButton

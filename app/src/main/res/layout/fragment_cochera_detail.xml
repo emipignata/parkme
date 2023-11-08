@@ -13,8 +13,10 @@
             android:layout_height="150dp"
             android:layout_marginHorizontal="20dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@+id/imageView2"
-            android:layout_marginTop="44dp" android:id="@+id/constraintLayout">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView2"
+            android:layout_marginTop="44dp"
+            android:id="@+id/constraintLayout">
 
 
         <ImageView
@@ -86,7 +88,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.427"/>
         <TextView
-                android:id="@+id/currentUserText"
+                android:id="@+id/cocheraOwnerName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Nombre dueño Cochera"
@@ -130,24 +132,27 @@
     </LinearLayout>
 
     <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/cars"
-            android:id="@+id/imageView2"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="0.154"/>
+        android:id="@+id/imageView2"
+        android:layout_width="350dp"
+        android:layout_height="250dp"
+        android:adjustViewBounds="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.15"
+        app:srcCompat="@drawable/cars" />
+
     <TextView
-            android:id="@+id/cocheraDetailText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem pellentesque velit donec congue. Lorem ipsum dolor sit amet, consectetur adipiscing elit pellentesque Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/cochera_detail_buttons"
-            android:layout_marginBottom="16dp" app:layout_constraintTop_toBottomOf="@+id/imageView2"
-            app:layout_constraintHorizontal_bias="0.6" app:layout_constraintVertical_bias="1.0"/>
+        android:id="@+id/cocheraDetailText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:text="Descripcion de la cochera"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/cochera_detail_buttons"
+        android:layout_marginBottom="16dp" app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        app:layout_constraintHorizontal_bias="0.6" app:layout_constraintVertical_bias="1.0"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

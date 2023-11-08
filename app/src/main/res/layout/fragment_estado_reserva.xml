@@ -15,6 +15,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="200sp"
                 android:orientation="horizontal"
+                android:src="@drawable/cars"
                 app:layoutManager="com.google.android.material.carousel.CarouselLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

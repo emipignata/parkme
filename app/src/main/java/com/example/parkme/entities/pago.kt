@@ -1,37 +1,29 @@
 package com.example.parkme.entities
 import android.os.Parcel
 import android.os.Parcelable
+import com.google.firebase.Timestamp
 
 data class Pago(
-    val reservaId: String,
-    val usuarioId: String,
+    val reserva: Reserva,
+    val duenio: String,
     val fecha: String,
     val horaEntrada: String,
     val horaSalida: String,
     val precio: Double
 ) : Parcelable {
 
-    constructor(
-        reservaId: String,
-        usuarioId: String,
-        fecha: String,
-        horaEntrada: String,
-        horaSalida: String
-    ) : this(reservaId, usuarioId, fecha, horaEntrada, horaSalida, 0.0)
-
-    // Constructor secundario para Parcelable
     constructor(parcel: Parcel) : this(
+         parcel.readParcelable(Reserva::class.java.classLoader)!!,
         parcel.readString()?: "",
         parcel.readString()?: "",
-        parcel.readString() ?: "",
-        parcel.readString() ?: "",
-        parcel.readString() ?: "",
-        parcel.readDouble()
+        parcel.readString()?: "",
+        parcel.readString()?: "",
+         parcel.readDouble(),
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(reservaId)
-        parcel.writeString(usuarioId)
+        parcel.writeParcelable(reserva,flags)
+        parcel.writeString(duenio)
         parcel.writeString(fecha)
         parcel.writeString(horaEntrada)
         parcel.writeString(horaSalida)
@@ -44,12 +36,12 @@ data class Pago(
 
     companion object {
         @JvmField
-        val CREATOR: Parcelable.Creator<Reserva> = object : Parcelable.Creator<Reserva> {
-            override fun createFromParcel(parcel: Parcel): Reserva {
-                return Reserva(parcel)
+        val CREATOR: Parcelable.Creator<Pago> = object : Parcelable.Creator<Pago> {
+            override fun createFromParcel(parcel: Parcel): Pago {
+                return Pago(parcel)
             }
 
-            override fun newArray(size: Int): Array<Reserva?> {
+            override fun newArray(size: Int): Array<Pago?> {
                 return arrayOfNulls(size)
             }
         }

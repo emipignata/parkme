@@ -57,18 +57,18 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.10.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("androidx.databinding:databinding-runtime:8.1.2")
+    implementation("androidx.databinding:databinding-runtime:8.1.3")
 
     //NAVIGATION implementations
-    implementation("androidx.navigation:navigation-fragment-ktx:2.7.4")
-    implementation("androidx.navigation:navigation-ui-ktx:2.7.4")
-    implementation("androidx.navigation:navigation-dynamic-features-fragment:2.7.4")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.7.5")
+    implementation("androidx.navigation:navigation-ui-ktx:2.7.5")
+    implementation("androidx.navigation:navigation-dynamic-features-fragment:2.7.5")
 
     // Firebase
     implementation("com.google.firebase:firebase-auth:22.2.0")
-    implementation("com.google.firebase:firebase-firestore:24.9.0")
+    implementation("com.google.firebase:firebase-firestore:24.9.1")
     implementation("com.google.firebase:firebase-auth-ktx:22.2.0")
-    implementation("com.google.firebase:firebase-firestore-ktx:24.9.0")
+    implementation("com.google.firebase:firebase-firestore-ktx:24.9.1")
     implementation("com.firebaseui:firebase-ui-firestore:7.2.0")
     implementation("com.google.firebase:firebase-storage:20.3.0")
 
@@ -86,7 +86,7 @@ dependencies {
     // Networking
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("com.google.code.gson:gson:2.9.0")
+    implementation("com.google.code.gson:gson:2.9.1")
 
 
     // Testing
@@ -96,7 +96,7 @@ dependencies {
 
     // Miscellaneous
     implementation("androidx.activity:activity-ktx:1.8.0")
-    implementation("androidx.fragment:fragment-ktx:1.6.1")
+    implementation("androidx.fragment:fragment-ktx:1.6.2")
 
     //Gplaystore y Gpay
     implementation ("com.google.android.gms:play-services-wallet:19.2.1")
@@ -110,4 +110,5 @@ dependencies {
 
     implementation ("androidx.activity:activity-compose:1.8.0")
 
+    implementation ("io.coil-kt:coil-compose:2.4.0") // Use the latest version
 }

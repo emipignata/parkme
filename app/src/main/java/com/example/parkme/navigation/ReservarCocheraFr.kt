@@ -16,6 +16,7 @@ import com.example.parkme.R
 import com.example.parkme.databinding.FragmentReservarCocheraBinding
 import com.example.parkme.entities.Cochera
 import com.example.parkme.entities.Reserva
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -51,6 +52,10 @@ class ReservarCocheraFr() : Fragment() {
         reserva.cocheraId = cochera.cocheraId
         reserva.ownerId = cochera.owner
         reserva.fecha = "2023-10-21"
+        reserva.horaEntrada = Timestamp.now().toDate().toString()
+        reserva.horaSalida = ""
+        reserva.direccion = cochera.direccion
+        reserva.urlImage = cochera.urlImage
 
         db.collection("historial")
             .add(reserva)
