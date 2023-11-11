@@ -237,7 +237,8 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
                 disponibilidad,
                 uid,
                 ownerName,
-                descripcion
+                descripcion,
+                true
             )
             db.collection("cocheras")
                 .add(cochera)

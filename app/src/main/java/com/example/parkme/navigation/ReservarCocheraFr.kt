@@ -28,6 +28,7 @@ class ReservarCocheraFr() : Fragment() {
     private lateinit var fragmentManager: FragmentManager
     private val db = FirebaseFirestore.getInstance()
     private val uid = FirebaseAuth.getInstance().currentUser?.uid
+    private val cochera: Cochera by lazy { args.cochera }
     private lateinit var reserva: Reserva
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -106,6 +107,9 @@ class ReservarCocheraFr() : Fragment() {
                 val navController = binding.root.findNavController()
                 navController.popBackStack(R.id.navigation_container, false)
                 navController.navigate(R.id.historialFr)
+                cochera.available = false
+                db.collection("cocheras").document(cochera.cocheraId)
+                    .set(cochera)
             }
             .addOnFailureListener { e ->
                 Log.w("ReservaCocheraFr", "Error al agregar el documento", e)

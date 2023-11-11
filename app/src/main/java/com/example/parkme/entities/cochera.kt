@@ -1,7 +1,9 @@
 package com.example.parkme.entities
 
+import android.os.Build
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.annotation.RequiresApi
 
 data class Cochera(
     var cocheraId: String,
@@ -15,8 +17,9 @@ data class Cochera(
     val owner: String,
     val ownerName: String,
     val descripcion: String,
-
+    var available : Boolean
 ) : Parcelable {
+    @RequiresApi(Build.VERSION_CODES.Q)
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "",
         parcel.readString() ?: "",
@@ -28,12 +31,14 @@ data class Cochera(
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
-        parcel.readString() ?: ""
+        parcel.readString() ?: "",
+        parcel.readBoolean()
     )
     // No-argument constructor is added here
     constructor() : this(
-        "", "", "", 0.0, 0.0, 0.0f, "", "desocupada", "", "", ""
+        "", "", "", 0.0, 0.0, 0.0f, "", "desocupada", "", "", "",true
     )
+    @RequiresApi(Build.VERSION_CODES.Q)
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(cocheraId)
         parcel.writeString(nombre)
@@ -46,6 +51,7 @@ data class Cochera(
         parcel.writeString(owner)
         parcel.writeString(ownerName)
         parcel.writeString(descripcion)
+        parcel.writeBoolean(available)
     }
 
     override fun describeContents(): Int {
@@ -55,6 +61,7 @@ data class Cochera(
     companion object {
         @JvmField
         val CREATOR: Parcelable.Creator<Cochera> = object : Parcelable.Creator<Cochera> {
+            @RequiresApi(Build.VERSION_CODES.Q)
             override fun createFromParcel(parcel: Parcel): Cochera {
                 return Cochera(parcel)
             }
