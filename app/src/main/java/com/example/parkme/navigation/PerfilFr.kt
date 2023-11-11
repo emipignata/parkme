@@ -46,7 +46,7 @@ class PerfilFr : Fragment() {
                 binding.profileEmail.text = user?.email
                 Glide
                     .with(binding.root.context)
-                    .load(user?.urlImage)
+                    .load(user?.urlImage).circleCrop()
                     .into(binding.profileImage)
             }
         }
