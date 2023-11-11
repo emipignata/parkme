@@ -49,7 +49,6 @@ class ProductFragment : Fragment() {
     private val addToGoogleWalletRequestCode = 1000
     private val pago: Pago by lazy { args.pago }
     private val reserva: Reserva by lazy { args.reserva }
-    private val cochera: Cochera by lazy { args.cochera }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -97,9 +96,25 @@ class ProductFragment : Fragment() {
         // Here you can handle the state updates, for example:
         if (state.checkoutSuccess) {
             setReservaState()
+            setCocheraState()
             findNavController().popBackStack(R.id.historialFr,false)
         }
 
+    }
+
+    private fun setCocheraState() {
+        val cochera = db.collection("cocheras").document(reserva.cocheraId)
+        cochera
+            .update("available", true)
+            .addOnSuccessListener {
+                // Update successful
+                // You can handle success here if needed
+            }
+            .addOnFailureListener { e ->
+                // Handle any errors that occurred during the update
+                // You can log the error or handle it as needed
+                println("Error updating document: $e")
+            }
     }
     // Add methods to update UI based on state if needed
 
@@ -124,8 +139,6 @@ class ProductFragment : Fragment() {
             "estado" to reserva.estado,
             "horaSalida" to reserva.horaSalida
         )
-
-        // Update the Firestore document with the new values
 
         val docRef = db.collection("historial").document(reserva.reservaId)
         docRef.update(updates)
