@@ -96,9 +96,25 @@ class ProductFragment : Fragment() {
         // Here you can handle the state updates, for example:
         if (state.checkoutSuccess) {
             setReservaState()
+            setCocheraState()
             findNavController().popBackStack(R.id.historialFr,false)
         }
 
+    }
+
+    private fun setCocheraState() {
+        val cochera = db.collection("cocheras").document(reserva.cocheraId)
+        cochera
+            .update("available", true)
+            .addOnSuccessListener {
+                // Update successful
+                // You can handle success here if needed
+            }
+            .addOnFailureListener { e ->
+                // Handle any errors that occurred during the update
+                // You can log the error or handle it as needed
+                println("Error updating document: $e")
+            }
     }
     // Add methods to update UI based on state if needed
 
@@ -123,18 +139,7 @@ class ProductFragment : Fragment() {
             "estado" to reserva.estado,
             "horaSalida" to reserva.horaSalida
         )
-        val cochera = db.collection("cocheras").document(reserva.cocheraId)
-        cochera
-            .update("available", true)
-            .addOnSuccessListener {
-                // Update successful
-                // You can handle success here if needed
-            }
-            .addOnFailureListener { e ->
-                // Handle any errors that occurred during the update
-                // You can log the error or handle it as needed
-                println("Error updating document: $e")
-            }
+
         val docRef = db.collection("historial").document(reserva.reservaId)
         docRef.update(updates)
             .addOnSuccessListener { Log.d("TAG", "DocumentSnapshot successfully updated!") }
