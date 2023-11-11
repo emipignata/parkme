@@ -178,8 +178,13 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
                     .snippet("\$ " + marker.price.toString())
                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_icon32))
                     .draggable(true)
-                    .visible(true)
 
+                if(marker.available) {
+                    markerOptions.visible(true)
+                }
+                else{
+                    markerOptions.visible(false)
+                }
                 val googleMarker = googleMap.addMarker(markerOptions)
                 if (googleMarker != null) {
                     googleMarker.tag = marker

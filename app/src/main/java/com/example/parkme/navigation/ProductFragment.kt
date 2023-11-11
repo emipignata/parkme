@@ -21,6 +21,7 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.parkme.R
 import com.example.parkme.databinding.FragmentProductBinding
+import com.example.parkme.entities.Cochera
 import com.example.parkme.entities.Pago
 import com.example.parkme.entities.Reserva
 import com.example.parkme.viewmodels.CheckoutViewModel
@@ -48,6 +49,7 @@ class ProductFragment : Fragment() {
     private val addToGoogleWalletRequestCode = 1000
     private val pago: Pago by lazy { args.pago }
     private val reserva: Reserva by lazy { args.reserva }
+    private val cochera: Cochera by lazy { args.cochera }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
