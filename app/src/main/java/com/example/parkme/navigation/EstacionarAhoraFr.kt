@@ -16,12 +16,11 @@ import com.example.parkme.R
 import com.example.parkme.databinding.FragmentEstacionarAhoraBinding
 import com.example.parkme.entities.Cochera
 import com.example.parkme.entities.Reserva
+import com.example.parkme.entities.User
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
-import java.time.Instant
-import java.time.temporal.ChronoUnit
 import java.util.Locale
 
 class EstacionarAhoraFr() : Fragment() {
@@ -31,60 +30,30 @@ class EstacionarAhoraFr() : Fragment() {
     private val db = FirebaseFirestore.getInstance()
     private val uid = FirebaseAuth.getInstance().currentUser?.uid
     private val cochera: Cochera by lazy { args.cochera }
+    private lateinit var user: User
     private lateinit var reserva: Reserva
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentEstacionarAhoraBinding.inflate(inflater, container, false)
         fragmentManager = requireActivity().supportFragmentManager
-        reserva = Reserva()
-
-        val volverButton: Button = binding.cocheraReservarVolverButton
-        volverButton.setOnClickListener {
-            binding.root.findNavController().navigateUp()
-        }
-
-        binding.root.findViewById<TextView>(R.id.detalleReservaText)
-
-        val reservarButton = binding.root.findViewById<Button>(R.id.reservarButton)
-        reservarButton.setOnClickListener{
-            addReserva()
-        }
+        getUserState()
         return binding.root
-    }
-    private fun addHoursToTimestamp(plusHours : Long) : String{
-        val seconds: Long = Timestamp.now().seconds
-        val addedSeconds = Instant.ofEpochSecond(seconds).plus(plusHours, ChronoUnit.HOURS).epochSecond
-        val newTimeStamp = Timestamp(addedSeconds, 0)
-        return newTimeStamp.toDate().toString()
     }
 
     fun extractHour(dateString: String): String {
-        // Define the original pattern of the date string
         val originalFormat = SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH)
-
-        // Parse the date string into a Date object
         val date = originalFormat.parse(dateString)
-
-        // Define the new pattern to extract just the hour
         val hourFormat = SimpleDateFormat("HH:mm", Locale.ENGLISH)
-
-        // Return the formatted hour
         return hourFormat.format(date)
     }
 
     fun extractDate(dateString: String): String {
-        // Define the original pattern of the date string
         val originalFormat = SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH)
-
-        // Parse the date string into a Date object
         val date = originalFormat.parse(dateString)
-
-        // Define the new pattern to extract just the hour
         val hourFormat = SimpleDateFormat("dd MMM HH:mm", Locale.ENGLISH)
-
-        // Return the formatted hour
         return hourFormat.format(date)
     }
 
@@ -123,4 +92,60 @@ class EstacionarAhoraFr() : Fragment() {
             }
     }
 
+    private fun setBinding() {
+        reserva = Reserva()
+        if (user.reservaInCheckIn != "") {
+            binding.estacionarAhoraButton.isEnabled = false
+            binding.estacionarAhoraButton.text = getString(R.string.ya_tiene_una_reserva_en_curso)
+        } else {
+            binding.estacionarAhoraButton.isEnabled = true
+            binding.estacionarAhoraButton.text = getString(R.string.estacionar_ahora)
+            binding.estacionarAhoraButton.setOnClickListener{
+                addReserva()
+                setUserState()
+            }
+            binding.cocheraReservarVolverButton.setOnClickListener {
+                binding.root.findNavController().navigateUp()
+            }
+        }
+        //binding.root.findViewById<TextView>(R.id.detalleReservaText)
+    }
+
+    private fun getUserState() {
+        if (uid != null) {
+            db.collection("users").document(uid)
+                .get()
+                .addOnSuccessListener { document ->
+                    if (document != null) {
+                        user = document.toObject(User::class.java)!!
+                        setBinding()
+                    } else {
+                        Log.d("ReservaCocheraFr", "No such document")
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    Log.d("ReservaCocheraFr", "get failed with ", exception)
+                }
+        }
+    }
+
+    private fun setUserState() {
+        if (uid != null) {
+            db.collection("users").document(uid)
+                .get()
+                .addOnSuccessListener { document ->
+                    if (document != null) {
+                        user = document.toObject(User::class.java)!!
+                        user.reservaInCheckIn = cochera.cocheraId
+                        db.collection("users").document(uid).set(user)
+                    } else {
+                        Log.d("ReservaCocheraFr", "No such document")
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    Log.d("ReservaCocheraFr", "get failed with ", exception)
+                }
+        }
+
+    }
 }

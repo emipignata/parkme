@@ -13,43 +13,25 @@ import com.example.parkme.R
 import com.example.parkme.databinding.FragmentProgramarReservaBinding
 import com.example.parkme.entities.Cochera
 import com.example.parkme.entities.Reserva
+import com.example.parkme.entities.User
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class ProgramarReservaFr : Fragment() {
     private lateinit var binding : FragmentProgramarReservaBinding
-    val args: CocheraDetailUserFrArgs by navArgs()
+    private val args: CocheraDetailUserFrArgs by navArgs()
     private val cochera: Cochera by lazy { args.cochera }
     private val uid = FirebaseAuth.getInstance().currentUser?.uid
     private val db = FirebaseFirestore.getInstance()
-    private lateinit var dateSelected : String
+    private lateinit var user: User
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentProgramarReservaBinding.inflate(inflater, container, false)
-
-        binding.etProgramarReservaFechaDesde.setOnClickListener {
-            showDatePicker(isStartDate = true)
-        }
-
-        binding.etProgramarReservaFechaHasta.setOnClickListener {
-            showDatePicker(isStartDate = false)
-        }
-
-        binding.etProgramarReservaHoraDesde.setOnClickListener {
-            showTimePicker(isStartTime = true)
-        }
-
-        binding.etProgramarReservaHoraHasta.setOnClickListener {
-            showTimePicker(isStartTime = false)
-        }
-
-        binding.btnProgramarReservaConfirmar.setOnClickListener {
-            confirmarReserva()
-        }
+        getUserState()
         return binding.root
     }
 
@@ -85,7 +67,7 @@ class ProgramarReservaFr : Fragment() {
     }
 
     private fun confirmarReserva() {
-        var reserva = Reserva(
+        val reserva = Reserva(
             "",
             uid.toString(),
             Timestamp.now().toDate().toString(),
@@ -93,10 +75,10 @@ class ProgramarReservaFr : Fragment() {
             cochera.owner,
             "Reservada",
             cochera.price,
-            "",
-            "",
-            "",
-            "",
+            binding.etProgramarReservaFechaDesde.text.toString(),
+            binding.etProgramarReservaHoraDesde.text.toString(),
+            binding.etProgramarReservaFechaHasta.text.toString(),
+            binding.etProgramarReservaHoraHasta.text.toString(),
             cochera.direccion,
             cochera.urlImage,
             cochera.ownerName
@@ -119,4 +101,82 @@ class ProgramarReservaFr : Fragment() {
                 Log.w("ReservaCocheraFr", "Error al agregar el documento", e)
             }
     }
+
+    private fun setBinding() {
+        if (user.reservaInReservada != "") {
+            binding.btnProgramarReservaConfirmar.isEnabled = false
+            binding.btnProgramarReservaConfirmar.text = getString(R.string.ya_tiene_una_reserva)
+            binding.etProgramarReservaFechaDesde.isEnabled = false
+            binding.etProgramarReservaFechaHasta.isEnabled = false
+            binding.etProgramarReservaHoraDesde.isEnabled = false
+            binding.etProgramarReservaHoraHasta.isEnabled = false
+
+        } else {
+            binding.btnProgramarReservaConfirmar.isEnabled = true
+            binding.btnProgramarReservaConfirmar.text = getString(R.string.confirmar_reserva)
+            binding.etProgramarReservaFechaDesde.isEnabled = true
+            binding.etProgramarReservaFechaHasta.isEnabled = true
+            binding.etProgramarReservaHoraDesde.isEnabled = true
+            binding.etProgramarReservaHoraHasta.isEnabled = true
+            binding.etProgramarReservaFechaDesde.setOnClickListener {
+                showDatePicker(isStartDate = true)
+            }
+
+            binding.etProgramarReservaFechaHasta.setOnClickListener {
+                showDatePicker(isStartDate = false)
+            }
+
+            binding.etProgramarReservaHoraDesde.setOnClickListener {
+                showTimePicker(isStartTime = true)
+            }
+
+            binding.etProgramarReservaHoraHasta.setOnClickListener {
+                showTimePicker(isStartTime = false)
+            }
+
+            binding.btnProgramarReservaConfirmar.setOnClickListener {
+                confirmarReserva()
+                setUserState()
+            }
+        }
+    }
+
+    private fun getUserState() {
+        if (uid != null) {
+            db.collection("users").document(uid)
+                .get()
+                .addOnSuccessListener { document ->
+                    if (document != null) {
+                        user = document.toObject(User::class.java)!!
+                        setBinding()
+                    } else {
+                        Log.d("ReservaCocheraFr", "No such document")
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    Log.d("ReservaCocheraFr", "get failed with ", exception)
+                }
+        }
+    }
+
+    private fun setUserState() {
+        if (uid != null) {
+            db.collection("users").document(uid)
+                .get()
+                .addOnSuccessListener { document ->
+                    if (document != null) {
+                        user = document.toObject(User::class.java)!!
+                        user.reservaInReservada = cochera.cocheraId
+                        db.collection("users").document(uid).set(user)
+                    } else {
+                        Log.d("ReservaCocheraFr", "No such document")
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    Log.d("ReservaCocheraFr", "get failed with ", exception)
+                }
+        }
+
+    }
+
 }

@@ -11,8 +11,8 @@ data class User(
     val historial: List<Message> = emptyList(),
     val cocheras: List<Cochera> = emptyList(),
     val urlImage: String = "",
-    val reservaInCheckIn: String = "",
-    val reservaInReservada: String = ""
+    var reservaInCheckIn: String = "",
+    var reservaInReservada: String = ""
 
 ) : Parcelable {
     constructor(source: Parcel) : this(

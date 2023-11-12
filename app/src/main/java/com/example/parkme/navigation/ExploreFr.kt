@@ -55,7 +55,7 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        locationRequest = LocationRequest.create().apply {
+        locationRequest = LocationRequest.create()?.apply {
             interval = 10000 // Update interval in milliseconds
             fastestInterval = 5000 // Fastest update interval in milliseconds
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
@@ -71,6 +71,19 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
                 }
             }
         }
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentExploreMapBinding.inflate(inflater, container, false)
+        mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+        mapFragment.getMapAsync(this)
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
+        fragmentManager = requireActivity().supportFragmentManager
+
+        return binding.root
     }
 
     private var startAutocompleteIntentListener = View.OnClickListener { view: View ->
@@ -132,19 +145,6 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
             .setTypesFilter(listOf(TypeFilter.ADDRESS.toString().lowercase()))
             .build(requireContext())
         startAutocomplete.launch(intent)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentExploreMapBinding.inflate(inflater, container, false)
-        mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
-        mapFragment.getMapAsync(this)
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
-        fragmentManager = requireActivity().supportFragmentManager
-
-        return binding.root
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
