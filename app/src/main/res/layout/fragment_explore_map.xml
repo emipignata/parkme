@@ -21,7 +21,6 @@
             android:hint="@string/frg_explore_map_encontra" />
     </com.google.android.material.appbar.AppBarLayout>
 
-
     <FrameLayout
         android:id="@+id/map_container"
         android:layout_width="match_parent"

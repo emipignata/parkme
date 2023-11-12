@@ -46,8 +46,8 @@ class EstadoReservaFr : Fragment() {
 
     private fun setupUI() {
         binding.pagarReserva.setOnClickListener {
-            val pago = Pago(reserva, reserva.ownerId, reserva.fecha, reserva.fecha,
-                reserva.fecha, 100.1)
+            val pago = Pago(reserva, reserva.ownerId, reserva.fechaCreacion, reserva.fechaCreacion,
+                reserva.fechaCreacion, 100.1)
             binding.root.findNavController().navigate(EstadoReservaFrDirections.actionEstadoReservaFrToProductFragment(pago, reserva))
         }
 
@@ -57,7 +57,7 @@ class EstadoReservaFr : Fragment() {
 
         // Non-Firestore-dependent initializations
         binding.DetailOwnerName.text = reserva.ownerName
-        binding.DetailDescripcion.text = reserva.fecha
+        binding.DetailDescripcion.text = reserva.fechaCreacion
         binding.cantHsDetailPlaceHolder.text = "${reserva.horaEntrada} - ${reserva.horaSalida}"
         binding.DetailCallButton.setOnClickListener {
             initiateCall("123456789")

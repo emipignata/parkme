@@ -11,6 +11,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var bottomNavView : BottomNavigationView
     private lateinit var navHostFragment : NavHostFragment
     private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -19,9 +20,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         NavigationUI.setupWithNavController(bottomNavView, navHostFragment.navController)
     }
+
     fun setBottomNavViewVisibility(visibility: Int) {
-        if (bottomNavView != null) {
-            bottomNavView.setVisibility(visibility)
-        }
+        bottomNavView.visibility = visibility
     }
 }

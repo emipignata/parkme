@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".navigation.ProgramarReservaFr">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:id="@+id/tvProgramarReservaMainTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Programar Reserva"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="24dp"
+        android:textSize="24sp"
+        />
+
+    <TextView
+        android:id="@+id/tvProgramarReservaDesdeTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ingreso"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="24dp"
+        android:textSize="24sp"
+        />
+
+    <EditText
+        android:id="@+id/etProgramarReservaFechaDesde"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Seleccioná el día de inicio"
+        android:layout_margin="24dp"
+        android:clickable="false"
+        android:focusable="false"
+        />
+
+    <EditText
+        android:id="@+id/etProgramarReservaHoraDesde"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Seleccioná la hora de inicio"
+        android:layout_margin="24dp"
+        android:clickable="false"
+        android:focusable="false"
+        />
+
+    <TextView
+        android:id="@+id/tvProgramarReservaHastaTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Egreso"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="24dp"
+        android:textSize="24sp"
+        />
+
+    <EditText
+        android:id="@+id/etProgramarReservaFechaHasta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Seleccioná el día de finalizacion"
+        android:layout_margin="24dp"
+        android:clickable="false"
+        android:focusable="false"
+        />
+
+    <EditText
+        android:id="@+id/etProgramarReservaHoraHasta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Seleccioná la hora de Salida"
+        android:layout_margin="24dp"
+        android:clickable="false"
+        android:focusable="false"
+        />
+
+    <Button
+        android:id="@+id/btnProgramarReservaConfirmar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Confirmar Reserva"/>
+</LinearLayout>

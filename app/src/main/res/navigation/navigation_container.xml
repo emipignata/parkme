@@ -58,10 +58,13 @@
         <action
                 android:id="@+id/action_cocheraDetailUserFr_to_reservaCocheraFr"
                 app:destination="@id/reservaCocheraFr"/>
+        <action
+            android:id="@+id/action_cocheraDetailUserFr_to_programarReservaFr"
+            app:destination="@id/programarReservaFr" />
     </fragment>
     <fragment
             android:id="@+id/reservaCocheraFr"
-            android:name="com.example.parkme.navigation.ReservarCocheraFr"
+            android:name="com.example.parkme.navigation.EstacionarAhoraFr"
             android:label="ReservaCocheraFr">
         <argument
                 android:name="cochera"
@@ -109,6 +112,15 @@
         <argument
             android:name="reserva"
             app:argType="com.example.parkme.entities.Reserva" />
+    </fragment>
+    <fragment
+        android:id="@+id/programarReservaFr"
+        android:name="com.example.parkme.navigation.ProgramarReservaFr"
+        android:label="fragment_programar_reserva"
+        tools:layout="@layout/fragment_programar_reserva" >
+        <argument
+            android:name="cochera"
+            app:argType="com.example.parkme.entities.Cochera" />
     </fragment>
 
 

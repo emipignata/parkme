@@ -73,6 +73,19 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
         }
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentExploreMapBinding.inflate(inflater, container, false)
+        mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+        mapFragment.getMapAsync(this)
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
+        fragmentManager = requireActivity().supportFragmentManager
+
+        return binding.root
+    }
+
     private var startAutocompleteIntentListener = View.OnClickListener { view: View ->
         view.setOnClickListener(null)
         startAutocompleteIntent()
@@ -132,19 +145,6 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
             .setTypesFilter(listOf(TypeFilter.ADDRESS.toString().lowercase()))
             .build(requireContext())
         startAutocomplete.launch(intent)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentExploreMapBinding.inflate(inflater, container, false)
-        mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
-        mapFragment.getMapAsync(this)
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
-        fragmentManager = requireActivity().supportFragmentManager
-
-        return binding.root
     }
 
     override fun onMapReady(googleMap: GoogleMap) {

@@ -177,6 +177,10 @@
     <string name="google_pay_status_checking" translatable="false">Checking if Google Pay is available...</string>
     <string name="payments_show_name" translatable="false">Successfully received payment data for %s!</string>
     <string name="add_google_wallet_success" translatable="false">The pass was added successfully!</string>
+    <string name="ya_tiene_una_reserva">Ya tiene una reserva</string>
+    <string name="confirmar_reserva">Confirmar Reserva</string>
+    <string name="ya_tiene_una_reserva_en_curso">Ya tiene una reserva en curso</string>
+    <string name="estacionar_ahora">Estacionar Ahora!</string>
 
 
 </resources>

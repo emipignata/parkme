@@ -15,7 +15,7 @@
         android:paddingHorizontal="30dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/reservarButton"
+        app:layout_constraintBottom_toTopOf="@+id/estacionarAhoraButton"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
@@ -27,11 +27,11 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/detalleReservaText"
-        app:layout_constraintEnd_toStartOf="@+id/reservarButton"
+        app:layout_constraintEnd_toStartOf="@+id/estacionarAhoraButton"
         app:layout_constraintVertical_bias="0.309" />
 
     <Button
-        android:id="@+id/reservarButton"
+        android:id="@+id/estacionarAhoraButton"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_marginBottom="150dp"

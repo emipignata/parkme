@@ -47,7 +47,7 @@ class ProductFragment : Fragment() {
     private val model: CheckoutViewModel by viewModels()
     private val args: ProductFragmentArgs by navArgs()
     private val addToGoogleWalletRequestCode = 1000
-    private val pago: Pago by lazy { args.pago }
+    //private val pago: Pago by lazy { args.pago }
     private val reserva: Reserva by lazy { args.reserva }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
