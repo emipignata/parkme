@@ -35,7 +35,7 @@
     <string name="frg_estado_reserva_cant_horas">Cantidad de Hs.</string>
     <string name="frg_estado_reserva_precio_total_horas">Precio total Reserva:</string>
     <string name="frg_estado_reserva_tiempo_reserva">Tiempo de Reserva</string>
-    <string name="frg_estado_reserva_aca_va_precio_total">aca va el precio total</string>
+    <string name="frg_estado_reserva_aca_va_precio_total">  Se calculara al egresar</string>
     <string name="Loren">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem pellentesque velit donec congue. Lorem ipsum dolor sit amet, consectetur adipiscing elit pellentesque</string>
     <string name="frg_estado_reserva_nombre_cochera">Nombre Cochera</string>
     <string name="frg_estado_reserva_locacion">Locación</string>
