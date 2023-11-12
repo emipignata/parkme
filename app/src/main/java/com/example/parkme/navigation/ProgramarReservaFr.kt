@@ -20,17 +20,19 @@ class ProgramarReservaFr : Fragment() {
         binding.etProgramarReservaFechaDesde.setOnClickListener {
             showDatePickerDialog()
         }
+        binding.etProgramarReservaHoraDesde.setOnClickListener {
+            showTimePickerDialog()
+        }
+
+  /*
         binding.etProgramarReservaFechaHasta.setOnClickListener {
             showDatePickerDialog()
         }
 
-        binding.etProgramarReservaHoraDesde.setOnClickListener {
-            showTimePickerDialog()
-        }
         binding.etProgramarReservaHoraHasta.setOnClickListener {
             showTimePickerDialog()
         }
-
+*/
         binding.btnProgramarReservaConfirmar.setOnClickListener {
             confirmarReserva()
         }
