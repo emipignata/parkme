@@ -45,8 +45,7 @@ class ReservarCocheraFr() : Fragment() {
             binding.root.findNavController().navigateUp()
         }
 
-        val pagarText = binding.root.findViewById<TextView>(R.id.detalleReservaText)
-        pagarText.text = "Usted está por asumir el compromiso de utilizar y cuidar este espacio. ¿Está seguro que quiere realizar la reserva?" // ${reserva}
+        binding.root.findViewById<TextView>(R.id.detalleReservaText)
 
         val reservarButton = binding.root.findViewById<Button>(R.id.reservarButton)
         reservarButton.setOnClickListener{
