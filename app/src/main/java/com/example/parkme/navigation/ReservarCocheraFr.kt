@@ -20,6 +20,8 @@ import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
+import java.time.Instant
+import java.time.temporal.ChronoUnit
 import java.util.Locale
 
 class ReservarCocheraFr() : Fragment() {
@@ -52,7 +54,12 @@ class ReservarCocheraFr() : Fragment() {
         }
         return binding.root
     }
-
+    private fun addHoursToTimestamp(plusHours : Long) : String{
+        val seconds: Long = Timestamp.now().seconds
+        val addedSeconds = Instant.ofEpochSecond(seconds).plus(plusHours, ChronoUnit.HOURS).epochSecond
+        val newTimeStamp = Timestamp(addedSeconds, 0)
+        return newTimeStamp.toDate().toString()
+    }
 
     fun extractHour(dateString: String): String {
         // Define the original pattern of the date string
@@ -90,7 +97,7 @@ class ReservarCocheraFr() : Fragment() {
         reserva.ownerId = cochera.owner
         reserva.fecha = extractDate(Timestamp.now().toDate().toString())
         reserva.horaEntrada = extractHour(Timestamp.now().toDate().toString())
-        reserva.horaSalida = "0"
+        reserva.horaSalida = extractHour(addHoursToTimestamp(1))
         reserva.direccion = cochera.direccion
         reserva.urlImage = cochera.urlImage
         reserva.ownerName = cochera.ownerName
@@ -115,4 +122,5 @@ class ReservarCocheraFr() : Fragment() {
                 Log.w("ReservaCocheraFr", "Error al agregar el documento", e)
             }
     }
+
 }
