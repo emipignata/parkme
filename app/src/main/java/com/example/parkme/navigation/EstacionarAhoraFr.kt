@@ -86,6 +86,7 @@ class EstacionarAhoraFr() : Fragment() {
                 navController.navigate(R.id.historialFr)
                 db.collection("cocheras").document(cochera.cocheraId)
                     .set(cochera)
+                setUserState(reserva)
             }
             .addOnFailureListener { e ->
                 Log.w("ReservaCocheraFr", "Error al agregar el documento", e)
@@ -102,7 +103,6 @@ class EstacionarAhoraFr() : Fragment() {
             binding.estacionarAhoraButton.text = getString(R.string.estacionar_ahora)
             binding.estacionarAhoraButton.setOnClickListener{
                 addReserva()
-                setUserState()
             }
             binding.cocheraReservarVolverButton.setOnClickListener {
                 binding.root.findNavController().navigateUp()
@@ -129,14 +129,14 @@ class EstacionarAhoraFr() : Fragment() {
         }
     }
 
-    private fun setUserState() {
+    private fun setUserState(reserva: Reserva) {
         if (uid != null) {
             db.collection("users").document(uid)
                 .get()
                 .addOnSuccessListener { document ->
                     if (document != null) {
                         user = document.toObject(User::class.java)!!
-                        user.reservaInCheckIn = cochera.cocheraId
+                        user.reservaInCheckIn = reserva.reservaId
                         db.collection("users").document(uid).set(user)
                     } else {
                         Log.d("ReservaCocheraFr", "No such document")

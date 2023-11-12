@@ -11,9 +11,9 @@ data class User(
     val historial: List<Message> = emptyList(),
     val cocheras: List<Cochera> = emptyList(),
     val urlImage: String = "",
+    var reservaInReservada: String = "",
     var reservaInCheckIn: String = "",
-    var reservaInReservada: String = ""
-
+    var reservaInCheckOut: String = ""
 ) : Parcelable {
     constructor(source: Parcel) : this(
         source.readString() ?: "",
@@ -22,6 +22,7 @@ data class User(
         source.readString() ?: "",
         source.createTypedArrayList(Message.CREATOR) ?: emptyList(),
         source.createTypedArrayList(Cochera.CREATOR) ?: emptyList(),
+        source.readString() ?: "",
         source.readString() ?: "",
         source.readString() ?: "",
         source.readString() ?: ""
@@ -37,8 +38,9 @@ data class User(
         writeTypedList(historial)
         writeTypedList(cocheras)
         writeString(urlImage)
-        writeString(reservaInCheckIn)
         writeString(reservaInReservada)
+        writeString(reservaInCheckIn)
+        writeString(reservaInCheckOut)
     }
 
     companion object {

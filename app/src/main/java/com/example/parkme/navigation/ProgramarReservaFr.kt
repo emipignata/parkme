@@ -83,6 +83,7 @@ class ProgramarReservaFr : Fragment() {
             cochera.urlImage,
             cochera.ownerName
         )
+
         db.collection("historial")
             .add(reserva)
             .addOnSuccessListener { documentReference ->
@@ -96,6 +97,7 @@ class ProgramarReservaFr : Fragment() {
                 navController.navigate(R.id.historialFr)
                 db.collection("cocheras").document(cochera.cocheraId)
                     .set(cochera)
+                setUserState(reserva)
             }
             .addOnFailureListener { e ->
                 Log.w("ReservaCocheraFr", "Error al agregar el documento", e)
@@ -136,7 +138,6 @@ class ProgramarReservaFr : Fragment() {
 
             binding.btnProgramarReservaConfirmar.setOnClickListener {
                 confirmarReserva()
-                setUserState()
             }
         }
     }
@@ -159,14 +160,14 @@ class ProgramarReservaFr : Fragment() {
         }
     }
 
-    private fun setUserState() {
+    private fun setUserState(reserva: Reserva) {
         if (uid != null) {
             db.collection("users").document(uid)
                 .get()
                 .addOnSuccessListener { document ->
                     if (document != null) {
                         user = document.toObject(User::class.java)!!
-                        user.reservaInReservada = cochera.cocheraId
+                        user.reservaInReservada = reserva.reservaId
                         db.collection("users").document(uid).set(user)
                     } else {
                         Log.d("ReservaCocheraFr", "No such document")
