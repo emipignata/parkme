@@ -23,6 +23,7 @@
                 android:id="@+id/unicacionIconContainer"
                 android:layout_width="15dp"
                 android:layout_height="15dp"
+                android:contentDescription="@string/frg_cochera_detail_icon_location"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.056"
@@ -35,8 +36,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:text="Nombre Cochera"
-                android:textSize="20dp"
+                android:text="@string/frg_cochera_detail_nombre_cochera"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -50,8 +51,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:text="Buenos Aires"
-                android:textSize="12dp"
+                android:text="@string/frg_cochera_detail_owner_locacion"
+                android:textSize="12sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -64,8 +65,8 @@
                 android:id="@+id/precioPorHoraDetail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="$1200"
-                android:textSize="16dp"
+                android:text="@string/frg_cochera_detail_precio_por_hora"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="@color/md_theme_dark_inversePrimary"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -78,8 +79,8 @@
                 android:id="@+id/precioPorHoraDetailPlaceHolder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Precio x Hs:"
-                android:textSize="14dp"
+                android:text="@string/frg_cochera_detail_precio_por_hora_title"
+                android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -91,8 +92,8 @@
                 android:id="@+id/cocheraOwnerName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Nombre dueño Cochera"
-                android:textSize="14dp"
+                android:text="@string/frg_cochera_detail_nombre_dueno_cochera"
+                android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -116,19 +117,19 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Volver"/>
+                android:text="@string/volver_buttom"/>
         <Button
                 android:id="@+id/CocheraDetailReservarButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Reservar"/>
+                android:text="@string/frg_cochera_detail_reservar"/>
         <Button
                 android:id="@+id/CocheraDetailProgramarButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Programar"/>
+                android:text="@string/frg_cochera_detail_programar"/>
     </LinearLayout>
 
     <ImageView
@@ -136,6 +137,7 @@
         android:layout_width="350dp"
         android:layout_height="250dp"
         android:adjustViewBounds="true"
+        android:contentDescription="@string/frg_cochera_detail_imagen_cochera"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -148,7 +150,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
-        android:text="Descripcion de la cochera"
+        android:text="@string/frg_cochera_detail_descripción_cochera"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/cochera_detail_buttons"

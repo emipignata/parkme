@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:text="@string/autocomplete_map_label"/>
 
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:id="@+id/confirmation_map"
         android:layout_width="match_parent"

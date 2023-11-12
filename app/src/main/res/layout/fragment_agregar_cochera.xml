@@ -17,6 +17,7 @@
 
         <ImageView
             android:id="@+id/simpleImageButton"
+            android:contentDescription="@string/frg_agregar_cochera_carga_imagen"
             android:layout_width="124dp"
             android:layout_height="108dp"
             android:layout_gravity="center"
@@ -37,7 +38,7 @@
                 android:id="@+id/eTNombreCochera"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Nombre Cochera"
+                android:hint="@string/frg_agregar_cochera_nombre_cochera"
                 android:maxLength="@integer/ETNombreCocheraLength"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -79,7 +80,7 @@
                 android:id="@+id/eTPrecioPorHora"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Precio x hora $"/>
+                android:hint="@string/frg_agregar_cochera_precio_hora"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -95,7 +96,7 @@
                 android:id="@+id/eTDescripcion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Descripción"
+                android:hint="@string/frg_agregar_cochera_descripcion"
                 android:maxLength="@integer/ETDescripcionLength"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -112,7 +113,7 @@
                 android:id="@+id/eTDisponibilidad"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Disponibilidad"
+                android:hint="@string/frg_agregar_cochera_disponibilidad"
                 android:maxLength="@integer/ETDisponibilidadLength"/>
         </com.google.android.material.textfield.TextInputLayout>
         <LinearLayout
@@ -128,7 +129,7 @@
                 android:layout_margin="5dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Volver"/>
+                android:text="@string/volver_buttom"/>
 
             <Button
                 android:id="@+id/button6"
@@ -136,7 +137,7 @@
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Confirmar"/>
+                android:text="@string/frg_agregar_cochera_confirmar"/>
         </LinearLayout>
 
     </LinearLayout>
