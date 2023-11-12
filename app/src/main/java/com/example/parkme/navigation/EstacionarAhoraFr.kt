@@ -13,7 +13,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.parkme.R
-import com.example.parkme.databinding.FragmentReservarCocheraBinding
+import com.example.parkme.databinding.FragmentEstacionarAhoraBinding
 import com.example.parkme.entities.Cochera
 import com.example.parkme.entities.Reserva
 import com.google.firebase.Timestamp
@@ -24,9 +24,9 @@ import java.time.Instant
 import java.time.temporal.ChronoUnit
 import java.util.Locale
 
-class ReservarCocheraFr() : Fragment() {
+class EstacionarAhoraFr() : Fragment() {
     val args: CocheraDetailUserFrArgs by navArgs()
-    private lateinit var binding: FragmentReservarCocheraBinding
+    private lateinit var binding: FragmentEstacionarAhoraBinding
     private lateinit var fragmentManager: FragmentManager
     private val db = FirebaseFirestore.getInstance()
     private val uid = FirebaseAuth.getInstance().currentUser?.uid
@@ -36,7 +36,7 @@ class ReservarCocheraFr() : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentReservarCocheraBinding.inflate(inflater, container, false)
+        binding = FragmentEstacionarAhoraBinding.inflate(inflater, container, false)
         fragmentManager = requireActivity().supportFragmentManager
         reserva = Reserva()
 
@@ -82,7 +82,7 @@ class ReservarCocheraFr() : Fragment() {
         val date = originalFormat.parse(dateString)
 
         // Define the new pattern to extract just the hour
-        val hourFormat = SimpleDateFormat("MMM dd HH:mm", Locale.ENGLISH)
+        val hourFormat = SimpleDateFormat("dd MMM HH:mm", Locale.ENGLISH)
 
         // Return the formatted hour
         return hourFormat.format(date)
@@ -94,8 +94,10 @@ class ReservarCocheraFr() : Fragment() {
         reserva.usuarioId = uid.toString()
         reserva.cocheraId = cochera.cocheraId
         reserva.ownerId = cochera.owner
-        reserva.fecha = extractDate(Timestamp.now().toDate().toString())
+        reserva.fechaCreacion = extractDate(Timestamp.now().toDate().toString())
+        reserva.fechaEntrada = extractDate(Timestamp.now().toDate().toString())
         reserva.horaEntrada = extractHour(Timestamp.now().toDate().toString())
+        reserva.fechaSalida = "Indefinido"
         reserva.horaSalida = "Indefinido"
         reserva.direccion = cochera.direccion
         reserva.urlImage = cochera.urlImage

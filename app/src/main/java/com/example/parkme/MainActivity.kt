@@ -20,8 +20,6 @@ class MainActivity : AppCompatActivity() {
         NavigationUI.setupWithNavController(bottomNavView, navHostFragment.navController)
     }
     fun setBottomNavViewVisibility(visibility: Int) {
-        if (bottomNavView != null) {
             bottomNavView.setVisibility(visibility)
-        }
     }
 }

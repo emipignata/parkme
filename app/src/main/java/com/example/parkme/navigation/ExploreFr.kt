@@ -55,7 +55,7 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        locationRequest = LocationRequest.create()?.apply {
+        locationRequest = LocationRequest.create().apply {
             interval = 10000 // Update interval in milliseconds
             fastestInterval = 5000 // Fastest update interval in milliseconds
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY

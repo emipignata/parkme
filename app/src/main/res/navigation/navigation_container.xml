@@ -64,7 +64,7 @@
     </fragment>
     <fragment
             android:id="@+id/reservaCocheraFr"
-            android:name="com.example.parkme.navigation.ReservarCocheraFr"
+            android:name="com.example.parkme.navigation.EstacionarAhoraFr"
             android:label="ReservaCocheraFr">
         <argument
                 android:name="cochera"

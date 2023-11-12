@@ -5,12 +5,14 @@ import android.os.Parcelable
 data class Reserva(
     var reservaId: String,
     var usuarioId: String,
-    var fecha: String,
+    var fechaCreacion: String,
     var cocheraId: String,
     var ownerId: String,
     var estado: String,
     var precio: Float,
+    var fechaEntrada: String,
     var horaEntrada: String,
+    var fechaSalida: String,
     var horaSalida: String,
     var direccion: String,
     var urlImage: String,
@@ -29,22 +31,26 @@ parcel.readString() ?: "",
 parcel.readString() ?: "",
 parcel.readString() ?: "",
             parcel.readString() ?: "",
+            parcel.readString() ?: "",
+            parcel.readString() ?: "",
 
         )
         // No-argument constructor is added here
         constructor() : this(
-        "", "", "", "", "", "",0.0f, "","", "", "", ""
+        "", "", "", "", "", "",0.0f, "","","","",  "", "", ""
         )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(reservaId)
         parcel.writeString(usuarioId)
-        parcel.writeString(fecha)
+        parcel.writeString(fechaCreacion)
         parcel.writeString(cocheraId)
         parcel.writeString(ownerId)
         parcel.writeString(estado)
         parcel.writeFloat(precio)
+        parcel.writeString(fechaEntrada)
         parcel.writeString(horaEntrada)
+        parcel.writeString(fechaSalida)
         parcel.writeString(horaSalida)
         parcel.writeString(direccion)
         parcel.writeString(urlImage)
