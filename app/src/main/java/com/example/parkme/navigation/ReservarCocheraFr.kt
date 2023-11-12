@@ -97,7 +97,7 @@ class ReservarCocheraFr() : Fragment() {
         reserva.ownerId = cochera.owner
         reserva.fecha = extractDate(Timestamp.now().toDate().toString())
         reserva.horaEntrada = extractHour(Timestamp.now().toDate().toString())
-        reserva.horaSalida = extractHour(addHoursToTimestamp(1))
+        reserva.horaSalida = "Indefinido"
         reserva.direccion = cochera.direccion
         reserva.urlImage = cochera.urlImage
         reserva.ownerName = cochera.ownerName
@@ -114,7 +114,6 @@ class ReservarCocheraFr() : Fragment() {
                 val navController = binding.root.findNavController()
                 navController.popBackStack(R.id.navigation_container, false)
                 navController.navigate(R.id.historialFr)
-                cochera.available = false
                 db.collection("cocheras").document(cochera.cocheraId)
                     .set(cochera)
             }
