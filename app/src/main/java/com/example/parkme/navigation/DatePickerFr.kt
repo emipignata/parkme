@@ -17,7 +17,7 @@ class DatePickerFr(val listener: (day: Int, month: Int, year: Int) -> Unit): Dia
         val year = c.get(Calendar.YEAR)
         val picker = DatePickerDialog(requireContext(), this, year, month, day)
         picker.datePicker.minDate = System.currentTimeMillis() - 1000
-        picker.datePicker.maxDate = System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 28
+        picker.datePicker.maxDate = System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 15
 
         return picker
     }
