@@ -62,5 +62,4 @@ class ProgramarReservaFr : Fragment() {
         navController.popBackStack(R.id.navigation_container, false)
         navController.navigate(R.id.historialFr)
     }
-
 }
