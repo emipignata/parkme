@@ -49,6 +49,7 @@ class ProductFragment : Fragment() {
     private val addToGoogleWalletRequestCode = 1000
     //private val pago: Pago by lazy { args.pago }
     private val reserva: Reserva by lazy { args.reserva }
+    private lateinit var horaSalida : String
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -72,8 +73,8 @@ class ProductFragment : Fragment() {
         binding.productTitle.text = reserva.direccion
         binding.productPrice.text = "\$pago.precio.toString()"
         binding.productDescription.text = "Detalle de la operacion: \n Desde: ${reserva.horaEntrada}hs \n" +
-                " Hasta: ${reserva.horaSalida}hs"
-
+                " Hasta: ${mostrarHoraFinalizacion()}hs"
+        binding.productPrice.text = calculateTotal().toString()
         Glide.with(this)
             .load(reserva.urlImage)
             .into(binding.productImage)
@@ -90,6 +91,40 @@ class ProductFragment : Fragment() {
             }
         }
         // Handle button clicks and other interactions
+    }
+
+    private fun calculateTotal(): Float {
+        var horaInicio = reserva.horaSalida
+        var horaFin = reserva.horaEntrada
+        return reserva.precio * (parseHoursAndMinutesToFloat(horaInicio) - parseHoursAndMinutesToFloat(horaFin))
+    }
+
+    fun parseHoursAndMinutesToFloat(timeString: String): Float {
+        val parts = timeString.split(":")
+        //tuve que implementar el caso de que por ejemplo me llegue una hora sin : o sea solo la hora,
+        //funciona pero no es lo optimo
+        if (parts.size == 2) {
+            try {
+                val hours = parts[0].toFloat()
+                val minutes = parts[1].toFloat() / 60.0f // Convert minutes to fraction of an hour
+                return hours + minutes
+            } catch (e: NumberFormatException) {
+                println("Error parsing time: $e")
+            }
+        } else {
+            return parts[0].toFloat()
+        }
+
+        return 0.0f // Default value if parsing fails
+    }
+    private fun mostrarHoraFinalizacion(): String {
+        if(reserva.horaSalida.equals("indefinidohs")){
+            horaSalida = extractHour(Timestamp.now().toDate().toString())
+        }
+        else {
+            horaSalida = reserva.horaSalida
+        }
+        return horaSalida
     }
 
     private fun handleState(state: CheckoutViewModel.State) {
