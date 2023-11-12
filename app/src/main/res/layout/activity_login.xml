@@ -51,7 +51,7 @@
         app:layout_constraintHorizontal_bias="0.627"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="image"
+        android:contentDescription="@string/activity_login_imagen"
         app:layout_constraintVertical_bias="0.833"
        android:src="@drawable/cars" />
 
@@ -59,6 +59,7 @@
         android:id="@+id/imageView4"
         android:layout_width="144dp"
         android:layout_height="124dp"
+        android:contentDescription="@string/activity_login_imagen_parkme"
         app:srcCompat="@drawable/parkme_logo"
         tools:layout_editor_absoluteX="-23dp"
         tools:layout_editor_absoluteY="0dp"

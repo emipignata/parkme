@@ -25,7 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="194dp"
                 android:background="#F8B3E8"
-                android:contentDescription="contentDescription"
+                android:contentDescription="@string/_mis_cocheras_item_imagen_descripcion"
                 android:scaleType="centerCrop" />
 
             <LinearLayout
@@ -39,7 +39,7 @@
                     android:id="@+id/misCocherasViewTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Mis Cocheras Item"
+                    android:text="@string/_mis_cocheras_item_titulo_cochera"
                     android:textAppearance="?attr/textAppearanceTitleMedium" />
 
                 <TextView
@@ -47,7 +47,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Juncal y Larrea"
+                    android:text="@string/_mis_cocheras_item_ubicacion"
                     android:textAppearance="?attr/textAppearanceBodyMedium"
                     android:textColor="?android:attr/textColorSecondary" />
 
@@ -56,7 +56,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="$750Ars/hora"
+                    android:text="@string/_mis_cocheras_item_precio_por_hora"
                     android:textAppearance="?attr/textAppearanceBodyMedium"
                     android:textColor="?android:attr/textColorSecondary" />
 

@@ -50,45 +50,45 @@
                         android:id="@+id/tvReservaCardAddress"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Direccion"
-                        android:textSize="17dp"
+                        android:text="@string/historial_item_direccion"
+                        android:textSize="17sp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/tvReservaCardTotalPrice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Importe Total" />
+                        android:text="@string/historial_item_importe_total" />
 
                     <TextView
                         android:id="@+id/tvReservaCardPricePerHour"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Precio por hora" />
+                        android:text="@string/historial_item_precio_por_hora" />
 
                     <TextView
                         android:id="@+id/tvReservaCardStartTime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="hora_de_ingreso" />
+                        android:text="@string/historial_item_hora_ingreso" />
 
                     <TextView
                         android:id="@+id/tvReservaCardFinishTime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="hora_de_egreso" />
+                        android:text="@string/historial_item_hora_egreso" />
 
                     <TextView
                         android:id="@+id/tvReservaCardTotalTime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="tiempo total" />
+                        android:text="@string/historial_item_tiempo_total" />
 
                     <TextView
                         android:id="@+id/tvReservaCardNombreDueno"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="nombre_dueño" />
+                        android:text="@string/historial_item_nombre_dueno" />
 
                     <TextView
                         android:id="@+id/tvReservaCardTelDueno"
@@ -101,7 +101,7 @@
                     android:id="@+id/imageView6"
                     android:layout_width="140dp"
                     android:layout_height="162dp"
-                    android:layout_marginRight="13dp"
+                    android:layout_marginEnd="13dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"

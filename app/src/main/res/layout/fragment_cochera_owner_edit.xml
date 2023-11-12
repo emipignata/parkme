@@ -17,6 +17,7 @@
 
         <ImageView
                 android:id="@+id/simpleImageButton_item_view"
+                android:contentDescription="@string/frg_cochera_dueno_edit_carga_imagen_cochera"
                 android:layout_width="124dp"
                 android:layout_height="108dp"
                 android:layout_gravity="center"
@@ -37,7 +38,7 @@
                     android:id="@+id/eTNombreCochera_item_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Nombre Cochera"
+                    android:hint="@string/frg_cochera_dueno_edit_nombre_cochera"
                     android:maxLength="@integer/ETNombreCocheraLength" tools:ignore="MissingClass"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -79,7 +80,7 @@
                     android:id="@+id/eTPrecioPorHora_item_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Precio x hora $"/>
+                    android:hint="@string/frg_cochera_dueno_edit_precio_por_hora"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -95,7 +96,7 @@
                     android:id="@+id/eTDescripcion_item_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Descripción"
+                    android:hint="@string/frg_cochera_dueno_edit_descripcion"
                     android:maxLength="@integer/ETDescripcionLength"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -112,7 +113,7 @@
                     android:id="@+id/eTDisponibilidad_item_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Disponibilidad"
+                    android:hint="@string/frg_cochera_dueno_edit_disponibilidad"
                     android:maxLength="@integer/ETDisponibilidadLength"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -126,14 +127,14 @@
                     android:id="@+id/button_volver_edit"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="50dp"
-                    android:text="Volver"/>
+                    android:layout_marginStart="50dp"
+                    android:text="@string/volver_buttom"/>
             <Button
                     android:id="@+id/button_aceptar_edit"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="50dp"
-                    android:text="Aceptar"/>
+                    android:layout_marginStart="50dp"
+                    android:text="@string/frg_cochera_dueno_edit_aceptar"/>
         </LinearLayout>
 
     </LinearLayout>
