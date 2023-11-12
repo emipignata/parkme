@@ -17,6 +17,9 @@ import com.example.parkme.entities.User
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 
 class ProgramarReservaFr : Fragment() {
     private lateinit var binding : FragmentProgramarReservaBinding
@@ -137,9 +140,28 @@ class ProgramarReservaFr : Fragment() {
             }
 
             binding.btnProgramarReservaConfirmar.setOnClickListener {
-                confirmarReserva()
+                if(validarFechasYHorarios()){
+                    confirmarReserva()
+                }else{
+                    Toast.makeText(context, "Para programar una reserva el ingreso debe ser anterior al egreso", Toast.LENGTH_SHORT).show()
+                }
             }
         }
+    }
+
+    private fun validarFechasYHorarios(): Boolean {
+        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+        var areDatesValid = false
+        val fechaDesde = LocalDate.parse( binding.etProgramarReservaFechaDesde.text.toString(), formatter)
+        val fechaHasta = LocalDate.parse( binding.etProgramarReservaFechaHasta.text.toString(), formatter)
+        val horaDesde = LocalTime.parse(binding.etProgramarReservaHoraDesde.text.toString())
+        val horaHasta = LocalTime.parse(binding.etProgramarReservaHoraHasta.text.toString())
+
+        when {
+            fechaDesde.isBefore(fechaHasta) -> areDatesValid = true
+            fechaDesde.isEqual(fechaHasta) -> areDatesValid = horaDesde.isBefore(horaHasta)
+        }
+        return areDatesValid
     }
 
     private fun getUserState() {
