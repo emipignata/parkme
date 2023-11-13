@@ -33,6 +33,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.model.TypeFilter
 import com.google.android.libraries.places.widget.Autocomplete
@@ -79,13 +80,17 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        val apiKey = "AIzaSyDW5u0qurjfVpPY3PVH0yZpauP75T2w1FY"
+        if (!Places.isInitialized()) {
+            Places.initialize(requireContext(), apiKey)
+        }
         binding = FragmentExploreMapBinding.inflate(inflater, container, false)
         mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
         fragmentManager = requireActivity().supportFragmentManager
 
-        binding.searchBar.setOnClickListener { startAutocompleteIntent() }
+        binding.searchBarEditText.setOnClickListener { startAutocompleteIntent() }
 
         return binding.root
     }
@@ -98,7 +103,7 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
     private val startAutocomplete = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result: ActivityResult ->
-        binding.searchBar.setOnClickListener(startAutocompleteIntentListener)
+        binding.searchBarEditText.setOnClickListener(startAutocompleteIntentListener)
         if (result.resultCode == Activity.RESULT_OK) {
             val intent = result.data
             if (intent != null) {

@@ -13,49 +13,21 @@
         app:layout_constraintBottom_toTopOf="@id/map_container"
         app:layout_constraintTop_toTopOf="parent">
 
-        <!-- SearchBar xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
-        <!-- Fragment Container Layout -->
-
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:id="@+id/searchBar"
+        <com.google.android.material.search.SearchBar
+            android:id="@+id/search_bar"
             android:layout_width="match_parent"
-            android:layout_height="75dp"
-
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0">
-
-            <!-- NestedScrollingChild goes here (NestedScrollView, RecyclerView, etc.). -->
-            <androidx.core.widget.NestedScrollView
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:hint="Encontrá tu ParkMe">
+            <com.example.parkme.models.AutocompleteEditText
+                android:id="@+id/search_bar_edit_text"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_behavior="@string/searchbar_scrolling_view_behavior">
-                <!-- Screen content goes here. -->
-            </androidx.core.widget.NestedScrollView>
-
-            <com.google.android.material.appbar.AppBarLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <com.google.android.material.search.SearchBar
-                    android:id="@+id/search_bar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:hint="Encontrá tu ParkMe" />
-            </com.google.android.material.appbar.AppBarLayout>
-
-            <com.google.android.material.search.SearchView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:hint="searchbar"
-                app:layout_anchor="@id/search_bar">
-                <!-- Search suggestions/results go here (ScrollView, RecyclerView, etc.). -->
-            </com.google.android.material.search.SearchView>
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+                android:layout_height="wrap_content"
+                android:autofillHints=""
+                android:hint="@string/eTDireccion_hint"
+                android:imeOptions="actionNext"
+                android:inputType="text" />
+        </com.google.android.material.search.SearchBar>
 
     </com.google.android.material.appbar.AppBarLayout>
 

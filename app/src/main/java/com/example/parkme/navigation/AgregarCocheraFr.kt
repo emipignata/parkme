@@ -101,7 +101,6 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         // Start fetching the user name early
         getCurrentUserName { userName ->
             if (userName != null) {
@@ -113,7 +112,6 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
             }
         }
     }
-
 
     @SuppressLint("SuspiciousIndentation")
     override fun onCreateView(
@@ -183,13 +181,11 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
 
 
     fun getCurrentUserName(onResult: (String?) -> Unit) {
-
         if (uid == null) {
             onResult(null) // No user logged in
             return
         }
 
-        val db = FirebaseFirestore.getInstance()
         val usersCollectionRef = db.collection("users")
 
         usersCollectionRef.document(uid).get()
@@ -206,7 +202,6 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
                 onResult(null)
             }
     }
-
 
     private fun navegarAMisCocheras(){
         val navController = binding.root.findNavController()
