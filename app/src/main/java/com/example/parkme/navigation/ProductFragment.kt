@@ -33,6 +33,7 @@ import com.google.android.gms.wallet.AutoResolveHelper
 import com.google.android.gms.wallet.PaymentData
 import com.google.android.gms.wallet.WalletConstants
 import com.google.firebase.Timestamp
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
 import org.json.JSONException
@@ -44,6 +45,7 @@ import java.util.Locale
 class ProductFragment : Fragment() {
     private lateinit var binding: FragmentProductBinding
     val db = FirebaseFirestore.getInstance()
+    private val uid = FirebaseAuth.getInstance().currentUser?.uid
     private val model: CheckoutViewModel by viewModels()
     private val args: ProductFragmentArgs by navArgs()
     private val addToGoogleWalletRequestCode = 1000
