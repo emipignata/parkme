@@ -52,6 +52,8 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
     private lateinit var locationCallback: LocationCallback
     private lateinit var locationRequest: LocationRequest
     private var requestingLocationUpdates: Boolean = false
+    private lateinit var googleMap: GoogleMap
+    private var marker: Marker? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,6 +85,8 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
         fragmentManager = requireActivity().supportFragmentManager
 
+        binding.searchBar.setOnClickListener { startAutocompleteIntent() }
+
         return binding.root
     }
 
@@ -108,47 +112,45 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
     }
 
     private fun fillInAddress(place: Place) {
-        val components = place.addressComponents
-        val address1 = StringBuilder()
-        val postcode = StringBuilder()
-        if (components != null) {
-            for (component in components.asList()) {
-                when (component.types[0]) {
-                    "street_number" -> {
-                        address1.insert(0, component.name)
-                    }
-                    "route" -> {
-                        address1.append(" ")
-                        address1.append(component.shortName)
-                    }
-                    "postal_code" -> {
-                        postcode.insert(0, component.name)
-                    }
-                    "postal_code_suffix" -> {
-                        postcode.append("-").append(component.name)
-                    }
-                }
+        val location = place.latLng
+        if (location != null) {
+            Log.d(TAG, "New location: $location")
+
+            // Mueve la cámara a la nueva ubicación
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 18f))
+
+            // Actualiza la posición del marcador existente o crea uno nuevo
+            if (marker == null) {
+                marker = googleMap.addMarker(
+                    MarkerOptions()
+                        .position(location)
+                        .title("Ubicación ingresada")
+                    // Agrega otras configuraciones si es necesario
+                )
+            } else {
+                marker?.position = location
             }
         }
         binding.searchBar.clearFocus()
-        binding.searchBar.setText(address1.toString())
     }
 
+
     private fun startAutocompleteIntent() {
+        Log.d(TAG, "startAutocompleteIntent called")
         val fields = listOf(
             Place.Field.ADDRESS_COMPONENTS,
             Place.Field.LAT_LNG, Place.Field.VIEWPORT
         )
         val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
             .setCountries(listOf("AR"))
-            //TODO: https://developers.google.com/maps/documentation/places/android-sdk/autocomplete
             .setTypesFilter(listOf(TypeFilter.ADDRESS.toString().lowercase()))
             .build(requireContext())
         startAutocomplete.launch(intent)
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
-        // Set the map type to Normal.
+        Log.d(TAG, "onMapReady called")
+        this.googleMap = googleMap
         googleMap.mapType = GoogleMap.MAP_TYPE_NORMAL
         googleMap.uiSettings.isZoomControlsEnabled = true
         googleMap.uiSettings.isMyLocationButtonEnabled = true
@@ -207,10 +209,8 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
     }
 
     override fun onMarkerClick(marker: Marker): Boolean {
-        // Retrieve the data from the marker.
         val clickCount = marker.tag as? Int
 
-        // Check if a click count was set, then display the click count.
         clickCount?.let {
             val newClickCount = it + 1
             marker.tag = newClickCount
