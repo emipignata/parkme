@@ -33,6 +33,7 @@ import com.google.android.gms.wallet.AutoResolveHelper
 import com.google.android.gms.wallet.PaymentData
 import com.google.android.gms.wallet.WalletConstants
 import com.google.firebase.Timestamp
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
 import org.json.JSONException
@@ -44,6 +45,7 @@ import java.util.Locale
 class ProductFragment : Fragment() {
     private lateinit var binding: FragmentProductBinding
     val db = FirebaseFirestore.getInstance()
+    private val uid = FirebaseAuth.getInstance().currentUser?.uid
     private val model: CheckoutViewModel by viewModels()
     private val args: ProductFragmentArgs by navArgs()
     private val addToGoogleWalletRequestCode = 1000
@@ -111,14 +113,17 @@ class ProductFragment : Fragment() {
             } catch (e: NumberFormatException) {
                 println("Error parsing time: $e")
             }
-        } else {
+        } else if(timeString.equals("Indefinido")) {
+            //mira esa recursividad papaaa!!
+            return parseHoursAndMinutesToFloat(extractHour(Timestamp.now().toDate().toString()))
+        }else{
             return parts[0].toFloat()
         }
 
         return 0.0f // Default value if parsing fails
     }
     private fun mostrarHoraFinalizacion(): String {
-        if(reserva.horaSalida.equals("indefinidohs")){
+        if(reserva.horaSalida.equals("Indefinido")){
             horaSalida = extractHour(Timestamp.now().toDate().toString())
         }
         else {
@@ -132,9 +137,22 @@ class ProductFragment : Fragment() {
         if (state.checkoutSuccess) {
             setReservaState()
             setCocheraState()
+            setUserState(reserva.estado)
             findNavController().popBackStack(R.id.historialFr,false)
         }
 
+    }
+
+    private fun setUserState(estadoReserva : String) {
+        val docRef = uid?.let { db.collection("users").document(it) }
+        if (docRef != null) {
+            if(estadoReserva.equals("Reservada")){
+                docRef.update("reservaInReservada","")
+            }
+            if(estadoReserva.equals("CheckIn")){
+                docRef.update("reservaInCheckIn","")
+            }
+        }
     }
 
     private fun setCocheraState() {
@@ -161,7 +179,7 @@ class ProductFragment : Fragment() {
         val date = originalFormat.parse(dateString)
 
         // Define the new pattern to extract just the hour
-        val hourFormat = SimpleDateFormat("HH", Locale.ENGLISH)
+        val hourFormat = SimpleDateFormat("HH:mm", Locale.ENGLISH)
 
         // Return the formatted hour
         return hourFormat.format(date)

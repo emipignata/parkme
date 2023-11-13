@@ -156,7 +156,6 @@ class ProgramarReservaFr : Fragment() {
         val fechaHasta = LocalDate.parse( binding.etProgramarReservaFechaHasta.text.toString(), formatter)
         val horaDesde = LocalTime.parse(binding.etProgramarReservaHoraDesde.text.toString())
         val horaHasta = LocalTime.parse(binding.etProgramarReservaHoraHasta.text.toString())
-
         when {
             fechaDesde.isBefore(fechaHasta) -> areDatesValid = true
             fechaDesde.isEqual(fechaHasta) -> areDatesValid = horaDesde.isBefore(horaHasta)
