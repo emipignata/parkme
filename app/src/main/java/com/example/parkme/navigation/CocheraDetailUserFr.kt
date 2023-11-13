@@ -50,6 +50,7 @@ class CocheraDetailUserFr : Fragment() {
             programarButton.text = "Realiza el Checkout de tu cochera anterior"
         } else {
             reservarButton.isEnabled = true
+            programarButton.text = "Programa reserva"
             reservarButton.setOnClickListener {
                 val action = CocheraDetailUserFrDirections.actionCocheraDetailUserFrToReservaCocheraFr(cochera)
                 binding.root.findNavController()?.navigate(action)
@@ -62,6 +63,7 @@ class CocheraDetailUserFr : Fragment() {
 
         } else {
             programarButton.isEnabled = true
+            programarButton.text = "Reservar"
             programarButton.setOnClickListener {
                 val action = CocheraDetailUserFrDirections.actionCocheraDetailUserFrToReservaCocheraFr(cochera)
                 binding.root.findNavController()?.navigate(action)
