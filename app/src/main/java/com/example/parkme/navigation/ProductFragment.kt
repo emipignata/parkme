@@ -21,8 +21,6 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.parkme.R
 import com.example.parkme.databinding.FragmentProductBinding
-import com.example.parkme.entities.Cochera
-import com.example.parkme.entities.Pago
 import com.example.parkme.entities.Reserva
 import com.example.parkme.viewmodels.CheckoutViewModel
 import com.google.android.gms.common.api.ApiException
@@ -39,7 +37,6 @@ import org.json.JSONException
 import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.Locale
-
 
 class ProductFragment : Fragment() {
     private lateinit var binding: FragmentProductBinding
@@ -153,7 +150,7 @@ class ProductFragment : Fragment() {
     }
     // Add methods to update UI based on state if needed
 
-    fun extractHour(dateString: String): String {
+    private fun extractHour(dateString: String): String {
         // Define the original pattern of the date string
         val originalFormat = SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH)
 
