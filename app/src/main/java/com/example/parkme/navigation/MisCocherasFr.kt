@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.parkme.MainActivity
 import com.example.parkme.databinding.FragmentMisCocherasBinding
 import com.example.parkme.entities.Cochera
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
@@ -35,6 +36,10 @@ class MisCocherasFr : Fragment() {
         adapter = MisCocherasFirestoreAdapter(options)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
+
+        if (activity is MainActivity) {
+            (activity as MainActivity).setBottomNavViewVisibility(View.VISIBLE)
+        }
 
         binding.button3.setOnClickListener {
             val action = MisCocherasFrDirections.actionMisCocherasFrToAgregarCocheraFr()
