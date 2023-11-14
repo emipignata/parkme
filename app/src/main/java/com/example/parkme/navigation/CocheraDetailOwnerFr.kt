@@ -38,8 +38,6 @@ class CocheraDetailOwnerFr : Fragment() {
         cocheraDireccion.text = cochera.direccion
         val cocheraPrecio = binding.tVprecioPorHoraContainerItemView
         cocheraPrecio.text = cochera.price.toString()
-        val cocheraDisponibilidad = binding.tVDisponibilidadItemView
-        cocheraDisponibilidad.text = cochera.ocupada
 
 
         //val volverButton: Button = binding.buttonVolverItemView

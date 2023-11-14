@@ -184,5 +184,18 @@
     <string name="realizar_checkout_cochera_anterior">Realizá el Checkout de tu cochera anterior</string>
     <string name="alcanzaste_el_limite_de_una_reserva">Alcanzaste el límite de una Reserva</string>
     <string name="programa_reserva">Programa reserva</string>
+    <string name="switch_24_7_label">Disponible 24/7</string>
+    <string name="monday">Lunes</string>
+    <string name="add_time_range">agregá una ventana horaria</string>
+
+    <string-array name="days_of_week">
+        <item>Lunes</item>
+        <item>Martes</item>
+        <item>Miercoles</item>
+        <item>Jueves</item>
+        <item>Viernes</item>
+        <item>Sábado</item>
+        <item>Domingo</item>
+    </string-array>
 
 </resources>

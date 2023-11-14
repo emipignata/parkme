@@ -37,8 +37,6 @@ class CocheraOwnerEditFr : Fragment() {
           cocheraDireccion.setText(cochera.direccion)
         var cocheraPrecio = binding.eTPrecioPorHoraItemView
            cocheraPrecio.setText(cochera.price.toString())
-        var cocheraDisponibilidad = binding.eTDisponibilidadItemView
-          cocheraDisponibilidad.setText(cochera.ocupada)
         var urlImage = binding.simpleImageButtonItemView
         var aceptarEditButton: Button = binding.buttonAceptarEdit
 
@@ -49,12 +47,10 @@ class CocheraOwnerEditFr : Fragment() {
             val nuevoNombre = cocheraNombre.text.toString()
             val nuevaDireccion = cocheraDireccion.text.toString()
             val nuevoPrecio = cocheraPrecio.text.toString().toDouble()
-            val nuevaDisponibilidad = cocheraDisponibilidad.text.toString()
 
             cochera.nombre = nuevoNombre
             cochera.direccion = nuevaDireccion
             cochera.price = nuevoPrecio.toFloat()
-            cochera.ocupada = nuevaDisponibilidad
             cochera.urlImage =  "https://raicesdeperaleda.com/recursos/cache/cochera-1555889699-250x250.jpg"
 
             db.collection("cocheras").document(cochera.cocheraId).set(cochera)
