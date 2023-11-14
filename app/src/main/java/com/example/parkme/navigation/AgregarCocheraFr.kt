@@ -130,7 +130,7 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
         binding.eTDireccion.setOnClickListener(startAutocompleteIntentListener)
         val imageAgregarFoto = binding.simpleImageButton
         val buttonAgregarCochera = binding.button6
-        val volverAgregarCochera = binding.button5
+       // val volverAgregarCochera = binding.button5
         val eTNombreCochera = binding.eTNombreCochera
         val eTPrecioPorHora = binding.eTPrecioPorHora
         val eTDireccion = binding.eTDireccion
@@ -168,10 +168,6 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
 
         buttonAgregarCochera.setOnClickListener {
             agregarCochera()
-        }
-
-        volverAgregarCochera.setOnClickListener {
-            navegarAMisCocheras()
         }
 
         buttonAgregarCochera.isEnabled = false

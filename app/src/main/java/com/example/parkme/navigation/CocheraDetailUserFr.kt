@@ -36,13 +36,9 @@ class CocheraDetailUserFr : Fragment() {
     }
 
     private fun setBinding(){
-        val volverButton: Button = binding.CocheraDetailVolverButton
+
         val reservarButton: Button = binding.CocheraDetailReservarButton
         val programarButton: Button = binding.CocheraDetailProgramarButton
-        volverButton.setOnClickListener {
-            binding.root.findNavController().navigateUp()
-        }
-
 
 
         if (user.reservaInCheckIn != "") {

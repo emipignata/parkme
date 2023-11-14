@@ -51,9 +51,6 @@ class EstadoReservaFr : Fragment() {
             binding.root.findNavController().navigate(EstadoReservaFrDirections.actionEstadoReservaFrToProductFragment(pago, reserva))
         }
 
-        binding.estadoReservaVolver.setOnClickListener {
-            binding.root.findNavController().navigateUp()
-        }
 
         // Non-Firestore-dependent initializations
         binding.DetailOwnerName.text = reserva.ownerName

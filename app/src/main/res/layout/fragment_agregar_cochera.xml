@@ -123,13 +123,6 @@
             android:layout_marginHorizontal="30dp"
             android:layout_gravity="center"
             android:orientation="horizontal">
-            <Button
-                android:id="@+id/button5"
-                android:layout_width="120dp"
-                android:layout_margin="5dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/volver_buttom"/>
 
             <Button
                 android:id="@+id/button6"

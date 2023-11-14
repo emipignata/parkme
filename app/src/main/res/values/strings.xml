@@ -41,7 +41,7 @@
     <string name="frg_estado_reserva_locacion">Locación</string>
     <string name="frg_estado_reserva_precio_por_hora">Precio x Hs:</string>
     <string name="frg_estado_reserva_valor_hora">$1200</string>
-    <string name="frg_estado_reserva_egreso">Egreso</string>
+    <string name="frg_estado_reserva_egreso">Salir de la Cochera</string>
     <string name="frg_reserva_imagen_cochera">Imagen de la cochera</string>
     <string name="frg_reserva_imagen_dueno">Imagen dueño</string>
     <string name="frg_reserva_imagen_locacion">Imagen locacion</string>
