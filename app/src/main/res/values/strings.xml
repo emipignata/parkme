@@ -62,7 +62,7 @@
     <string name="frg_cochera_detail_precio_por_hora">$1200</string>
     <string name="frg_cochera_detail_precio_por_hora_title">Precio x Hs:</string>
     <string name="frg_cochera_detail_nombre_dueno_cochera">Nombre dueño Cochera</string>
-    <string name="frg_cochera_detail_reservar">Reservar</string>
+    <string name="frg_cochera_detail_estacionar_ahora">Estacionar Ahora!</string>
     <string name="frg_cochera_detail_programar">Programar</string>
     <string name="frg_cochera_detail_imagen_cochera">Imagen cochera</string>
     <string name="frg_cochera_detail_descripción_cochera">Descripción de la cochera</string>
@@ -181,6 +181,8 @@
     <string name="confirmar_reserva">Confirmar Reserva</string>
     <string name="ya_tiene_una_reserva_en_curso">Ya tiene una reserva en curso</string>
     <string name="estacionar_ahora">Estacionar Ahora!</string>
-
+    <string name="realizar_checkout_cochera_anterior">Realizá el Checkout de tu cochera anterior</string>
+    <string name="alcanzaste_el_limite_de_una_reserva">Alcanzaste el límite de una Reserva</string>
+    <string name="programa_reserva">Programa reserva</string>
 
 </resources>

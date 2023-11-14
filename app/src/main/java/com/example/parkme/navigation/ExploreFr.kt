@@ -58,11 +58,11 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        locationRequest = LocationRequest.create()?.apply {
+        locationRequest = LocationRequest.create().apply {
             interval = 10000 // Update interval in milliseconds
             fastestInterval = 5000 // Fastest update interval in milliseconds
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        }!!
+        }
 
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
@@ -89,9 +89,7 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
         mapFragment.getMapAsync(this)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
         fragmentManager = requireActivity().supportFragmentManager
-
         binding.searchBarEditText.setOnClickListener { startAutocompleteIntent() }
-
         return binding.root
     }
 
@@ -108,7 +106,7 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
             val intent = result.data
             if (intent != null) {
                 val place = Autocomplete.getPlaceFromIntent(intent)
-                Log.d(TAG, "Place: " + place.addressComponents)
+                Log.e(TAG, "Place: " + place.addressComponents)
                 fillInAddress(place)
             }
         } else if (result.resultCode == Activity.RESULT_CANCELED) {
@@ -119,26 +117,20 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
     private fun fillInAddress(place: Place) {
         val location = place.latLng
         if (location != null) {
-            Log.d(TAG, "New location: $location")
-
-            // Mueve la cámara a la nueva ubicación
-            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 18f))
-
-            // Actualiza la posición del marcador existente o crea uno nuevo
+            Log.e(TAG, "New location: $location")
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 15f))
             if (marker == null) {
                 marker = googleMap.addMarker(
                     MarkerOptions()
                         .position(location)
                         .title("Ubicación ingresada")
-                    // Agrega otras configuraciones si es necesario
                 )
             } else {
                 marker?.position = location
             }
         }
-        binding.searchBar.clearFocus()
+        binding.searchBarEditText.clearFocus()
     }
-
 
     private fun startAutocompleteIntent() {
         Log.d(TAG, "startAutocompleteIntent called")
@@ -240,7 +232,7 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
                             cocherasMarker.add(cochera)
                         }
                     }
-                    callback.invoke() // Call the callback once data is loaded
+                    callback.invoke()
                 } else {
                     Log.e("ExploreFr", "Error getting documents.", task.exception)
                 }
