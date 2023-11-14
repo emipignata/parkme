@@ -78,7 +78,6 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
             val intent = result.data
             if (intent != null) {
                 val place = Autocomplete.getPlaceFromIntent(intent)
-                Log.d(TAG, "Place: " + place.addressComponents)
                 fillInAddress(place)
             }
         } else if (result.resultCode == RESULT_CANCELED) {
@@ -93,7 +92,6 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
         )
         val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
             .setCountries(listOf("AR"))
-            //TODO: https://developers.google.com/maps/documentation/places/android-sdk/autocomplete
             .setTypesFilter(listOf(TypeFilter.ADDRESS.toString().lowercase()))
             .build(requireContext())
         startAutocomplete.launch(intent)
@@ -101,13 +99,10 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Start fetching the user name early
         getCurrentUserName { userName ->
             if (userName != null) {
                 ownerName = userName
-                // If the view is already created, update the UI
             } else {
-                // Handle the case where the user name couldn't be retrieved
                 Log.d("UserName", "Failed to retrieve the user name.")
             }
         }
@@ -137,7 +132,6 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
         val eTDescripcion = binding.eTDescripcion
         val eTDisponibilidad = binding.eTDisponibilidad
 
-        // Función para habilitar o deshabilitar el botón según la validación
         fun updateButtonState() {
             val isNombreCocheraValid = eTNombreCochera.text?.isNotEmpty()
             val isPrecioPorHoraValid = eTPrecioPorHora.text?.toString()?.toFloatOrNull() != null
@@ -178,7 +172,7 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
 
     fun getCurrentUserName(onResult: (String?) -> Unit) {
         if (uid == null) {
-            onResult(null) // No user logged in
+            onResult(null)
             return
         }
 
@@ -188,13 +182,12 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
             .addOnSuccessListener { documentSnapshot ->
                 if (documentSnapshot != null && documentSnapshot.exists()) {
                     val user = documentSnapshot.toObject(User::class.java)
-                    onResult(user?.nombre) // Send back the name of the user
+                    onResult(user?.nombre)
                 } else {
-                    onResult(null) // User document doesn't exist
+                    onResult(null)
                 }
             }
             .addOnFailureListener { exception ->
-                // Handle any errors here
                 onResult(null)
             }
     }
@@ -258,26 +251,20 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
             val imageUri = data?.data
             imageUri?.let {
                 uploadImageToFirebaseStorage(it)
-                //guardarImagen(it)
             }
         }
     }
 
     private fun uploadImageToFirebaseStorage(uri: Uri) {
         val filename = UUID.randomUUID().toString()
-        Log.e("ExploreFr", "uploadImageToFirebaseStorage: $filename")
         val ref = storageReference.child("images/$filename")
-        Log.e("ExploreFr", "uploadImageToFirebaseStorage: $ref")
         ref.putFile(uri)
             .addOnSuccessListener {
                 ref.downloadUrl.addOnSuccessListener { downloadUri ->
-                    Log.e("ExploreFr", "uploadImageToFirebaseStorage: $downloadUri")
-                    // Save the image URL to Firestore
                     saveImageURLToFirestore(downloadUri.toString())
                 }
             }
             .addOnFailureListener {
-                // Handle unsuccessful uploads
                 Toast.makeText(context, "Failed to upload image", Toast.LENGTH_SHORT).show()
             }
     }
@@ -287,9 +274,7 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
         db.collection("images")
             .add(data)
             .addOnSuccessListener { documentReference ->
-                // Check if Fragment is added and not destroyed
                 if (isAdded && !isRemoving) {
-                    // Load the image into the ImageView using Glide
                     viewLifecycleOwner.lifecycleScope.launch {
                         Glide.with(requireContext())
                             .load(url)
@@ -299,7 +284,6 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
                 imageURL = url
             }
             .addOnFailureListener {
-                // Handle any failures
                 if (isAdded) {
                     Toast.makeText(requireContext(), "Failed to save image URL", Toast.LENGTH_SHORT).show()
                 }

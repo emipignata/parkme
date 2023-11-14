@@ -23,7 +23,7 @@ class CocheraOwnerEditFr : Fragment() {
 
     private val args: CocheraOwnerEditFrArgs by navArgs()
     private lateinit var binding: FragmentCocheraOwnerEditBinding
-    private val cochera: Cochera by lazy { args.cochera } // Use lazy initialization
+    private val cochera: Cochera by lazy { args.cochera }
     private val uid: String? by lazy { FirebaseAuth.getInstance().currentUser?.uid }
 
     override fun onCreateView(

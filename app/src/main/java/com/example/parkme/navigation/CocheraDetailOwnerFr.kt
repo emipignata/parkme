@@ -18,13 +18,12 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 @SuppressLint("StaticFieldLeak")
 private val db = FirebaseFirestore.getInstance()
-//private val uid = FirebaseAuth.getInstance().currentUser?.uid
 
 
 class CocheraDetailOwnerFr : Fragment() {
     private val args: CocheraDetailOwnerFrArgs by navArgs()
     private lateinit var binding: FragmentCocheraDetailOwnerBinding
-    private val cochera: Cochera by lazy { args.cochera } // Use lazy initialization
+    private val cochera: Cochera by lazy { args.cochera }
     private val uid: String? by lazy { FirebaseAuth.getInstance().currentUser?.uid }
 
     override fun onCreateView(

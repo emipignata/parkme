@@ -81,7 +81,6 @@ class CocheraDetailUserFr : Fragment() {
         programarButton.setOnClickListener {
             val action = CocheraDetailUserFrDirections.actionCocheraDetailUserFrToProgramarReservaFr(cochera)
             binding.root.findNavController()?.navigate(action)
-            Toast.makeText(requireContext(), "Esta funcionalidad está en desarrollo", Toast.LENGTH_SHORT).show()
         }
 
 

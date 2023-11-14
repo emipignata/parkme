@@ -15,7 +15,6 @@ class MisCocherasFirestoreAdapter(options: FirestoreRecyclerOptions<Cochera>) :
     override fun onBindViewHolder(holder: CocheraHolder, position: Int, model: Cochera) {
         holder.setCard(model.nombre, model.direccion, model.price, model.urlImage, model.ocupada)
 
-        // Agrega un clic en el elemento para navegar a la pantalla detallada
         holder.itemView.setOnClickListener {
             val action = MisCocherasFrDirections.actionMisCocherasFrToCocheraDetailOwnerFr(model)
             holder.itemView.findNavController().navigate(action)

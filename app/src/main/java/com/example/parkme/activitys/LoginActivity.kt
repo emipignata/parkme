@@ -101,10 +101,8 @@ class LoginActivity : AppCompatActivity() {
             val idToken = credential?.googleIdToken
             if (idToken != null) {
                 val email = credential.id
-                Toast.makeText(applicationContext, "token: $email", Toast.LENGTH_SHORT).show()
                 firebaseAuth.signInWithCredential(userAuth)
                     .addOnCompleteListener(this) { task ->
-                        Log.e("TAG", "signInWithCredential:onComplete:" + task.getResult().toString())
                         if (task.isSuccessful) {
                             checkAndCreateUserInFirestore()
                             startActivity(Intent(this, MainActivity::class.java))
@@ -131,19 +129,17 @@ class LoginActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     val document = task.result
                     if (document != null && document.exists()) {
-                        // User exists in Firestore, no need to create it
+
                     } else if (currentUser != null) {
-                        // User doesn't exist, create a new document
+
                         val user = currentUser.displayName?.let { currentUser.email?.let { it1 -> User(userId = uid, nombre = it, email = it1, urlImage = currentUser.photoUrl.toString()) } }
                         if (user != null) {
                             userRef.set(user)
                         }
                     }
                 } else {
-                    // Handle the error
                     val exception = task.exception
                     if (exception != null) {
-                        // Handle the error
                     }
                 }
             }

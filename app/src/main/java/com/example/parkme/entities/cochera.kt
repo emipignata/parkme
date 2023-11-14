@@ -34,7 +34,6 @@ data class Cochera(
         parcel.readString() ?: "",
         parcel.readBoolean()
     )
-    // No-argument constructor is added here
     constructor() : this(
         "", "", "", 0.0, 0.0, 0.0f, "", "desocupada", "", "", "",true
     )

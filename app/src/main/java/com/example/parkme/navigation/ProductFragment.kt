@@ -87,7 +87,6 @@ class ProductFragment : Fragment() {
                 handleState(state)
             }
         }
-        // Handle button clicks and other interactions
     }
 
     private fun calculateTotal(): Float {
@@ -98,12 +97,10 @@ class ProductFragment : Fragment() {
 
     fun parseHoursAndMinutesToFloat(timeString: String): Float {
         val parts = timeString.split(":")
-        //tuve que implementar el caso de que por ejemplo me llegue una hora sin : o sea solo la hora,
-        //funciona pero no es lo optimo
         if (parts.size == 2) {
             try {
                 val hours = parts[0].toFloat()
-                val minutes = parts[1].toFloat() / 60.0f // Convert minutes to fraction of an hour
+                val minutes = parts[1].toFloat() / 60.0f
                 return hours + minutes
             } catch (e: NumberFormatException) {
                 println("Error parsing time: $e")
@@ -128,7 +125,6 @@ class ProductFragment : Fragment() {
     }
 
     private fun handleState(state: CheckoutViewModel.State) {
-        // Here you can handle the state updates, for example:
         if (state.checkoutSuccess) {
             setReservaState()
             setCocheraState()
@@ -155,28 +151,22 @@ class ProductFragment : Fragment() {
         cochera
             .update("available", true)
             .addOnSuccessListener {
-                // Update successful
-                // You can handle success here if needed
+
             }
             .addOnFailureListener { e ->
-                // Handle any errors that occurred during the update
-                // You can log the error or handle it as needed
+
                 println("Error updating document: $e")
             }
     }
     // Add methods to update UI based on state if needed
 
     fun extractHour(dateString: String): String {
-        // Define the original pattern of the date string
         val originalFormat = SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH)
 
-        // Parse the date string into a Date object
         val date = originalFormat.parse(dateString)
 
-        // Define the new pattern to extract just the hour
         val hourFormat = SimpleDateFormat("HH:mm", Locale.ENGLISH)
 
-        // Return the formatted hour
         return hourFormat.format(date)
     }
 
@@ -197,11 +187,9 @@ class ProductFragment : Fragment() {
 
 
     private fun requestPayment() {
-        // Disables the button to prevent multiple clicks.
         model.setGooglePayButtonClickable(false)
 
-        // The price provided to the API should include taxes and shipping.
-        // This price is not displayed to the user.
+
         val dummyPriceCents = 100L
         val shippingCostCents = 900L
         val task = model.getLoadPaymentDataTask(dummyPriceCents + shippingCostCents)
@@ -230,12 +218,10 @@ class ProductFragment : Fragment() {
                 }
             }
 
-            // Re-enables the Google Pay payment button.
             model.setGooglePayButtonClickable(true)
         }
     }
 
-    // Handle potential conflict from calling loadPaymentData
     private val resolvePaymentForResult =
         registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result: ActivityResult ->
             when (result.resultCode) {
@@ -249,7 +235,6 @@ class ProductFragment : Fragment() {
                 }
 
                 ComponentActivity.RESULT_CANCELED -> {
-                    // The user cancelled the payment attempt
                 }
             }
         }
@@ -258,12 +243,10 @@ class ProductFragment : Fragment() {
         val paymentInformation = paymentData.toJson()
 
         try {
-            // Token will be null if PaymentDataRequest was not constructed using fromJson(String).
             val paymentMethodData =
                 JSONObject(paymentInformation).getJSONObject("paymentMethodData")
             val billingName = paymentMethodData.getJSONObject("info")
                 .getJSONObject("billingAddress").getString("name")
-            Log.d("BillingName", billingName)
 
             Toast.makeText(
                 context,
@@ -271,7 +254,6 @@ class ProductFragment : Fragment() {
                 Toast.LENGTH_LONG
             ).show()
 
-            // Logging token string.
             Log.d(
                 "Google Pay token", paymentMethodData
                     .getJSONObject("tokenizationData")
@@ -303,7 +285,6 @@ class ProductFragment : Fragment() {
                     .show()
 
                 ComponentActivity.RESULT_CANCELED -> {
-                    // Save canceled
                 }
 
                 PayClient.SavePassesResult.SAVE_ERROR -> data?.let { intentData ->
@@ -318,7 +299,6 @@ class ProductFragment : Fragment() {
                 )
             }
 
-            // Re-enables the Google Pay payment button.
             model.setGoogleWalletButtonClickable(true)
 
         }
