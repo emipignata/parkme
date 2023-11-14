@@ -42,14 +42,11 @@ class CocheraDetailOwnerFr : Fragment() {
         cocheraDisponibilidad.text = cochera.ocupada
 
 
-        val volverButton: Button = binding.buttonVolverItemView
+        //val volverButton: Button = binding.buttonVolverItemView
         val eliminarButton: Button = binding.buttonEliminarItemView
         val editarButton: Button = binding.buttonEditarItemView
 
 
-        volverButton.setOnClickListener {
-            binding.root.findNavController().navigateUp()
-        }
 
         editarButton.setOnClickListener {
             val action = CocheraDetailOwnerFrDirections.actionCocheraDetailOwnerFrToCocheraOwnerEditFr(cochera)

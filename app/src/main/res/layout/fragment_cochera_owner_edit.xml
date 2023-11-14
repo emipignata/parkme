@@ -117,25 +117,14 @@
                     android:maxLength="@integer/ETDisponibilidadLength"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <LinearLayout
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="30dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal">
-            <Button
-                    android:id="@+id/button_volver_edit"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="50dp"
-                    android:text="@string/volver_buttom"/>
             <Button
                     android:id="@+id/button_aceptar_edit"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="50dp"
+                    android:layout_gravity="center"
+                android:layout_marginTop="10dp"
                     android:text="@string/frg_cochera_dueno_edit_aceptar"/>
-        </LinearLayout>
+
 
     </LinearLayout>
 </ScrollView>

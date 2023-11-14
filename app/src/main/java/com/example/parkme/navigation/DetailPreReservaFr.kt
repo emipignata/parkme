@@ -35,13 +35,9 @@ class DetailPreReservaFr : Fragment() {
         val ownerIdText: TextView = binding.ownerIdText
         ownerIdText.text = "OwnerId: ${cochera.owner}"
 
-        val volverButton: Button = binding.CocheraDetailVolverButton
         val reservarButton: Button = binding.CocheraDetailReservarButton
         val programarButton: Button = binding.CocheraDetailProgramarButton
         Log.e("CocheraDetailFr", "Cochera: $cochera")
-        volverButton.setOnClickListener {
-            binding.root.findNavController().navigateUp()
-        }
 
         reservarButton.setOnClickListener {
             val action = CocheraDetailUserFrDirections.actionCocheraDetailUserFrToReservaCocheraFr(cochera)

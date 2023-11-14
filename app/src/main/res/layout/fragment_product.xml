@@ -58,20 +58,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/button_volver_pago"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/volver_buttom"/>
+        >
 
         <Button
             android:id="@+id/googlePayButton"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="50dp"
+            android:gravity="center"
             android:text="@string/frg_product_pay_with_google"/>
     </LinearLayout>
 

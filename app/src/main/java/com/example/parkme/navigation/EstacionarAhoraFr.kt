@@ -104,9 +104,7 @@ class EstacionarAhoraFr() : Fragment() {
             binding.estacionarAhoraButton.setOnClickListener{
                 addReserva()
             }
-            binding.cocheraReservarVolverButton.setOnClickListener {
-                binding.root.findNavController().navigateUp()
-            }
+
         }
         //binding.root.findViewById<TextView>(R.id.detalleReservaText)
     }

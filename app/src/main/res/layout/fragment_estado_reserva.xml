@@ -293,20 +293,12 @@
             app:layout_constraintStart_toStartOf="parent" app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintVertical_bias="0.903">
 
-        <Button
-                android:id="@+id/estadoReservaVolver"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/volver_buttom"
-                android:layout_gravity="center"
-                android:layout_marginEnd="50dp"/>
 
         <Button
             android:id="@+id/pagarReserva"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="50dp"
             android:text="@string/frg_estado_reserva_egreso" />
     </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
