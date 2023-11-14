@@ -67,11 +67,6 @@ class ProductFragment : Fragment() {
             requestPayment()
         }
 
-        val volverButton: Button = binding.buttonVolverPago
-        volverButton.setOnClickListener {
-            binding.root.findNavController().navigateUp()
-        }
-
         binding.productTitle.text = reserva.direccion
         binding.productPrice.text = "\$pago.precio.toString()"
         binding.productDescription.text = "Detalle de la operacion: \n Desde: ${reserva.horaEntrada}hs \n" +

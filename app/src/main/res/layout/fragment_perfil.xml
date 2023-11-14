@@ -52,16 +52,16 @@
         android:id="@+id/btnLogout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="350dp"
+
         android:padding="25dp"
         android:text="@string/frg_perfil_logout"
         android:textColor="#FFFFFF"
-        android:textSize="25sp"
+        android:textSize="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.056" />
+        app:layout_constraintVertical_bias="0.756" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

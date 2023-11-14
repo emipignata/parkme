@@ -101,7 +101,6 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         // Start fetching the user name early
         getCurrentUserName { userName ->
             if (userName != null) {
@@ -113,7 +112,6 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
             }
         }
     }
-
 
     @SuppressLint("SuspiciousIndentation")
     override fun onCreateView(
@@ -132,7 +130,7 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
         binding.eTDireccion.setOnClickListener(startAutocompleteIntentListener)
         val imageAgregarFoto = binding.simpleImageButton
         val buttonAgregarCochera = binding.button6
-        val volverAgregarCochera = binding.button5
+       // val volverAgregarCochera = binding.button5
         val eTNombreCochera = binding.eTNombreCochera
         val eTPrecioPorHora = binding.eTPrecioPorHora
         val eTDireccion = binding.eTDireccion
@@ -172,10 +170,6 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
             agregarCochera()
         }
 
-        volverAgregarCochera.setOnClickListener {
-            navegarAMisCocheras()
-        }
-
         buttonAgregarCochera.isEnabled = false
 
         return binding.root
@@ -183,13 +177,11 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
 
 
     fun getCurrentUserName(onResult: (String?) -> Unit) {
-
         if (uid == null) {
             onResult(null) // No user logged in
             return
         }
 
-        val db = FirebaseFirestore.getInstance()
         val usersCollectionRef = db.collection("users")
 
         usersCollectionRef.document(uid).get()
@@ -206,7 +198,6 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera),
                 onResult(null)
             }
     }
-
 
     private fun navegarAMisCocheras(){
         val navController = binding.root.findNavController()

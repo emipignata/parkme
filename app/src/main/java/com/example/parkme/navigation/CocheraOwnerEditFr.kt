@@ -41,12 +41,7 @@ class CocheraOwnerEditFr : Fragment() {
           cocheraDisponibilidad.setText(cochera.ocupada)
         var urlImage = binding.simpleImageButtonItemView
         var aceptarEditButton: Button = binding.buttonAceptarEdit
-        var vovlerEditButton: Button = binding.buttonVolverEdit
 
-        vovlerEditButton.setOnClickListener() {
-            binding.root.findNavController().navigateUp()
-            // binding.root.findNavController().navigateUp() te hace el salto de 2 pantallas esta genial
-        }
 
 
         aceptarEditButton.setOnClickListener() {

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,29 +10,40 @@
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/map_container">
+        app:layout_constraintBottom_toTopOf="@id/map_container"
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.search.SearchBar
             android:id="@+id/search_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/frg_explore_map_encontra" />
+            android:layout_gravity="center"
+            android:hint="Encontrá tu ParkMe">
+            <com.example.parkme.models.AutocompleteEditText
+                android:id="@+id/search_bar_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints=""
+                android:hint="@string/eTDireccion_hint"
+                android:imeOptions="actionNext"
+                android:inputType="text" />
+        </com.google.android.material.search.SearchBar>
+
     </com.google.android.material.appbar.AppBarLayout>
 
     <FrameLayout
         android:id="@+id/map_container"
         android:layout_width="match_parent"
         android:layout_height="600dp"
-        android:layout_marginTop="15dp"
         android:layout_marginBottom="35dp"
         android:background="@color/md_theme_dark_onSecondaryContainer"
         app:layout_constraintTop_toBottomOf="@id/appBarLayout">
+
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/map"
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
 
     </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
