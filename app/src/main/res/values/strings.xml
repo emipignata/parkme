@@ -77,7 +77,9 @@
     <string name="frg_cochera_dueno_edit_precio_por_hora">Precio por hora $</string>
     <string name="frg_cochera_dueno_edit_descripcion">Descripción</string>
     <string name="frg_cochera_dueno_edit_disponibilidad">Disponibilidad</string>
-    <string name="frg_cochera_dueno_edit_aceptar">Aceptar</string>
+    <string name="frg_cochera_dueno_edit_aceptar">Editar</string>
+    <string name="frg_cochera_dueno_edit_no_editable">Campo no editable</string>
+
     <string name="frg_cochera_dueno_edit_"></string>
     <string name="_mis_cocheras_item_imagen_descripcion">Imagen de cochera</string>
     <string name="_mis_cocheras_item_ubicacion">Juncal y Larrea</string>

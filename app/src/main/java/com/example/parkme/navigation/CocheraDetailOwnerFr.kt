@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
+import com.example.parkme.MainActivity
 import com.example.parkme.databinding.FragmentCocheraDetailOwnerBinding
 import com.example.parkme.entities.Cochera
 import com.google.firebase.auth.FirebaseAuth
@@ -41,6 +42,11 @@ class CocheraDetailOwnerFr : Fragment() {
 
         val eliminarButton: Button = binding.buttonEliminarItemView
         val editarButton: Button = binding.buttonEditarItemView
+
+        if (activity is MainActivity) {
+            (activity as MainActivity).setBottomNavViewVisibility(View.VISIBLE)
+        }
+
 
         editarButton.setOnClickListener {
             val action = CocheraDetailOwnerFrDirections.actionCocheraDetailOwnerFrToCocheraOwnerEditFr(cochera)
