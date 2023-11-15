@@ -1,4 +1,5 @@
 package com.example.parkme.entities
+
 import android.os.Parcel
 import android.os.Parcelable
 

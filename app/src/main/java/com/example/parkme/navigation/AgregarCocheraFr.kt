@@ -302,6 +302,7 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera), OnMapReady
 
     private fun agregarCochera() {
         val weeklyAvailability = if (binding.switch247.isChecked) {
+            setFullWeekAvailability()
             cochera.weeklyAvailability
         } else {
             collectCustomWeeklyAvailability()
@@ -315,7 +316,7 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera), OnMapReady
         val lng = coordinates.longitude
 
         val newCochera = Cochera(
-            cocheraId = "", // Assuming it's generated elsewhere or by the database
+            cocheraId = "",
             nombre = nombreCochera,
             direccion = direccion,
             lat = lat,
@@ -326,7 +327,7 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera), OnMapReady
             ownerName = ownerName,
             descripcion = descripcion,
             weeklyAvailability = weeklyAvailability.toMutableList(),
-            reservas = mutableListOf() // Assuming reservations are handled separately
+            reservas = mutableListOf()
         )
 
         db.collection("cocheras")
