@@ -37,8 +37,8 @@ class CocheraDetailUserFr : Fragment() {
     }
 
     private fun setBinding(){
-        val reservarButton: Button = binding.CocheraDetailReservarButton
-        val programarButton: Button = binding.CocheraDetailProgramarButton
+        var reservarButton: Button = binding.CocheraDetailReservarButton
+        var programarButton: Button = binding.CocheraDetailProgramarButton
         if (user.reservaInCheckIn != "") {
             reservarButton.isEnabled = false
             programarButton.text = getString(R.string.realizar_checkout_cochera_anterior)

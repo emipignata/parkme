@@ -40,7 +40,7 @@ class EstacionarAhoraFr() : Fragment() {
 
     private fun addReserva() {
         val cochera: Cochera = args.cochera
-        reserva.precio = cochera.price
+        reserva.precioPorHora = cochera.price
         reserva.usuarioId = uid.toString()
         reserva.cocheraId = cochera.cocheraId
         reserva.ownerId = cochera.owner

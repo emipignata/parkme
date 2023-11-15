@@ -105,6 +105,8 @@ class ProgramarReservaFr : Fragment() {
             binding.etProgramarReservaFechaHasta.text.toString(),
             binding.etProgramarReservaHoraHasta.text.toString()
         )
+
+        val precioTotal = cochera.price * (endDate.time - startDate.time) / 3600000
         val reserva = Reserva(
             "",
             uid.toString(),
@@ -117,7 +119,8 @@ class ProgramarReservaFr : Fragment() {
             endTime,
             cochera.direccion,
             cochera.urlImage,
-            cochera.ownerName
+            cochera.ownerName,
+            precioTotal
         )
 
         db.collection("historial")

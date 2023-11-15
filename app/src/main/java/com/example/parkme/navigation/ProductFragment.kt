@@ -77,7 +77,7 @@ class ProductFragment : Fragment() {
 
     private fun calculateTotal(): Float {
         val hsTotal = reserva.fechaSalida// - reserva.fechaEntrada
-        return reserva.precio //* hsTotal
+        return reserva.precioPorHora //* hsTotal
     }
 
     private fun handleState(state: CheckoutViewModel.State) {

@@ -64,11 +64,12 @@ class EstadoReservaFr : Fragment() {
         val formattedTimeDifference = formatTimeDifference(timeDifference)
         when (reserva.estado) {
             "Reservada" -> {
-                binding.precioTotalDetailPlaceholder.text = "Precio Total \nEstimado: "
-                binding.cantHsDetailPlaceHolder.text = "\n \nDesde: $formattedFechaEntrada \nHasta: $formattedFechaSalida"
+                binding.precioTotalDetailPlaceholder.text = "Precio TotalEstimado: "
+                binding.cantHsDetailPlaceHolder.text = "\n \nDesde: $formattedFechaEntrada \nHasta: $formattedFechaSalida\n" +
+                        "Tiempo Estimado: $formattedTimeDifference"
                 binding.pagarReserva.text = "Ingresar a la Cochera"
                 binding.cantidadDeHorasDetail.text = "HorasReservadas"
-                binding.precioTotalDetail.text = calculatePrice(timeDifference, reserva.precio)
+                binding.precioTotalDetail.text = calculatePrice(timeDifference, reserva.precioPorHora)
                 binding.pagarReserva.setOnClickListener {
                     setUserState()
                     setupReservaState("CheckIn")
@@ -78,7 +79,7 @@ class EstadoReservaFr : Fragment() {
                 binding.cantidadDeHorasDetail.text = "En Curso: "
                 binding.cantHsDetailPlaceHolder.text = "\n\nDesde: $formattedFechaEntrada \nTiempo Transcurrido: $formattedTimeDifference"
                 binding.precioTotalDetailPlaceholder.text = "Precio al Momento"
-                binding.precioTotalDetail.text = calculatePrice(timeDifference, reserva.precio)
+                binding.precioTotalDetail.text = calculatePrice(timeDifference, reserva.precioPorHora)
                 binding.pagarReserva.text = "Salir de la Cochera"
                 binding.pagarReserva.setOnClickListener {
                     reserva.fechaSalida = Timestamp.now()
@@ -88,7 +89,7 @@ class EstadoReservaFr : Fragment() {
             }
             "CheckOut" -> {
                 binding.precioTotalDetailPlaceholder.text = "Precio Total: "
-                binding.precioTotalDetail.text = calculatePrice(timeDifference, reserva.precio)
+                binding.precioTotalDetail.text = "\$reserva.precioTotal.toString()"
                 binding.cantidadDeHorasDetail.text = "Estadía: "
                 binding.cantHsDetailPlaceHolder.text = "\n\nDesde: $formattedFechaEntrada \nHasta: $formattedFechaSalida \n Cant Hs: $formattedTimeDifference"
                 binding.pagarReserva.text = "Pagar"
@@ -99,7 +100,7 @@ class EstadoReservaFr : Fragment() {
             }
             "Finalizada" -> {
                 binding.precioTotalDetailPlaceholder.text = "Precio Total: "
-                binding.precioTotalDetail.text = calculatePrice(timeDifference, reserva.precio)
+                binding.precioTotalDetail.text = "\$reserva.precioTotal.toString()"
                 binding.cantidadDeHorasDetail.text = "Estadía: "
                 binding.cantHsDetailPlaceHolder.text = "\n\nDesde: $formattedFechaEntrada \nHasta: $formattedFechaSalida \n Cant Hs: $formattedTimeDifference"
                 binding.pagarReserva.visibility = View.GONE
@@ -114,14 +115,15 @@ class EstadoReservaFr : Fragment() {
     }
 
     private fun calculatePrice(timeDifferenceInMinutes: Long, hourlyRate: Float): String {
-        val price = if (timeDifferenceInMinutes <= 60) {
-            hourlyRate
+        if (timeDifferenceInMinutes <= 60) {
+            return String.format("%.2f", hourlyRate)
         } else {
             val additionalMinutes = timeDifferenceInMinutes - 60
             val additionalQuarters = Math.ceil(additionalMinutes / 15.0).toInt()
-            hourlyRate + (hourlyRate / 4 * additionalQuarters)
+            val additionalCharge = hourlyRate / 4 * additionalQuarters
+            val totalCharge = hourlyRate + additionalCharge
+            return String.format("%.2f", totalCharge)
         }
-        return String.format("%.2f", price)
     }
 
     private fun calculateTimeDifference(startTimestamp: Timestamp?, endTimestamp: Timestamp): Long {

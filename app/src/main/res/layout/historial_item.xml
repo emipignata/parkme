@@ -36,10 +36,10 @@
 
                 <LinearLayout
                     android:id="@+id/reserva_linerLayout"
-                    android:layout_width="193dp"
+                    android:layout_width="210dp"
                     android:layout_height="189dp"
+                    android:layout_marginTop="10dp"
                     android:orientation="vertical"
-                    android:padding="15dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.132"
@@ -99,9 +99,9 @@
 
                 <ImageView
                     android:id="@+id/imageView6"
-                    android:layout_width="140dp"
+                    android:layout_width="120dp"
                     android:layout_height="162dp"
-                    android:layout_marginEnd="13dp"
+                    android:layout_marginEnd="10dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
