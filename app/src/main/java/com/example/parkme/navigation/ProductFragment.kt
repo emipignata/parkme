@@ -40,12 +40,10 @@ import java.util.Locale
 class ProductFragment : Fragment() {
     private lateinit var binding: FragmentProductBinding
     val db = FirebaseFirestore.getInstance()
-    private val uid = FirebaseAuth.getInstance().currentUser?.uid
     private val model: CheckoutViewModel by viewModels()
     private val args: ProductFragmentArgs by navArgs()
     private val addToGoogleWalletRequestCode = 1000
     private val reserva: Reserva by lazy { args.reserva }
-    private lateinit var horaSalida : String
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -63,8 +61,8 @@ class ProductFragment : Fragment() {
 
         binding.productTitle.text = reserva.direccion
         binding.productPrice.text = "\$pago.precio.toString()"
-        binding.productDescription.text = "Detalle de la operacion: \n Desde: ${reserva.horaEntrada}hs \n" +
-                " Hasta: ${mostrarHoraFinalizacion()}hs"
+        binding.productDescription.text = "Detalle de la operacion: \n Desde: ${reserva.fechaEntrada}hs \n" +
+                " Hasta: ${reserva.fechaSalida}hs"
         binding.productPrice.text = calculateTotal().toString()
         Glide.with(this)
             .load(reserva.urlImage)
@@ -78,37 +76,8 @@ class ProductFragment : Fragment() {
     }
 
     private fun calculateTotal(): Float {
-        var horaInicio = reserva.horaSalida
-        var horaFin = reserva.horaEntrada
-        return reserva.precio * (parseHoursAndMinutesToFloat(horaInicio) - parseHoursAndMinutesToFloat(horaFin))
-    }
-
-    fun parseHoursAndMinutesToFloat(timeString: String): Float {
-        val parts = timeString.split(":")
-        if (parts.size == 2) {
-            try {
-                val hours = parts[0].toFloat()
-                val minutes = parts[1].toFloat() / 60.0f
-                return hours + minutes
-            } catch (e: NumberFormatException) {
-                println("Error parsing time: $e")
-            }
-        } else if(timeString.equals("Indefinido")) {
-            return parseHoursAndMinutesToFloat(extractHour(Timestamp.now().toDate().toString()))
-        }else{
-            return parts[0].toFloat()
-        }
-        return 0.0f
-    }
-
-    private fun mostrarHoraFinalizacion(): String {
-        if(reserva.horaSalida.equals("Indefinido")){
-            horaSalida = extractHour(Timestamp.now().toDate().toString())
-        }
-        else {
-            horaSalida = reserva.horaSalida
-        }
-        return horaSalida
+        val hsTotal = reserva.fechaSalida// - reserva.fechaEntrada
+        return reserva.precio //* hsTotal
     }
 
     private fun handleState(state: CheckoutViewModel.State) {

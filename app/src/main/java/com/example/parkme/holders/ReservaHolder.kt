@@ -8,16 +8,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.parkme.R
 import com.example.parkme.entities.Reserva
+import java.text.SimpleDateFormat
+import java.util.Locale
+import java.util.concurrent.TimeUnit
 
-
-class ReservaHolder (v: View) : RecyclerView.ViewHolder(v) {
-
-    private var view: View
-    init {
-        this.view = v
-    }
+class ReservaHolder(v: View) : RecyclerView.ViewHolder(v) {
+    private var view: View = v
 
     fun setCard(reserva: Reserva) {
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
 
         val cardReservaId: TextView = view.findViewById(R.id.tvReservaCardAddress)
         val cardPrecio: TextView = view.findViewById(R.id.tvReservaCardTotalPrice)
@@ -26,20 +25,33 @@ class ReservaHolder (v: View) : RecyclerView.ViewHolder(v) {
         val cardEndTime: TextView = view.findViewById(R.id.tvReservaCardFinishTime)
         val cardTotalTime: TextView = view.findViewById(R.id.tvReservaCardTotalTime)
         val cardImagen: ImageView = view.findViewById(R.id.imageView6)
-        val cardOwnerName: TextView =  view.findViewById((R.id.tvReservaCardNombreDueno))
+        val cardOwnerName: TextView = view.findViewById(R.id.tvReservaCardNombreDueno)
 
-        if (reserva.horaSalida == "0" ){
+        reserva.fechaEntrada?.toDate()?.let { date ->
+            cardStartTime.text = "Entrada: ${dateFormat.format(date)}"
+        }
+
+        reserva.fechaSalida?.toDate()?.let { date ->
+            cardEndTime.text = "Salida: ${dateFormat.format(date)}"
+        } ?: run {
             cardEndTime.text = "En curso"
-            cardTotalTime.text = "En curso"
-        } else {
-            cardEndTime.text = "Hs Salida: " + reserva.horaSalida + "Hs"
-            cardTotalTime.text = "Hs Totales: " + reserva.horaSalida + "Hs"
+        }
+
+        reserva.fechaEntrada?.toDate()?.let { start ->
+            reserva.fechaSalida?.toDate()?.let { end ->
+                val duration = end.time - start.time
+                val hours = TimeUnit.MILLISECONDS.toHours(duration)
+                val minutes = TimeUnit.MILLISECONDS.toMinutes(duration) - TimeUnit.HOURS.toMinutes(hours)
+                cardTotalTime.text = "Hs Totales: $hours Hrs $minutes Min"
+            } ?: run {
+                cardTotalTime.text = "En curso"
+            }
         }
 
         cardReservaId.text = reserva.direccion
-        cardPrecio.text = "$ Total: " + ((reserva.precio)*2).toString()
-        cardPrecioPorHora.text = "$/Hs: " + reserva.precio.toString()
-        cardStartTime.text = "Hs Entrada: " + reserva.horaEntrada + "Hs"
+        cardPrecio.text = "$ Total: ${(reserva.precio * 2).toString()}"
+        cardPrecioPorHora.text = "$/Hs: ${reserva.precio.toString()}"
+
         cardOwnerName.text = reserva.ownerName
 
         Glide.with(view).load(reserva.urlImage).into(cardImagen)

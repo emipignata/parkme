@@ -18,8 +18,11 @@ import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.LocalTime
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.util.Date
 
 class ProgramarReservaFr : Fragment() {
     private lateinit var binding : FragmentProgramarReservaBinding
@@ -28,8 +31,6 @@ class ProgramarReservaFr : Fragment() {
     private val uid = FirebaseAuth.getInstance().currentUser?.uid
     private val db = FirebaseFirestore.getInstance()
     private lateinit var user: User
-    private var startTime: Long = 0
-    private var endTime: Long = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -71,19 +72,49 @@ class ProgramarReservaFr : Fragment() {
         }
     }
 
+    private fun getTimestampFromDateAndTime(dateStr: String, timeStr: String): Timestamp {
+        val dateTimeStr = "$dateStr $timeStr"
+        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
+        val localDateTime = LocalDateTime.parse(dateTimeStr, formatter)
+        val instant = localDateTime.atZone(ZoneId.systemDefault()).toInstant()
+        return Timestamp(Date.from(instant))
+    }
+
     private fun confirmarReserva() {
+        val formatterDate = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+        val formatterTime = DateTimeFormatter.ofPattern("HH:mm")
+
+        val fechaDesde = LocalDate.parse(binding.etProgramarReservaFechaDesde.text.toString(), formatterDate)
+        val horaDesde = LocalTime.parse(binding.etProgramarReservaHoraDesde.text.toString(), formatterTime)
+        val fechaHasta = LocalDate.parse(binding.etProgramarReservaFechaHasta.text.toString(), formatterDate)
+        val horaHasta = LocalTime.parse(binding.etProgramarReservaHoraHasta.text.toString(), formatterTime)
+
+        val startDateTime = LocalDateTime.of(fechaDesde, horaDesde)
+        val endDateTime = LocalDateTime.of(fechaHasta, horaHasta)
+
+        // Convert LocalDateTime to Date
+        val startDate = Date.from(startDateTime.atZone(ZoneId.systemDefault()).toInstant())
+        val endDate = Date.from(endDateTime.atZone(ZoneId.systemDefault()).toInstant())
+
+        // Create Timestamps from Dates
+        val startTime = getTimestampFromDateAndTime(
+            binding.etProgramarReservaFechaDesde.text.toString(),
+            binding.etProgramarReservaHoraDesde.text.toString()
+        )
+        val endTime = getTimestampFromDateAndTime(
+            binding.etProgramarReservaFechaHasta.text.toString(),
+            binding.etProgramarReservaHoraHasta.text.toString()
+        )
         val reserva = Reserva(
             "",
             uid.toString(),
-            Timestamp.now().toDate().toString(),
+            Timestamp.now(),
             cochera.cocheraId,
             cochera.owner,
             "Reservada",
             cochera.price,
-            binding.etProgramarReservaFechaDesde.text.toString(),
-            binding.etProgramarReservaHoraDesde.text.toString(),
-            binding.etProgramarReservaFechaHasta.text.toString(),
-            binding.etProgramarReservaHoraHasta.text.toString(),
+            startTime,
+            endTime,
             cochera.direccion,
             cochera.urlImage,
             cochera.ownerName

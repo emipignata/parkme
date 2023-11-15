@@ -29,6 +29,7 @@ class ReservasFinalizadasFr : Fragment() {
         val query = db.collection("historial")
             .whereEqualTo("usuarioId", uid)
             .whereEqualTo("estado", "Finalizada")
+
         recyclerView = binding.reservasFinalizadasRecyclerView
         val options = FirestoreRecyclerOptions.Builder<Reserva>()
             .setQuery(query, Reserva::class.java)

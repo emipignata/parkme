@@ -43,13 +43,12 @@ class EstadoReservaFr : Fragment() {
             updateUIBasedOnReservaState(updatedReserva)
         }
         getUserState()
-        setupUI()
+        updateUIBasedOnReservaState(reserva)
         findOwner(uid.toString())
         findOwner(reserva.ownerId)
         findCochera(reserva.cocheraId)
         binding.DetailOwnerName.text = reserva.ownerName
-        binding.DetailDescripcion.text = reserva.fechaCreacion
-        binding.cantHsDetailPlaceHolder.text = "${reserva.horaEntrada} - ${reserva.horaSalida}"
+        binding.DetailDescripcion.text = reserva.direccion
         binding.DetailCallButton.setOnClickListener {
             initiateCall("123456789")
         }
@@ -58,53 +57,36 @@ class EstadoReservaFr : Fragment() {
 
     private fun updateUIBasedOnReservaState(reserva: Reserva) {
         when (reserva.estado) {
-            "Reservada" -> setupReservada()
-            "CheckIn" -> setupCheckIn()
-            "CheckOut" -> setupCheckOut()
-            "Finalizada" -> setupFinalizada()
+            "Reservada" -> {
+                binding.cantHsDetailPlaceHolder.text = ("(${reserva.fechaSalida} - ${reserva.fechaEntrada})").toString()
+                binding.pagarReserva.text = "Ingresar a la Cochera"
+                binding.pagarReserva.setOnClickListener {
+                    setUserState()
+                    setupReservaState("CheckIn")
+                }
+            }
+            "CheckIn" -> {
+                binding.cantHsDetailPlaceHolder.text = ("(${reserva.fechaSalida} - ${reserva.fechaEntrada})").toString()
+                binding.pagarReserva.text = "Salir de la Cochera"
+                binding.pagarReserva.setOnClickListener {
+                    reserva.fechaSalida = com.google.firebase.Timestamp.now()
+                    setUserState()
+                    setupReservaState("CheckOut")
+                }
+            }
+            "CheckOut" -> {
+                binding.cantHsDetailPlaceHolder.text = ("(${reserva.fechaSalida} - ${reserva.fechaEntrada})").toString()
+                binding.pagarReserva.text = "Pagar"
+                binding.pagarReserva.setOnClickListener {
+                    setUserState()
+                    binding.root.findNavController().navigate(EstadoReservaFrDirections.actionEstadoReservaFrToProductFragment(reserva))
+                }
+            }
+            "Finalizada" -> {
+                binding.cantHsDetailPlaceHolder.text = ("(${reserva.fechaSalida} - ${reserva.fechaEntrada})").toString()
+                binding.pagarReserva.visibility = View.GONE
+            }
         }
-    }
-
-    private fun setupUI() {
-        if (reserva.estado.equals("Reservada")) {
-            setupReservada()
-        } else if (reserva.estado.equals("CheckIn")){
-            setupCheckIn()
-        } else if (reserva.estado.equals("CheckOut")){
-            setupCheckOut()
-        } else if (reserva.estado.equals("Finalizada")){
-            setupFinalizada()
-        }
-    }
-
-    private fun setupReservada(){
-        binding.pagarReserva.text = "Ingresar a la Cochera"
-        binding.pagarReserva.setOnClickListener {
-            setUserState()
-            setupReservaState("CheckIn")
-        }
-    }
-
-    private fun setupCheckIn(){
-        binding.pagarReserva.text = "Salir de la Cochera"
-        binding.pagarReserva.setOnClickListener {
-            reserva.horaSalida = extractHour(com.google.firebase.Timestamp.now().toDate().toString())
-            setUserState()
-            setupReservaState("CheckOut")
-        }
-    }
-
-    private fun setupCheckOut(){
-        binding.pagarReserva.text = "Pagar"
-        binding.pagarReserva.setOnClickListener {
-            val pago = Pago(reserva, reserva.ownerId, reserva.fechaCreacion, reserva.fechaCreacion,
-                reserva.fechaCreacion, 100.1)
-            binding.root.findNavController().navigate(EstadoReservaFrDirections.actionEstadoReservaFrToProductFragment(pago, reserva))
-        }
-    }
-
-    private fun setupFinalizada(){
-        binding.pagarReserva.visibility = View.GONE
     }
 
     private fun setupReservaState(estado: String) {
@@ -129,10 +111,10 @@ class EstadoReservaFr : Fragment() {
         }
     }
 
-    private fun extractHour(dateString: String): String {
+    private fun extractDate(dateString: String): String {
         val originalFormat = SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH)
         val date = originalFormat.parse(dateString)
-        val hourFormat = SimpleDateFormat("HH:mm", Locale.ENGLISH)
+        val hourFormat = SimpleDateFormat("MMM dd HH:mm", Locale.ENGLISH)
         return hourFormat.format(date)
     }
 

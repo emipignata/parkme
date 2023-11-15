@@ -107,9 +107,6 @@
         android:name="com.example.parkme.navigation.ProductFragment"
         android:label="ProductFragment" >
         <argument
-            android:name="pago"
-            app:argType="com.example.parkme.entities.Pago" />
-        <argument
             android:name="reserva"
             app:argType="com.example.parkme.entities.Reserva" />
     </fragment>
