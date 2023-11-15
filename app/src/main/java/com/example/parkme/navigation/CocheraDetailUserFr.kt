@@ -71,7 +71,6 @@ class CocheraDetailUserFr : Fragment() {
         Glide.with(requireContext())
             .load(cochera.urlImage)
             .into(binding.imageView2)
-//a
         programarButton.setOnClickListener {
             val action = CocheraDetailUserFrDirections.actionCocheraDetailUserFrToProgramarReservaFr(cochera)
             binding.root.findNavController()?.navigate(action)
