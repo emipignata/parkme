@@ -4,16 +4,12 @@ import android.os.Parcel
 import android.os.Parcelable
 
 data class DailyAvailability(
-    val dayOfWeek: String,
-    var timeRanges: List<TimeRange>
+    val dayOfWeek: String = "",
+    var timeRanges: MutableList<TimeRange> = mutableListOf()
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "",
-        parcel.createTypedArrayList(TimeRange.CREATOR) ?: listOf()
-    )
-
-    constructor() : this(
-        "", emptyList()
+        parcel.createTypedArrayList(TimeRange.CREATOR) ?: mutableListOf()
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {

@@ -189,18 +189,14 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera), OnMapReady
     private fun setFullWeekAvailability() {
         val midnight = LocalTime.MIDNIGHT.toSecondOfDay().toLong()
         val endOfDay = LocalTime.MAX.toSecondOfDay().toLong()
-
-        cochera.weeklyAvailability = listOf(
-            "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"
-        ).map { day ->
-            DailyAvailability(day, listOf(TimeRange(midnight, endOfDay)))
-        }
-
-        Log.d(TAG, "Full week availability set: ${cochera.weeklyAvailability}")
+        val fullWeekAvailability = listOf("Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo")
+            .map { DailyAvailability(it, mutableListOf(TimeRange(midnight, endOfDay))) }
+        cochera.weeklyAvailability.clear()
+        cochera.weeklyAvailability.addAll(fullWeekAvailability)
     }
 
     private fun clearFullWeekAvailability() {
-        cochera.weeklyAvailability = emptyList()
+        cochera.weeklyAvailability.clear()
     }
 
     private fun addTimeRange() {
@@ -227,17 +223,19 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera), OnMapReady
     private fun addToWeeklyAvailability(day: String, start: LocalTime, end: LocalTime) {
         val startSeconds = start.toSecondOfDay().toLong()
         val endSeconds = end.toSecondOfDay().toLong()
+        val newTimeRange = TimeRange(startSeconds, endSeconds)
 
         val dailyAvailability = cochera.weeklyAvailability.find { it.dayOfWeek == day }
-            ?: DailyAvailability(day, mutableListOf()).also {
-                cochera.weeklyAvailability = cochera.weeklyAvailability + it
+        if (dailyAvailability != null) {
+            if (!dailyAvailability.timeRanges.any { it.startSeconds == startSeconds && it.endSeconds == endSeconds }) {
+                dailyAvailability.timeRanges.add(newTimeRange)
             }
-        val newTimeRange = TimeRange(startSeconds, endSeconds)
-        dailyAvailability.timeRanges = dailyAvailability.timeRanges + newTimeRange
-
+        } else {
+            val newDailyAvailability = DailyAvailability(day, mutableListOf(newTimeRange))
+            cochera.weeklyAvailability.add(newDailyAvailability)
+        }
         addTimeRangeView(newTimeRange, day)
     }
-
 
     private fun addTimeRangeView(timeRange: TimeRange, day: String) {
         val timeRangeView = LayoutInflater.from(context).inflate(R.layout.time_range_item, null)
@@ -247,27 +245,31 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera), OnMapReady
         val txtEndTime = timeRangeView.findViewById<TextView>(R.id.txtEndTime)
         val btnDelete = timeRangeView.findViewById<Button>(R.id.btnDelete)
 
-        val startTime = LocalTime.ofSecondOfDay(timeRange.startSeconds)
-        val endTime = LocalTime.ofSecondOfDay(timeRange.endSeconds)
-
         txtDay.text = day
-        txtStartTime.text = startTime.toString()
-        txtEndTime.text = endTime.toString()
+        txtStartTime.text = LocalTime.ofSecondOfDay(timeRange.startSeconds).toString()
+        txtEndTime.text = LocalTime.ofSecondOfDay(timeRange.endSeconds).toString()
 
         btnDelete.setOnClickListener {
             removeTimeRangeView(timeRangeView, timeRange, day)
         }
 
+        timeRangeView.setTag(R.id.tag_daily_availability, DailyAvailability(day, mutableListOf(timeRange)))
         binding.disponibilidadContainer.addView(timeRangeView)
     }
 
-
     private fun removeTimeRangeView(view: View, timeRange: TimeRange, day: String) {
+        // Remove the view from the layout
         binding.disponibilidadContainer.removeView(view)
+
+        // Find the DailyAvailability object for the specified day
         val dayAvailability = cochera.weeklyAvailability.find { it.dayOfWeek == day }
-        dayAvailability?.timeRanges = dayAvailability?.timeRanges?.filterNot { it == timeRange }.orEmpty()
+
+        // Remove the specific TimeRange object from the DailyAvailability
+        dayAvailability?.timeRanges?.removeIf { it.startSeconds == timeRange.startSeconds && it.endSeconds == timeRange.endSeconds }
+
+        // If there are no more TimeRanges left for that day, remove the DailyAvailability object from the list
         if (dayAvailability?.timeRanges.isNullOrEmpty()) {
-            cochera.weeklyAvailability = cochera.weeklyAvailability.filterNot { it == dayAvailability }
+            cochera.weeklyAvailability.remove(dayAvailability)
         }
     }
 
@@ -302,56 +304,56 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera), OnMapReady
 
     private fun agregarCochera() {
         val weeklyAvailability = if (binding.switch247.isChecked) {
-            Log.d(TAG, "Using full week availability")
-            setFullWeekAvailability()
             cochera.weeklyAvailability
         } else {
-            Log.d(TAG, "Using custom availability")
-            binding.disponibilidadContainer.children.mapNotNull { view ->
-                view.getTag(R.id.tag_daily_availability) as? DailyAvailability
-            }.toList()
+            collectCustomWeeklyAvailability()
         }
+
         val nombreCochera = binding.eTNombreCochera.text.toString()
-        val precioPorHora = binding.eTPrecioPorHora.text.toString()
+        val precioPorHora = binding.eTPrecioPorHora.text.toString().toFloatOrNull() ?: 0.0f
         val direccion = binding.eTDireccion.text.toString()
         val descripcion = binding.eTDescripcion.text.toString()
         val lat = coordinates.latitude
         val lng = coordinates.longitude
-        if (uid != null) {
 
-            val cochera = Cochera(
-                "",
-                nombreCochera,
-                direccion,
-                lat,
-                lng,
-                precioPorHora.toFloatOrNull() ?: 0.0f,
-                imageURL,
-                uid,
-                ownerName,
-                descripcion,
-                weeklyAvailability,
-                emptyList()
-            )
-            db.collection("cocheras")
-                .add(cochera)
-                .addOnSuccessListener { documentReference ->
-                    val cocheraId = documentReference.id
-                    cochera.cocheraId = cocheraId
-                    Log.e("ExploreFr", "Cochera Agregada: $cochera")
-                    db.collection("cocheras").document(cocheraId)
-                        .set(cochera)
-                    Toast.makeText(
-                        requireContext(),
-                        "Cochera Agregada: ${cochera.cocheraId}",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    navegarAMisCocheras()
-                }
-                .addOnFailureListener { e ->
-                    Log.w("ExploreFr", "Error al agregar el documento", e)
-                }
-        }
+        val newCochera = Cochera(
+            cocheraId = "", // Assuming it's generated elsewhere or by the database
+            nombre = nombreCochera,
+            direccion = direccion,
+            lat = lat,
+            lng = lng,
+            price = precioPorHora,
+            urlImage = imageURL,
+            owner = uid ?: "",
+            ownerName = ownerName,
+            descripcion = descripcion,
+            weeklyAvailability = weeklyAvailability.toMutableList(),
+            reservas = mutableListOf() // Assuming reservations are handled separately
+        )
+
+        db.collection("cocheras")
+            .add(newCochera)
+            .addOnSuccessListener { documentReference ->
+                newCochera.cocheraId = documentReference.id
+                Log.e(TAG, "Cochera Agregada: $newCochera")
+                db.collection("cocheras").document(documentReference.id)
+                    .set(newCochera)
+                Toast.makeText(
+                    requireContext(),
+                    "Cochera Agregada: ${newCochera.cocheraId}",
+                    Toast.LENGTH_SHORT
+                ).show()
+                navegarAMisCocheras()
+            }
+            .addOnFailureListener { e ->
+                Log.w(TAG, "Error al agregar el documento", e)
+            }
+    }
+
+    private fun collectCustomWeeklyAvailability(): MutableList<DailyAvailability> {
+        return binding.disponibilidadContainer.children.mapNotNull { view ->
+            view.getTag(R.id.tag_daily_availability) as? DailyAvailability
+        }.toMutableList()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

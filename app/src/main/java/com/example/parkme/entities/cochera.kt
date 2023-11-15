@@ -4,18 +4,18 @@ import android.os.Parcel
 import android.os.Parcelable
 
 data class Cochera(
-    var cocheraId: String,
-    var nombre: String,
-    var direccion: String,
-    var lat: Double,
-    var lng: Double,
-    var price: Float,
-    var urlImage: String,
-    val owner: String,
-    val ownerName: String,
-    val descripcion: String,
-    var weeklyAvailability: List<DailyAvailability> = listOf(),
-    val reservas: List<Reserva> = emptyList()
+    var cocheraId: String = "",
+    var nombre: String = "",
+    var direccion: String = "",
+    var lat: Double = 0.0,
+    var lng: Double = 0.0,
+    var price: Float = 0.0f,
+    var urlImage: String = "",
+    val owner: String = "",
+    val ownerName: String = "",
+    val descripcion: String = "",
+    var weeklyAvailability: MutableList<DailyAvailability> = mutableListOf(),
+    val reservas: MutableList<Reserva> = mutableListOf()
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "",
@@ -28,12 +28,8 @@ data class Cochera(
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
-        parcel.createTypedArrayList(DailyAvailability.CREATOR) ?: emptyList(),
-        parcel.createTypedArrayList(Reserva.CREATOR) ?: emptyList()
-    )
-    // No-argument constructor is added here
-    constructor() : this(
-        "", "", "", 0.0, 0.0, 0.0f, "", "", "", "", emptyList(), emptyList()
+        parcel.createTypedArrayList(DailyAvailability.CREATOR) ?: mutableListOf(),
+        parcel.createTypedArrayList(Reserva.CREATOR) ?: mutableListOf()
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
