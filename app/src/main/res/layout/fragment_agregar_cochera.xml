@@ -100,29 +100,62 @@
                 android:maxLength="@integer/ETDescripcionLength"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switch24_7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/switch_24_7_label"
+            android:checked="true"
+            android:layout_marginTop="16dp" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/dividerAddDateTimeRange"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"/>
+
+
+        <LinearLayout
             android:id="@+id/disponibilidadContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:helperText="@string/Required"
-            app:helperTextTextColor="@color/design_default_color_primary_dark"
-            app:counterEnabled="true"
-            app:counterMaxLength="@integer/ETDisponibilidadLength">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/eTDisponibilidad"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:layout_marginTop="16dp">
+            <TextView
+                android:id="@+id/textDisponibilidadTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/frg_agregar_cochera_disponibilidad"
-                android:maxLength="@integer/ETDisponibilidadLength"/>
-        </com.google.android.material.textfield.TextInputLayout>
-        <LinearLayout
-            android:layout_marginTop="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="30dp"
-            android:layout_gravity="center"
-            android:orientation="horizontal">
+                android:text="Disponibilidad"
+                android:visibility="gone"/>
+        </LinearLayout>
+
+        <TextView
+                android:id="@+id/textAddDateTimeRange"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="Agregar Nueva Disponibilidad"
+                android:visibility="gone"/>
+            <ImageView
+                android:id="@+id/imgAddDateTimeRange"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_edit_calendar_24"
+                android:contentDescription="@string/add_time_range"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_marginTop="16dp"
+                android:layout_gravity="center_horizontal"
+                android:visibility="gone"/>
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
             <Button
                 android:id="@+id/button6"
@@ -131,7 +164,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/frg_agregar_cochera_confirmar"/>
-        </LinearLayout>
 
     </LinearLayout>
 </ScrollView>

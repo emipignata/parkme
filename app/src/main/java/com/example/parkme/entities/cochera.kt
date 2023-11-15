@@ -1,25 +1,22 @@
 package com.example.parkme.entities
 
-import android.os.Build
 import android.os.Parcel
 import android.os.Parcelable
-import androidx.annotation.RequiresApi
 
 data class Cochera(
-    var cocheraId: String,
-    var nombre: String,
-    var direccion: String,
-    var lat: Double,
-    var lng: Double,
-    var price: Float,
-    var urlImage: String,
-    var ocupada: String,
-    val owner: String,
-    val ownerName: String,
-    val descripcion: String,
-    var available : Boolean
+    var cocheraId: String = "",
+    var nombre: String = "",
+    var direccion: String = "",
+    var lat: Double = 0.0,
+    var lng: Double = 0.0,
+    var price: Float = 0.0f,
+    var urlImage: String = "",
+    val owner: String = "",
+    val ownerName: String = "",
+    val descripcion: String = "",
+    var weeklyAvailability: MutableList<DailyAvailability> = mutableListOf(),
+    val reservas: MutableList<Reserva> = mutableListOf()
 ) : Parcelable {
-    @RequiresApi(Build.VERSION_CODES.Q)
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "",
         parcel.readString() ?: "",
@@ -31,13 +28,10 @@ data class Cochera(
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
-        parcel.readString() ?: "",
-        parcel.readBoolean()
+        parcel.createTypedArrayList(DailyAvailability.CREATOR) ?: mutableListOf(),
+        parcel.createTypedArrayList(Reserva.CREATOR) ?: mutableListOf()
     )
-    constructor() : this(
-        "", "", "", 0.0, 0.0, 0.0f, "", "desocupada", "", "", "",true
-    )
-    @RequiresApi(Build.VERSION_CODES.Q)
+
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(cocheraId)
         parcel.writeString(nombre)
@@ -46,11 +40,11 @@ data class Cochera(
         parcel.writeDouble(lng)
         parcel.writeFloat(price)
         parcel.writeString(urlImage)
-        parcel.writeString(ocupada)
         parcel.writeString(owner)
         parcel.writeString(ownerName)
         parcel.writeString(descripcion)
-        parcel.writeBoolean(available)
+        parcel.writeTypedList(weeklyAvailability)
+        parcel.writeTypedList(reservas)
     }
 
     override fun describeContents(): Int {
@@ -60,7 +54,6 @@ data class Cochera(
     companion object {
         @JvmField
         val CREATOR: Parcelable.Creator<Cochera> = object : Parcelable.Creator<Cochera> {
-            @RequiresApi(Build.VERSION_CODES.Q)
             override fun createFromParcel(parcel: Parcel): Cochera {
                 return Cochera(parcel)
             }

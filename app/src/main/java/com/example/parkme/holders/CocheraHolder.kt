@@ -16,7 +16,7 @@ class CocheraHolder (v: View) : RecyclerView.ViewHolder(v) {
         this.view = v
     }
 
-    fun setCard(title: String, address: String, price: Float, img: String, ocupada: String) {
+    fun setCard(title: String, address: String, price: Float, img: String,) {
         val cardTitle: TextView = view.findViewById(R.id.misCocherasViewTitle)
         val cardAddress: TextView = view.findViewById(R.id.misCocherasAddress)
         val cardPrice: TextView = view.findViewById(R.id.misCocherasPrice)

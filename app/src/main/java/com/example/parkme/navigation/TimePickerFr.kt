@@ -13,7 +13,7 @@ class TimePickerFr(val listener: (String) -> Unit): DialogFragment(),
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val c = Calendar.getInstance()
         val hour = c.get(Calendar.HOUR_OF_DAY)
-        val minute = c.get(Calendar.MINUTE)
+        val minute = 0
         val picker = TimePickerDialog(requireContext(), this, hour, minute, true)
 
         return picker

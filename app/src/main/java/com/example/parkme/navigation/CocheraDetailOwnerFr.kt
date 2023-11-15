@@ -24,7 +24,6 @@ class CocheraDetailOwnerFr : Fragment() {
     private val args: CocheraDetailOwnerFrArgs by navArgs()
     private lateinit var binding: FragmentCocheraDetailOwnerBinding
     private val cochera: Cochera by lazy { args.cochera }
-    private val uid: String? by lazy { FirebaseAuth.getInstance().currentUser?.uid }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,15 +36,11 @@ class CocheraDetailOwnerFr : Fragment() {
         cocheraDireccion.text = cochera.direccion
         val cocheraPrecio = binding.tVprecioPorHoraContainerItemView
         cocheraPrecio.text = cochera.price.toString()
-        val cocheraDisponibilidad = binding.tVDisponibilidadItemView
-        cocheraDisponibilidad.text = cochera.ocupada
+        val cocheraDescripcion = binding.tVDescripcionItemView
+        cocheraDescripcion.text = cochera.descripcion
 
-
-        //val volverButton: Button = binding.buttonVolverItemView
         val eliminarButton: Button = binding.buttonEliminarItemView
         val editarButton: Button = binding.buttonEditarItemView
-
-
 
         editarButton.setOnClickListener {
             val action = CocheraDetailOwnerFrDirections.actionCocheraDetailOwnerFrToCocheraOwnerEditFr(cochera)

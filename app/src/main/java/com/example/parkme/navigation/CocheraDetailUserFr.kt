@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
+import com.example.parkme.R
 import com.example.parkme.databinding.FragmentCocheraDetailBinding
 import com.example.parkme.entities.Cochera
 import com.example.parkme.entities.User
@@ -22,7 +23,7 @@ class CocheraDetailUserFr : Fragment() {
     private val args: CocheraDetailUserFrArgs by navArgs()
     private lateinit var binding: FragmentCocheraDetailBinding
     private val db = FirebaseFirestore.getInstance()
-    private val cochera: Cochera by lazy { args.cochera } // Use lazy initialization
+    private val cochera: Cochera by lazy { args.cochera }
     private val uid: String? by lazy { FirebaseAuth.getInstance().currentUser?.uid }
     private lateinit var user: User
 
@@ -36,17 +37,14 @@ class CocheraDetailUserFr : Fragment() {
     }
 
     private fun setBinding(){
-
         val reservarButton: Button = binding.CocheraDetailReservarButton
         val programarButton: Button = binding.CocheraDetailProgramarButton
-
-
         if (user.reservaInCheckIn != "") {
             reservarButton.isEnabled = false
-            programarButton.text = "Realiza el Checkout de tu cochera anterior"
+            programarButton.text = getString(R.string.realizar_checkout_cochera_anterior)
         } else {
             reservarButton.isEnabled = true
-            programarButton.text = "Programa reserva"
+            programarButton.text = getString(R.string.estacionar_ahora)
             reservarButton.setOnClickListener {
                 val action = CocheraDetailUserFrDirections.actionCocheraDetailUserFrToReservaCocheraFr(cochera)
                 binding.root.findNavController()?.navigate(action)
@@ -55,37 +53,31 @@ class CocheraDetailUserFr : Fragment() {
 
         if (user.reservaInReservada != "") {
             programarButton.isEnabled = false
-            programarButton.text = "Alcanzaste el límite de una Reserva"
+            programarButton.text = getString(R.string.alcanzaste_el_limite_de_una_reserva)
 
         } else {
             programarButton.isEnabled = true
-            programarButton.text = "Reservar"
+            programarButton.text = getString(R.string.programa_reserva)
             programarButton.setOnClickListener {
                 val action = CocheraDetailUserFrDirections.actionCocheraDetailUserFrToReservaCocheraFr(cochera)
                 binding.root.findNavController()?.navigate(action)
             }
         }
 
-
         binding.ownerIdText.text = cochera.direccion
         binding.cocheraDetailText.text = cochera.direccion
         binding.precioPorHoraDetail.text = cochera.price.toString()
         binding.cocheraOwnerName.text = "Dueño: ${cochera.ownerName}"
-        binding.cocheraDetailText.text = "Detalle de la Cochera: ${cochera.ocupada}"
         Glide.with(requireContext())
             .load(cochera.urlImage)
             .centerCrop()
             .into(binding.imageView2)
 
-
         programarButton.setOnClickListener {
             val action = CocheraDetailUserFrDirections.actionCocheraDetailUserFrToProgramarReservaFr(cochera)
             binding.root.findNavController()?.navigate(action)
         }
-
-
     }
-
 
     private fun getUserState() {
         if (uid != null) {
@@ -104,5 +96,4 @@ class CocheraDetailUserFr : Fragment() {
                 }
         }
     }
-
 }

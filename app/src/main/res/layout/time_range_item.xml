@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tag_daily_availability"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="8dp">
+
+    <!-- TextView for Day -->
+    <TextView
+        android:id="@+id/txtDay"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Monday"
+        android:gravity="center" />
+
+    <!-- TextView for Start Time -->
+    <TextView
+        android:id="@+id/txtStartTime"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="09:00"
+        android:gravity="center" />
+
+    <TextView
+        android:id="@+id/txtDesdeHasta"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text=" a "
+        android:gravity="center" />
+
+    <!-- TextView for End Time -->
+    <TextView
+        android:id="@+id/txtEndTime"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="17:00"
+        android:gravity="center" />
+
+    <!-- Delete Button -->
+    <Button
+        android:id="@+id/btnDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="X"
+        android:gravity="center" />
+</LinearLayout>

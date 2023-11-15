@@ -13,7 +13,7 @@ class MisCocherasFirestoreAdapter(options: FirestoreRecyclerOptions<Cochera>) :
     FirestoreRecyclerAdapter<Cochera, CocheraHolder>(options) {
 
     override fun onBindViewHolder(holder: CocheraHolder, position: Int, model: Cochera) {
-        holder.setCard(model.nombre, model.direccion, model.price, model.urlImage, model.ocupada)
+        holder.setCard(model.nombre, model.direccion, model.price, model.urlImage)
 
         holder.itemView.setOnClickListener {
             val action = MisCocherasFrDirections.actionMisCocherasFrToCocheraDetailOwnerFr(model)

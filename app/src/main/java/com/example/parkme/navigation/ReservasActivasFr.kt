@@ -26,9 +26,12 @@ class ReservasActivasFr : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentReservasActivasBinding.inflate(inflater, container, false)
+        val estados = listOf("CheckIn", "CheckOut", "Reservada")
         val query = db.collection("historial")
             .whereEqualTo("usuarioId", uid)
-            .whereEqualTo("estado", "CheckIn")
+            .whereIn("estado", estados)
+            .orderBy("fechaCreacion", com.google.firebase.firestore.Query.Direction.DESCENDING)
+
 
         recyclerView = binding.reservasActivasRecyclerView
         val options = FirestoreRecyclerOptions.Builder<Reserva>()

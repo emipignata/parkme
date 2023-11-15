@@ -58,11 +58,11 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        locationRequest = LocationRequest.create()?.apply {
+        locationRequest = LocationRequest.create().apply {
             interval = 10000
             fastestInterval = 5000
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        }!!
+        }
 
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
@@ -89,9 +89,7 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
         mapFragment.getMapAsync(this)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
         fragmentManager = requireActivity().supportFragmentManager
-
         binding.searchBarEditText.setOnClickListener { startAutocompleteIntent() }
-
         return binding.root
     }
 
@@ -118,9 +116,7 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
     private fun fillInAddress(place: Place) {
         val location = place.latLng
         if (location != null) {
-
-            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 18f))
-
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 15f))
             if (marker == null) {
                 marker = googleMap.addMarker(
                     MarkerOptions()
@@ -131,9 +127,8 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
                 marker?.position = location
             }
         }
-        binding.searchBar.clearFocus()
+        binding.searchBarEditText.clearFocus()
     }
-
 
     private fun startAutocompleteIntent() {
         val fields = listOf(
@@ -179,12 +174,6 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_icon32))
                     .draggable(true)
 
-                if(marker.available) {
-                    markerOptions.visible(true)
-                }
-                else{
-                    markerOptions.visible(false)
-                }
                 val googleMarker = googleMap.addMarker(markerOptions)
                 if (googleMarker != null) {
                     googleMarker.tag = marker
@@ -233,7 +222,7 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
                             cocherasMarker.add(cochera)
                         }
                     }
-                    callback.invoke() // Call the callback once data is loaded
+                    callback.invoke()
                 } else {
                     Log.e("ExploreFr", "Error getting documents.", task.exception)
                 }
