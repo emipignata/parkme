@@ -28,6 +28,8 @@ class ProgramarReservaFr : Fragment() {
     private val uid = FirebaseAuth.getInstance().currentUser?.uid
     private val db = FirebaseFirestore.getInstance()
     private lateinit var user: User
+    private var startTime: Long = 0
+    private var endTime: Long = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -115,21 +115,24 @@ class ProductFragment : Fragment() {
         if (state.checkoutSuccess) {
             setReservaState()
             setCocheraState()
-            setUserState(reserva.estado)
+            setUserState(reserva.usuarioId, reserva.estado, {
+                Log.d("TAG", "DocumentSnapshot successfully updated!")
+            }, { e ->
+                Log.w("TAG", "Error updating document", e)
+            })
             findNavController().popBackStack(R.id.historialFr,false)
         }
     }
 
-    private fun setUserState(estadoReserva : String) {
-        val docRef = uid?.let { db.collection("users").document(it) }
-        if (docRef != null) {
-            if(estadoReserva.equals("Reservada")){
-                docRef.update("reservaInReservada","")
-            }
-            if(estadoReserva.equals("CheckIn")){
-                docRef.update("reservaInCheckIn","")
-            }
+    private fun setUserState(userId: String, reservaEstado: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+        val updates = when (reservaEstado) {
+            "CheckOut" -> mapOf("reservaInCheckOut" to "")
+            else -> return
         }
+        db.collection("users").document(userId)
+            .update(updates)
+            .addOnSuccessListener { onSuccess() }
+            .addOnFailureListener(onFailure)
     }
 
     private fun setCocheraState() {
@@ -151,11 +154,9 @@ class ProductFragment : Fragment() {
     }
 
     private fun setReservaState(){
-        reserva.horaSalida = extractHour(Timestamp.now().toDate().toString())
         reserva.estado = "Finalizada"
         val updates = mapOf(
-            "estado" to reserva.estado,
-            "horaSalida" to reserva.horaSalida
+            "estado" to reserva.estado
         )
         val docRef = db.collection("historial").document(reserva.reservaId)
         docRef.update(updates)
