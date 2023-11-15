@@ -43,7 +43,7 @@ class ProgramarReservaFr : Fragment() {
 
     private fun showDatePicker(isStartDate: Boolean) {
         val datePicker = DatePickerFr { day, month, year ->
-            onDateSelected(day, month, year, isStartDate)
+            onDateSelected(day, month+1, year, isStartDate)
         }
         datePicker.show(childFragmentManager, "datePicker")
     }
