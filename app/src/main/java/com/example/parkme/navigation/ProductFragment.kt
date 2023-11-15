@@ -28,8 +28,6 @@ import com.google.android.gms.pay.PayClient
 import com.google.android.gms.wallet.AutoResolveHelper
 import com.google.android.gms.wallet.PaymentData
 import com.google.android.gms.wallet.WalletConstants
-import com.google.firebase.Timestamp
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
 import org.json.JSONException
@@ -54,15 +52,17 @@ class ProductFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        val dateFormat = SimpleDateFormat("dd/MM/yy-HH:mm", Locale.getDefault())
+        val formattedFechaEntrada = reserva.fechaEntrada?.toDate()?.let { dateFormat.format(it) } ?: "N/A"
+        val formattedFechaSalida = reserva.fechaSalida?.toDate()?.let { dateFormat.format(it) } ?: "En curso"
         binding.googlePayButton.setOnClickListener {
             requestPayment()
         }
 
         binding.productTitle.text = reserva.direccion
         binding.productPrice.text = "\$pago.precio.toString()"
-        binding.productDescription.text = "Detalle de la operacion: \n Desde: ${reserva.fechaEntrada}hs \n" +
-                " Hasta: ${reserva.fechaSalida}hs"
+        binding.productDescription.text = "Detalle de la operacion: \n Desde: $formattedFechaEntrada hs \n" +
+                " Hasta: $formattedFechaSalida hs"
         binding.productPrice.text = calculateTotal().toString()
         Glide.with(this)
             .load(reserva.urlImage)

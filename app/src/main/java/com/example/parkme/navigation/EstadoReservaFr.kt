@@ -13,14 +13,15 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.parkme.databinding.FragmentEstadoReservaBinding
 import com.example.parkme.entities.Cochera
-import com.example.parkme.entities.Pago
 import com.example.parkme.entities.Reserva
 import com.example.parkme.entities.User
 import com.example.parkme.viewmodels.ReservaViewModel
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
 import java.util.Locale
+import java.util.concurrent.TimeUnit
 
 class EstadoReservaFr : Fragment() {
 
@@ -56,26 +57,40 @@ class EstadoReservaFr : Fragment() {
     }
 
     private fun updateUIBasedOnReservaState(reserva: Reserva) {
+        val dateFormat = SimpleDateFormat("dd/MM/yy-HH:mm", Locale.getDefault())
+        val formattedFechaEntrada = reserva.fechaEntrada?.toDate()?.let { dateFormat.format(it) } ?: "N/A"
+        val formattedFechaSalida = reserva.fechaSalida?.toDate()?.let { dateFormat.format(it) } ?: "En curso"
+        val timeDifference = calculateTimeDifference(reserva.fechaEntrada, Timestamp.now())
+        val formattedTimeDifference = formatTimeDifference(timeDifference)
         when (reserva.estado) {
             "Reservada" -> {
-                binding.cantHsDetailPlaceHolder.text = ("(${reserva.fechaSalida} - ${reserva.fechaEntrada})").toString()
+                binding.precioTotalDetailPlaceholder.text = "Precio Total \nEstimado: "
+                binding.cantHsDetailPlaceHolder.text = "\n \nDesde: $formattedFechaEntrada \nHasta: $formattedFechaSalida"
                 binding.pagarReserva.text = "Ingresar a la Cochera"
+                binding.cantidadDeHorasDetail.text = "HorasReservadas"
+                binding.precioTotalDetail.text = calculatePrice(timeDifference, reserva.precio)
                 binding.pagarReserva.setOnClickListener {
                     setUserState()
                     setupReservaState("CheckIn")
                 }
             }
             "CheckIn" -> {
-                binding.cantHsDetailPlaceHolder.text = ("(${reserva.fechaSalida} - ${reserva.fechaEntrada})").toString()
+                binding.cantidadDeHorasDetail.text = "En Curso: "
+                binding.cantHsDetailPlaceHolder.text = "\n\nDesde: $formattedFechaEntrada \nTiempo Transcurrido: $formattedTimeDifference"
+                binding.precioTotalDetailPlaceholder.text = "Precio al Momento"
+                binding.precioTotalDetail.text = calculatePrice(timeDifference, reserva.precio)
                 binding.pagarReserva.text = "Salir de la Cochera"
                 binding.pagarReserva.setOnClickListener {
-                    reserva.fechaSalida = com.google.firebase.Timestamp.now()
+                    reserva.fechaSalida = Timestamp.now()
                     setUserState()
                     setupReservaState("CheckOut")
                 }
             }
             "CheckOut" -> {
-                binding.cantHsDetailPlaceHolder.text = ("(${reserva.fechaSalida} - ${reserva.fechaEntrada})").toString()
+                binding.precioTotalDetailPlaceholder.text = "Precio Total: "
+                binding.precioTotalDetail.text = calculatePrice(timeDifference, reserva.precio)
+                binding.cantidadDeHorasDetail.text = "Estadía: "
+                binding.cantHsDetailPlaceHolder.text = "\n\nDesde: $formattedFechaEntrada \nHasta: $formattedFechaSalida \n Cant Hs: $formattedTimeDifference"
                 binding.pagarReserva.text = "Pagar"
                 binding.pagarReserva.setOnClickListener {
                     setUserState()
@@ -83,10 +98,39 @@ class EstadoReservaFr : Fragment() {
                 }
             }
             "Finalizada" -> {
-                binding.cantHsDetailPlaceHolder.text = ("(${reserva.fechaSalida} - ${reserva.fechaEntrada})").toString()
+                binding.precioTotalDetailPlaceholder.text = "Precio Total: "
+                binding.precioTotalDetail.text = calculatePrice(timeDifference, reserva.precio)
+                binding.cantidadDeHorasDetail.text = "Estadía: "
+                binding.cantHsDetailPlaceHolder.text = "\n\nDesde: $formattedFechaEntrada \nHasta: $formattedFechaSalida \n Cant Hs: $formattedTimeDifference"
                 binding.pagarReserva.visibility = View.GONE
             }
         }
+    }
+
+    private fun formatTimeDifference(timeDifferenceInMinutes: Long): String {
+        val hours = timeDifferenceInMinutes / 60
+        val minutes = timeDifferenceInMinutes % 60
+        return String.format("%02d:%02d", hours, minutes)
+    }
+
+    private fun calculatePrice(timeDifferenceInMinutes: Long, hourlyRate: Float): String {
+        val price = if (timeDifferenceInMinutes <= 60) {
+            hourlyRate
+        } else {
+            val additionalMinutes = timeDifferenceInMinutes - 60
+            val additionalQuarters = Math.ceil(additionalMinutes / 15.0).toInt()
+            hourlyRate + (hourlyRate / 4 * additionalQuarters)
+        }
+        return String.format("%.2f", price)
+    }
+
+    private fun calculateTimeDifference(startTimestamp: Timestamp?, endTimestamp: Timestamp): Long {
+        startTimestamp?.toDate()?.let { startDate ->
+            val endDate = endTimestamp.toDate()
+            val diffInMillis = endDate.time - startDate.time
+            return TimeUnit.MILLISECONDS.toMinutes(diffInMillis)
+        }
+        return 0L
     }
 
     private fun setupReservaState(estado: String) {
@@ -109,13 +153,6 @@ class EstadoReservaFr : Fragment() {
                 Log.w("TAG", "Error updating document", e)
             })
         }
-    }
-
-    private fun extractDate(dateString: String): String {
-        val originalFormat = SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH)
-        val date = originalFormat.parse(dateString)
-        val hourFormat = SimpleDateFormat("MMM dd HH:mm", Locale.ENGLISH)
-        return hourFormat.format(date)
     }
 
     private fun initiateCall(phoneNumber: String) {

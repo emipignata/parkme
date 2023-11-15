@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.parkme.entities.Reserva
 import com.example.parkme.entities.User
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 
 class ReservaViewModel : ViewModel() {
@@ -13,8 +14,13 @@ class ReservaViewModel : ViewModel() {
     val reservaState: LiveData<Reserva> = _reservaState
 
     fun updateReservaState(reserva: Reserva, newState: String) {
+        val currentTimestamp = Timestamp.now()
+        reserva.fechaSalida = currentTimestamp
         reserva.estado = newState
-        val updates = mapOf("estado" to newState)
+        val updates = mapOf(
+            "estado" to newState,
+            "fechaSalida" to currentTimestamp
+        )
         db.collection("historial").document(reserva.reservaId)
             .update(updates)
             .addOnSuccessListener {
