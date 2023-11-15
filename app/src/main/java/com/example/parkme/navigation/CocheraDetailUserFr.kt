@@ -70,7 +70,6 @@ class CocheraDetailUserFr : Fragment() {
         binding.cocheraOwnerName.text = "Dueño: ${cochera.ownerName}"
         Glide.with(requireContext())
             .load(cochera.urlImage)
-            .centerCrop()
             .into(binding.imageView2)
 
         programarButton.setOnClickListener {

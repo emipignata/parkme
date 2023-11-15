@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
 import com.example.parkme.MainActivity
 import com.example.parkme.databinding.FragmentCocheraDetailOwnerBinding
 import com.example.parkme.entities.Cochera
@@ -47,6 +48,10 @@ class CocheraDetailOwnerFr : Fragment() {
             (activity as MainActivity).setBottomNavViewVisibility(View.VISIBLE)
         }
 
+        Glide
+            .with(binding.root.context)
+            .load(cochera.urlImage)
+            .into(binding.imgItemView)
 
         editarButton.setOnClickListener {
             val action = CocheraDetailOwnerFrDirections.actionCocheraDetailOwnerFrToCocheraOwnerEditFr(cochera)

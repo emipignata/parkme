@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
 import com.example.parkme.databinding.FragmentCocheraDetailBinding
 import com.example.parkme.entities.Cochera
 import com.google.firebase.auth.FirebaseAuth
@@ -39,6 +40,10 @@ class DetailPreReservaFr : Fragment() {
         val programarButton: Button = binding.CocheraDetailProgramarButton
         Log.e("CocheraDetailFr", "Cochera: $cochera")
 
+        Glide
+            .with(binding.root.context)
+            .load(cochera?.urlImage)
+            .into(binding.imageView2)
         reservarButton.setOnClickListener {
             val action = CocheraDetailUserFrDirections.actionCocheraDetailUserFrToReservaCocheraFr(cochera)
             Log.e("CocheraDetailFr", "Botón Reservar Apretado")

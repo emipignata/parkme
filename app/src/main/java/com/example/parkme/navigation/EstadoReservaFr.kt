@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
 import com.example.parkme.databinding.FragmentEstadoReservaBinding
 import com.example.parkme.entities.Cochera
 import com.example.parkme.entities.Pago
@@ -38,6 +39,7 @@ class EstadoReservaFr : Fragment() {
 
         findUser(reserva.ownerId)
         findCochera(reserva.cocheraId)
+
 
         return binding.root
     }
@@ -74,6 +76,10 @@ class EstadoReservaFr : Fragment() {
                     cochera = documentSnapshot.toObject(Cochera::class.java)
                     cochera?.let {
                         updateCocheraUI(it)
+                        Glide
+                            .with(binding.root.context)
+                            .load(cochera?.urlImage).circleCrop()
+                            .into(binding.cocheraDetailPicture)
                     }
                 } else {
                     Log.e("EstadoReservaFr", "Cochera not found.")
