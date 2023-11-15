@@ -30,7 +30,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2">
 
-
         <ImageView
             android:id="@+id/unicacionIconContainer"
             android:layout_width="15dp"
@@ -70,7 +69,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.053"
-
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.88" />
@@ -119,7 +117,6 @@
             app:layout_constraintVertical_bias="0.679" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
     <LinearLayout
         android:id="@+id/availabilityContainer"
         android:layout_width="match_parent"
@@ -138,7 +135,6 @@
             android:layout_height="wrap_content"
             android:text="Availability"
             android:textStyle="bold" />
-
     </LinearLayout>
 
     <TextView
@@ -166,7 +162,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
         app:layout_constraintVertical_bias="0.847">
-
 
         <Button
             android:id="@+id/CocheraDetailReservarButton"

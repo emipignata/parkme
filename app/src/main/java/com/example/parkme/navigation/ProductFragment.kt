@@ -28,8 +28,6 @@ import com.google.android.gms.pay.PayClient
 import com.google.android.gms.wallet.AutoResolveHelper
 import com.google.android.gms.wallet.PaymentData
 import com.google.android.gms.wallet.WalletConstants
-import com.google.firebase.Timestamp
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
 import org.json.JSONException
@@ -40,12 +38,10 @@ import java.util.Locale
 class ProductFragment : Fragment() {
     private lateinit var binding: FragmentProductBinding
     val db = FirebaseFirestore.getInstance()
-    private val uid = FirebaseAuth.getInstance().currentUser?.uid
     private val model: CheckoutViewModel by viewModels()
     private val args: ProductFragmentArgs by navArgs()
     private val addToGoogleWalletRequestCode = 1000
     private val reserva: Reserva by lazy { args.reserva }
-    private lateinit var horaSalida : String
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -56,15 +52,17 @@ class ProductFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        val dateFormat = SimpleDateFormat("dd/MM/yy-HH:mm", Locale.getDefault())
+        val formattedFechaEntrada = reserva.fechaEntrada?.toDate()?.let { dateFormat.format(it) } ?: "N/A"
+        val formattedFechaSalida = reserva.fechaSalida?.toDate()?.let { dateFormat.format(it) } ?: "En curso"
         binding.googlePayButton.setOnClickListener {
             requestPayment()
         }
 
         binding.productTitle.text = reserva.direccion
         binding.productPrice.text = "\$pago.precio.toString()"
-        binding.productDescription.text = "Detalle de la operacion: \n Desde: ${reserva.horaEntrada}hs \n" +
-                " Hasta: ${mostrarHoraFinalizacion()}hs"
+        binding.productDescription.text = "Detalle de la operacion: \n Desde: $formattedFechaEntrada hs \n" +
+                " Hasta: $formattedFechaSalida hs"
         binding.productPrice.text = calculateTotal().toString()
         Glide.with(this)
             .load(reserva.urlImage)
@@ -78,58 +76,32 @@ class ProductFragment : Fragment() {
     }
 
     private fun calculateTotal(): Float {
-        var horaInicio = reserva.horaSalida
-        var horaFin = reserva.horaEntrada
-        return reserva.precio * (parseHoursAndMinutesToFloat(horaInicio) - parseHoursAndMinutesToFloat(horaFin))
-    }
-
-    fun parseHoursAndMinutesToFloat(timeString: String): Float {
-        val parts = timeString.split(":")
-        if (parts.size == 2) {
-            try {
-                val hours = parts[0].toFloat()
-                val minutes = parts[1].toFloat() / 60.0f
-                return hours + minutes
-            } catch (e: NumberFormatException) {
-                println("Error parsing time: $e")
-            }
-        } else if(timeString.equals("Indefinido")) {
-            return parseHoursAndMinutesToFloat(extractHour(Timestamp.now().toDate().toString()))
-        }else{
-            return parts[0].toFloat()
-        }
-        return 0.0f
-    }
-
-    private fun mostrarHoraFinalizacion(): String {
-        if(reserva.horaSalida.equals("Indefinido")){
-            horaSalida = extractHour(Timestamp.now().toDate().toString())
-        }
-        else {
-            horaSalida = reserva.horaSalida
-        }
-        return horaSalida
+        val hsTotal = reserva.fechaSalida// - reserva.fechaEntrada
+        return reserva.precioPorHora //* hsTotal
     }
 
     private fun handleState(state: CheckoutViewModel.State) {
         if (state.checkoutSuccess) {
+            setUserState(reserva.usuarioId, reserva.estado, {
+                Log.e("TAG", "DocumentSnapshot successfully updated!")
+            }, { e ->
+                Log.w("TAG", "Error updating document", e)
+            })
             setReservaState()
             setCocheraState()
-            setUserState(reserva.estado)
             findNavController().popBackStack(R.id.historialFr,false)
         }
     }
 
-    private fun setUserState(estadoReserva : String) {
-        val docRef = uid?.let { db.collection("users").document(it) }
-        if (docRef != null) {
-            if(estadoReserva.equals("Reservada")){
-                docRef.update("reservaInReservada","")
-            }
-            if(estadoReserva.equals("CheckIn")){
-                docRef.update("reservaInCheckIn","")
-            }
+    private fun setUserState(userId: String, reservaEstado: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+        val updates = when (reservaEstado) {
+            "CheckOut" -> mapOf("reservaInCheckOut" to "")
+            else -> return
         }
+        db.collection("users").document(userId)
+            .update(updates)
+            .addOnSuccessListener { onSuccess() }
+            .addOnFailureListener(onFailure)
     }
 
     private fun setCocheraState() {
@@ -151,11 +123,9 @@ class ProductFragment : Fragment() {
     }
 
     private fun setReservaState(){
-        reserva.horaSalida = extractHour(Timestamp.now().toDate().toString())
         reserva.estado = "Finalizada"
         val updates = mapOf(
-            "estado" to reserva.estado,
-            "horaSalida" to reserva.horaSalida
+            "estado" to reserva.estado
         )
         val docRef = db.collection("historial").document(reserva.reservaId)
         docRef.update(updates)

@@ -5,8 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -20,8 +18,6 @@ import com.example.parkme.entities.User
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import java.text.SimpleDateFormat
-import java.util.Locale
 
 class EstacionarAhoraFr() : Fragment() {
     val args: CocheraDetailUserFrArgs by navArgs()
@@ -29,7 +25,6 @@ class EstacionarAhoraFr() : Fragment() {
     private lateinit var fragmentManager: FragmentManager
     private val db = FirebaseFirestore.getInstance()
     private val uid = FirebaseAuth.getInstance().currentUser?.uid
-    private val cochera: Cochera by lazy { args.cochera }
     private lateinit var user: User
     private lateinit var reserva: Reserva
 
@@ -43,31 +38,15 @@ class EstacionarAhoraFr() : Fragment() {
         return binding.root
     }
 
-    fun extractHour(dateString: String): String {
-        val originalFormat = SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH)
-        val date = originalFormat.parse(dateString)
-        val hourFormat = SimpleDateFormat("HH:mm", Locale.ENGLISH)
-        return hourFormat.format(date)
-    }
-
-    fun extractDate(dateString: String): String {
-        val originalFormat = SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH)
-        val date = originalFormat.parse(dateString)
-        val hourFormat = SimpleDateFormat("dd MMM HH:mm", Locale.ENGLISH)
-        return hourFormat.format(date)
-    }
-
     private fun addReserva() {
         val cochera: Cochera = args.cochera
-        reserva.precio = cochera.price
+        reserva.precioPorHora = cochera.price
         reserva.usuarioId = uid.toString()
         reserva.cocheraId = cochera.cocheraId
         reserva.ownerId = cochera.owner
-        reserva.fechaCreacion = extractDate(Timestamp.now().toDate().toString())
-        reserva.fechaEntrada = extractDate(Timestamp.now().toDate().toString())
-        reserva.horaEntrada = extractHour(Timestamp.now().toDate().toString())
-        reserva.fechaSalida = "Indefinido"
-        reserva.horaSalida = "Indefinido"
+        reserva.fechaCreacion = Timestamp.now()
+        reserva.fechaEntrada = Timestamp.now()
+        reserva.fechaSalida = null
         reserva.direccion = cochera.direccion
         reserva.urlImage = cochera.urlImage
         reserva.ownerName = cochera.ownerName
@@ -103,9 +82,7 @@ class EstacionarAhoraFr() : Fragment() {
             binding.estacionarAhoraButton.setOnClickListener{
                 addReserva()
             }
-
         }
-        //binding.root.findViewById<TextView>(R.id.detalleReservaText)
     }
 
     private fun getUserState() {
