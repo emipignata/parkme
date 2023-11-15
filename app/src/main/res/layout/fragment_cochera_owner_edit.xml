@@ -21,7 +21,7 @@
                 android:layout_width="124dp"
                 android:layout_height="108dp"
                 android:layout_gravity="center"
-                android:layout_margin="0dp"
+                android:layout_margin="20dp"
                 android:background="@drawable/upload_image_icon"
                 android:clickable="true"/>
 
@@ -47,8 +47,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:helperText="@string/Required"
-                app:helperTextTextColor="@color/design_default_color_primary_dark"
+                app:helperText="@string/frg_cochera_dueno_edit_no_editable"
+                app:helperTextTextColor="@color/cardview_dark_background"
                 app:counterEnabled="true"
                 app:counterMaxLength="@integer/ETDireccionLength">
             <com.example.parkme.models.AutocompleteEditText
@@ -58,7 +58,11 @@
                     android:autofillHints=""
                     android:hint="@string/eTDireccion_hint"
                     android:imeOptions="actionNext"
-                    android:inputType="text"/>
+                    android:inputType="text"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:background="@color/common_google_signin_btn_text_dark_disabled"
+                    />
         </com.google.android.material.textfield.TextInputLayout>
 
         <ViewStub
@@ -100,22 +104,62 @@
                     android:maxLength="@integer/ETDescripcionLength"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/disponibilidadContainer_item_view"
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switch24_7_editar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/switch_24_7_label"
+            android:checked="true"
+            android:layout_marginTop="16dp" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/dividerAddDateTimeRange"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
+
+        <LinearLayout
+            android:id="@+id/disponibilidadContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:layout_marginTop="16dp">
+            <TextView
+                android:id="@+id/textDisponibilidadTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:helperText="@string/Required"
-                app:helperTextTextColor="@color/design_default_color_primary_dark"
-                app:counterEnabled="true"
-                app:counterMaxLength="@integer/ETDisponibilidadLength">
-            <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/eTDisponibilidad_item_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/frg_cochera_dueno_edit_disponibilidad"
-                    android:maxLength="@integer/ETDisponibilidadLength"/>
-        </com.google.android.material.textfield.TextInputLayout>
+                android:text="Disponibilidad"
+                android:visibility="gone"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textAddDateTimeRangeEdit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="Agregar Nueva Disponibilidad"
+            android:visibility="gone"/>
+        <ImageView
+            android:id="@+id/imgAddDateTimeRangeEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_edit_calendar_24"
+            android:contentDescription="@string/add_time_range"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="center_horizontal"
+            android:visibility="gone"/>
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
             <Button
                     android:id="@+id/button_aceptar_edit"

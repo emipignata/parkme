@@ -32,15 +32,26 @@ class CocheraOwnerEditFr : Fragment() {
     ): View {
         binding = FragmentCocheraOwnerEditBinding.inflate(inflater, container, false)
         var cocheraNombre = binding.eTNombreCocheraItemView
-         cocheraNombre.setText(cochera.nombre)
+        cocheraNombre.setText(cochera.nombre)
         var cocheraDireccion = binding.eTDireccionItemView
-          cocheraDireccion.setText(cochera.direccion)
+        cocheraDireccion.setText(cochera.direccion)
         var cocheraPrecio = binding.eTPrecioPorHoraItemView
-           cocheraPrecio.setText(cochera.price.toString())
+        cocheraPrecio.setText(cochera.price.toString())
         var urlImage = binding.simpleImageButtonItemView
         var aceptarEditButton: Button = binding.buttonAceptarEdit
 
-
+//        binding.switch247Editar.setOnCheckedChangeListener { _, isChecked ->
+//            if (isChecked) {
+//                setFullWeekAvailability()
+//            } else {
+//                clearFullWeekAvailability()
+//            }
+//            toggleTimeRangeViews(isChecked)
+//        }
+//
+//        binding.imgAddDateTimeRange.setOnClickListener {
+//            addTimeRange()
+//        }
 
         aceptarEditButton.setOnClickListener() {
 
@@ -60,6 +71,15 @@ class CocheraOwnerEditFr : Fragment() {
             binding.root.findNavController().navigateUp()
         }
 
+//        fun updateButtonState() {
+//            val isNombreCocheraValid = eTNombreCochera.text?.isNotEmpty()
+//            val isPrecioPorHoraValid = eTPrecioPorHora.text?.toString()?.toFloatOrNull() != null
+//            val isDireccionValid = eTDireccion.text?.isNotEmpty()
+//            val isDescripcionValid = eTDescripcion.text?.isNotEmpty()
+//
+//            buttonAgregarCochera.isEnabled =
+//                isNombreCocheraValid == true && isPrecioPorHoraValid && isDireccionValid == true && isDescripcionValid == true
+//        }
 
         return binding.root
 
