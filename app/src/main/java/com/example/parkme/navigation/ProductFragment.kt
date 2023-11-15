@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.result.ActivityResult
@@ -15,7 +14,6 @@ import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
@@ -46,13 +44,12 @@ class ProductFragment : Fragment() {
     private val model: CheckoutViewModel by viewModels()
     private val args: ProductFragmentArgs by navArgs()
     private val addToGoogleWalletRequestCode = 1000
-    //private val pago: Pago by lazy { args.pago }
     private val reserva: Reserva by lazy { args.reserva }
     private lateinit var horaSalida : String
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentProductBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
@@ -73,18 +70,11 @@ class ProductFragment : Fragment() {
             .load(reserva.urlImage)
             .into(binding.productImage)
 
-        // Observe ViewModel LiveData or StateFlow and update UI accordingly
-        // viewModel.state.observe(viewLifecycleOwner) { state ->
-        //     update UI based on state
-        // }
-
-        //        findNavController().navigate(R.id.action_productFragment_to_successFragment)
         lifecycleScope.launch {
             model.state.collect { state ->
                 handleState(state)
             }
         }
-        // Handle button clicks and other interactions
     }
 
     private fun calculateTotal(): Float {
@@ -95,25 +85,22 @@ class ProductFragment : Fragment() {
 
     fun parseHoursAndMinutesToFloat(timeString: String): Float {
         val parts = timeString.split(":")
-        //tuve que implementar el caso de que por ejemplo me llegue una hora sin : o sea solo la hora,
-        //funciona pero no es lo optimo
         if (parts.size == 2) {
             try {
                 val hours = parts[0].toFloat()
-                val minutes = parts[1].toFloat() / 60.0f // Convert minutes to fraction of an hour
+                val minutes = parts[1].toFloat() / 60.0f
                 return hours + minutes
             } catch (e: NumberFormatException) {
                 println("Error parsing time: $e")
             }
         } else if(timeString.equals("Indefinido")) {
-            //mira esa recursividad papaaa!!
             return parseHoursAndMinutesToFloat(extractHour(Timestamp.now().toDate().toString()))
         }else{
             return parts[0].toFloat()
         }
-
-        return 0.0f // Default value if parsing fails
+        return 0.0f
     }
+
     private fun mostrarHoraFinalizacion(): String {
         if(reserva.horaSalida.equals("Indefinido")){
             horaSalida = extractHour(Timestamp.now().toDate().toString())
@@ -125,14 +112,12 @@ class ProductFragment : Fragment() {
     }
 
     private fun handleState(state: CheckoutViewModel.State) {
-        // Here you can handle the state updates, for example:
         if (state.checkoutSuccess) {
             setReservaState()
             setCocheraState()
             setUserState(reserva.estado)
             findNavController().popBackStack(R.id.historialFr,false)
         }
-
     }
 
     private fun setUserState(estadoReserva : String) {
@@ -152,28 +137,16 @@ class ProductFragment : Fragment() {
         cochera
             .update("available", true)
             .addOnSuccessListener {
-                // Update successful
-                // You can handle success here if needed
             }
             .addOnFailureListener { e ->
-                // Handle any errors that occurred during the update
-                // You can log the error or handle it as needed
                 println("Error updating document: $e")
             }
     }
-    // Add methods to update UI based on state if needed
 
     private fun extractHour(dateString: String): String {
-        // Define the original pattern of the date string
         val originalFormat = SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH)
-
-        // Parse the date string into a Date object
         val date = originalFormat.parse(dateString)
-
-        // Define the new pattern to extract just the hour
         val hourFormat = SimpleDateFormat("HH:mm", Locale.ENGLISH)
-
-        // Return the formatted hour
         return hourFormat.format(date)
     }
 
@@ -184,25 +157,17 @@ class ProductFragment : Fragment() {
             "estado" to reserva.estado,
             "horaSalida" to reserva.horaSalida
         )
-
         val docRef = db.collection("historial").document(reserva.reservaId)
         docRef.update(updates)
             .addOnSuccessListener { Log.d("TAG", "DocumentSnapshot successfully updated!") }
             .addOnFailureListener { e -> Log.w("TAG", "Error updating document", e) }
-
     }
 
-
     private fun requestPayment() {
-        // Disables the button to prevent multiple clicks.
         model.setGooglePayButtonClickable(false)
-
-        // The price provided to the API should include taxes and shipping.
-        // This price is not displayed to the user.
         val dummyPriceCents = 100L
         val shippingCostCents = 900L
         val task = model.getLoadPaymentDataTask(dummyPriceCents + shippingCostCents)
-
         task.addOnCompleteListener { completedTask ->
             if (completedTask.isSuccessful) {
                 completedTask.result.let(::handlePaymentSuccess)
@@ -213,26 +178,15 @@ class ProductFragment : Fragment() {
                             IntentSenderRequest.Builder(exception.resolution).build()
                         )
                     }
-
-                    is ApiException -> {
-                        handleError(exception.statusCode, exception.message)
-                    }
-
-                    else -> {
-                        handleError(
-                            CommonStatusCodes.INTERNAL_ERROR, "Unexpected non API" +
-                                    " exception when trying to deliver the task result to an activity!"
-                        )
+                    is ApiException -> { handleError(exception.statusCode, exception.message) }
+                    else -> { handleError(CommonStatusCodes.INTERNAL_ERROR, "Unexpected non API exception when trying to deliver the task result to an activity!")
                     }
                 }
             }
-
-            // Re-enables the Google Pay payment button.
             model.setGooglePayButtonClickable(true)
         }
     }
 
-    // Handle potential conflict from calling loadPaymentData
     private val resolvePaymentForResult =
         registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result: ActivityResult ->
             when (result.resultCode) {
@@ -240,43 +194,24 @@ class ProductFragment : Fragment() {
                     result.data?.let { intent ->
                         PaymentData.getFromIntent(intent)?.let(::handlePaymentSuccess)
                     }
-
                 WalletConstants.RESULT_ERROR -> {
                     val status = AutoResolveHelper.getStatusFromIntent(result.data)
                 }
-
                 ComponentActivity.RESULT_CANCELED -> {
-                    // The user cancelled the payment attempt
                 }
             }
         }
 
     private fun handlePaymentSuccess(paymentData: PaymentData) {
         val paymentInformation = paymentData.toJson()
-
         try {
-            // Token will be null if PaymentDataRequest was not constructed using fromJson(String).
             val paymentMethodData =
                 JSONObject(paymentInformation).getJSONObject("paymentMethodData")
             val billingName = paymentMethodData.getJSONObject("info")
                 .getJSONObject("billingAddress").getString("name")
-            Log.d("BillingName", billingName)
-
-            Toast.makeText(
-                context,
-                getString(R.string.payments_show_name, billingName),
-                Toast.LENGTH_LONG
-            ).show()
-
-            // Logging token string.
-            Log.d(
-                "Google Pay token", paymentMethodData
-                    .getJSONObject("tokenizationData")
-                    .getString("token")
-            )
-
+            Toast.makeText(context, getString(R.string.payments_show_name, billingName), Toast.LENGTH_LONG).show()
+            Log.d("Google Pay token", paymentMethodData.getJSONObject("tokenizationData").getString("token"))
             model.checkoutSuccess()
-
         } catch (error: JSONException) {
             Log.e("handlePaymentSuccess", "Error: $error")
         }
@@ -300,25 +235,18 @@ class ProductFragment : Fragment() {
                     .show()
 
                 ComponentActivity.RESULT_CANCELED -> {
-                    // Save canceled
                 }
-
                 PayClient.SavePassesResult.SAVE_ERROR -> data?.let { intentData ->
                     val apiErrorMessage =
                         intentData.getStringExtra(PayClient.EXTRA_API_ERROR_MESSAGE)
                     handleError(resultCode, apiErrorMessage)
                 }
-
                 else -> handleError(
                     CommonStatusCodes.INTERNAL_ERROR, "Unexpected non API" +
                             " exception when trying to deliver the task result to an activity!"
                 )
             }
-
-            // Re-enables the Google Pay payment button.
             model.setGoogleWalletButtonClickable(true)
-
         }
     }
-
 }

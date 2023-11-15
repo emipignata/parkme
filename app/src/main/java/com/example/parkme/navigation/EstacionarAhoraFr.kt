@@ -78,8 +78,7 @@ class EstacionarAhoraFr() : Fragment() {
             .addOnSuccessListener { documentReference ->
                 val reservaId = documentReference.id
                 reserva.reservaId = reservaId
-                Log.e("ReservaCocheraFr", "Reserva Agregada: $reserva")
-                db.collection("historial").document(reservaId).set(reserva) // Guarda el objeto cochera en Firestore
+                db.collection("historial").document(reservaId).set(reserva)
                 Toast.makeText(requireContext(), "Reserva Agregada", Toast.LENGTH_SHORT).show()
                 val navController = binding.root.findNavController()
                 navController.popBackStack(R.id.navigation_container, false)

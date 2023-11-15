@@ -18,7 +18,7 @@ import com.google.firebase.auth.FirebaseAuth
 class DetailPreReservaFr : Fragment() {
     private val args: CocheraDetailUserFrArgs by navArgs()
     private lateinit var binding: FragmentCocheraDetailBinding
-    private val cochera: Cochera by lazy { args.cochera } // Use lazy initialization
+    private val cochera: Cochera by lazy { args.cochera }
     private val uid: String? by lazy { FirebaseAuth.getInstance().currentUser?.uid }
 
     override fun onCreateView(

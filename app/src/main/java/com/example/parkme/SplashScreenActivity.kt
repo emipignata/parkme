@@ -21,7 +21,7 @@ class SplashScreenActivity : AppCompatActivity() {
     private val user = firebaseAuth.currentUser?.uid
 
     companion object {
-        private const val SPLASH_TIME_OUT:Long = 1500 // 1,5 seconds
+        private const val SPLASH_TIME_OUT:Long = 1500
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,13 +48,11 @@ class SplashScreenActivity : AppCompatActivity() {
                 finish()
             }, SPLASH_TIME_OUT)
         } else {
-            // Permissions not granted, show the permission dialog
             if (shouldShowRequestPermissionRationale(ACCESS_FINE_LOCATION) ||
                 shouldShowRequestPermissionRationale(ACCESS_COARSE_LOCATION)
             ) {
                 showPermissionDeniedMessageAndRetry()
             } else {
-                // Explain the importance of the permission and direct the user to the app settings
                 showPermissionDeniedMessageAndOpenAppSettings()
             }
         }
@@ -72,7 +70,7 @@ class SplashScreenActivity : AppCompatActivity() {
                 dialog.dismiss()
                 locationPermissionRequest.launch(arrayOf(ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION))
             }
-            .setCancelable(false) // Prevent users from dismissing the dialog
+            .setCancelable(false)
             .show()
     }
     private fun showPermissionDeniedMessageAndOpenAppSettings() {
@@ -81,18 +79,17 @@ class SplashScreenActivity : AppCompatActivity() {
             .setMessage("This app requires location access to function properly. Please grant the permission in your device settings.")
             .setNegativeButton("Exit") { dialog, _ ->
                 dialog.dismiss()
-                finish() // Close the app
+                finish()
             }
             .setPositiveButton("Open Settings") { dialog, _ ->
                 dialog.dismiss()
-                // Open app settings so the user can manually grant the permission
                 val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
                 val uri = Uri.fromParts("package", packageName, null)
                 intent.data = uri
                 startActivity(intent)
                 finish()
             }
-            .setCancelable(false) // Prevent users from dismissing the dialog
+            .setCancelable(false)
             .show()
     }
 }

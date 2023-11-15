@@ -34,10 +34,8 @@ class EstadoReservaFr : Fragment() {
     ): View {
         binding = FragmentEstadoReservaBinding.inflate(inflater, container, false)
 
-        // Setup listeners and initialize UI that doesn't depend on Firestore data
         setupUI()
 
-        // Fetch and observe Firestore data
         findUser(reserva.ownerId)
         findCochera(reserva.cocheraId)
 

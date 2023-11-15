@@ -81,7 +81,6 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera), OnMapReady
             val intent = result.data
             if (intent != null) {
                 val place = Autocomplete.getPlaceFromIntent(intent)
-                Log.d(TAG, "Place: " + place.addressComponents)
                 fillInAddress(place)
             }
         } else if (result.resultCode == RESULT_CANCELED) {
@@ -96,7 +95,6 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera), OnMapReady
         )
         val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
             .setCountries(listOf("AR"))
-            //TODO: https://developers.google.com/maps/documentation/places/android-sdk/autocomplete
             .setTypesFilter(listOf(TypeFilter.ADDRESS.toString().lowercase()))
             .build(requireContext())
         startAutocomplete.launch(intent)
@@ -368,13 +366,10 @@ class AgregarCocheraFr : Fragment(R.layout.fragment_agregar_cochera), OnMapReady
 
     private fun uploadImageToFirebaseStorage(uri: Uri) {
         val filename = UUID.randomUUID().toString()
-        Log.e("ExploreFr", "uploadImageToFirebaseStorage: $filename")
         val ref = storageReference.child("images/$filename")
-        Log.e("ExploreFr", "uploadImageToFirebaseStorage: $ref")
         ref.putFile(uri)
             .addOnSuccessListener {
                 ref.downloadUrl.addOnSuccessListener { downloadUri ->
-                    Log.e("ExploreFr", "uploadImageToFirebaseStorage: $downloadUri")
                     saveImageURLToFirestore(downloadUri.toString())
                 }
             }

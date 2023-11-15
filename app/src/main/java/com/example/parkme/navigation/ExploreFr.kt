@@ -59,8 +59,8 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         locationRequest = LocationRequest.create().apply {
-            interval = 10000 // Update interval in milliseconds
-            fastestInterval = 5000 // Fastest update interval in milliseconds
+            interval = 10000
+            fastestInterval = 5000
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         }
 
@@ -106,7 +106,6 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
             val intent = result.data
             if (intent != null) {
                 val place = Autocomplete.getPlaceFromIntent(intent)
-                Log.e(TAG, "Place: " + place.addressComponents)
                 fillInAddress(place)
             }
         } else if (result.resultCode == Activity.RESULT_CANCELED) {
@@ -117,7 +116,6 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
     private fun fillInAddress(place: Place) {
         val location = place.latLng
         if (location != null) {
-            Log.e(TAG, "New location: $location")
             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 15f))
             if (marker == null) {
                 marker = googleMap.addMarker(
@@ -133,7 +131,6 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
     }
 
     private fun startAutocompleteIntent() {
-        Log.d(TAG, "startAutocompleteIntent called")
         val fields = listOf(
             Place.Field.ADDRESS_COMPONENTS,
             Place.Field.LAT_LNG, Place.Field.VIEWPORT
@@ -146,7 +143,6 @@ class ExploreFr : Fragment(), GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoW
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
-        Log.d(TAG, "onMapReady called")
         this.googleMap = googleMap
         googleMap.mapType = GoogleMap.MAP_TYPE_NORMAL
         googleMap.uiSettings.isZoomControlsEnabled = true
