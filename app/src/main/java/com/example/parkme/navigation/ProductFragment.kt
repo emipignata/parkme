@@ -113,13 +113,13 @@ class ProductFragment : Fragment() {
 
     private fun handleState(state: CheckoutViewModel.State) {
         if (state.checkoutSuccess) {
-            setReservaState()
-            setCocheraState()
             setUserState(reserva.usuarioId, reserva.estado, {
-                Log.d("TAG", "DocumentSnapshot successfully updated!")
+                Log.e("TAG", "DocumentSnapshot successfully updated!")
             }, { e ->
                 Log.w("TAG", "Error updating document", e)
             })
+            setReservaState()
+            setCocheraState()
             findNavController().popBackStack(R.id.historialFr,false)
         }
     }
