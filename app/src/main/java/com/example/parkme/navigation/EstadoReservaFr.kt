@@ -89,7 +89,7 @@ class EstadoReservaFr : Fragment() {
             }
             "CheckOut" -> {
                 binding.precioTotalDetailPlaceholder.text = "Precio Total: "
-                binding.precioTotalDetail.text = if(reserva.precioTotal == 0.0f)reserva.precioPorHora.toString() else  reserva.precioTotal.toString()
+                binding.precioTotalDetail.text = if(reserva.precioTotal < 1.0f)reserva.precioPorHora.toString() else  reserva.precioTotal.toString()
                 binding.cantidadDeHorasDetail.text = "Estadía: "
                 binding.cantHsDetailPlaceHolder.text = "\n\nDesde: $formattedFechaEntrada \nHasta: $formattedFechaSalida \n Cant Hs: $formattedTimeDifference"
                 binding.pagarReserva.text = "Pagar"
@@ -100,7 +100,7 @@ class EstadoReservaFr : Fragment() {
             }
             "Finalizada" -> {
                 binding.precioTotalDetailPlaceholder.text = "Precio Total: "
-                binding.precioTotalDetail.text = if(reserva.precioTotal == 0.0f)reserva.precioPorHora.toString() else  reserva.precioTotal.toString()
+                binding.precioTotalDetail.text = reserva.precioTotal.toString()
                 binding.cantidadDeHorasDetail.text = "Estadía: "
                 binding.cantHsDetailPlaceHolder.text = "\n\nDesde: $formattedFechaEntrada \nHasta: $formattedFechaSalida \n Cant Hs: $formattedTimeDifference"
                 binding.pagarReserva.visibility = View.GONE
