@@ -60,10 +60,12 @@ class EstadoReservaFr : Fragment() {
         val dateFormat = SimpleDateFormat("dd/MM/yy-HH:mm", Locale.getDefault())
         val formattedFechaEntrada = reserva.fechaEntrada?.toDate()?.let { dateFormat.format(it) } ?: "N/A"
         val formattedFechaSalida = reserva.fechaSalida?.toDate()?.let { dateFormat.format(it) } ?: "En curso"
-        val timeDifference = calculateTimeDifference(reserva.fechaEntrada, Timestamp.now())
-        val formattedTimeDifference = formatTimeDifference(timeDifference)
+        var timeDifference = calculateTimeDifference(reserva.fechaEntrada, Timestamp.now())
+        var formattedTimeDifference : String
         when (reserva.estado) {
             "Reservada" -> {
+                timeDifference = calculateTimeDifference(reserva.fechaEntrada, reserva.fechaSalida)
+                formattedTimeDifference = formatTimeDifference(timeDifference)
                 binding.precioTotalDetailPlaceholder.text = "Precio TotalEstimado: "
                 binding.cantHsDetailPlaceHolder.text = "\n \nDesde: $formattedFechaEntrada \nHasta: $formattedFechaSalida\n" +
                         "Tiempo Estimado: $formattedTimeDifference"
@@ -76,6 +78,8 @@ class EstadoReservaFr : Fragment() {
                 }
             }
             "CheckIn" -> {
+                timeDifference = calculateTimeDifference(reserva.fechaEntrada, Timestamp.now())
+                formattedTimeDifference = formatTimeDifference(timeDifference)
                 binding.cantidadDeHorasDetail.text = "En Curso: "
                 binding.cantHsDetailPlaceHolder.text = "\n\nDesde: $formattedFechaEntrada \nTiempo Transcurrido: $formattedTimeDifference"
                 binding.precioTotalDetailPlaceholder.text = "Precio al Momento"
@@ -88,8 +92,10 @@ class EstadoReservaFr : Fragment() {
                 }
             }
             "CheckOut" -> {
+                timeDifference = calculateTimeDifference(reserva.fechaEntrada, reserva.fechaSalida)
+                formattedTimeDifference = formatTimeDifference(timeDifference)
                 binding.precioTotalDetailPlaceholder.text = "Precio Total: "
-                binding.precioTotalDetail.text = if(reserva.precioTotal < 1.0f)reserva.precioPorHora.toString() else  reserva.precioTotal.toString()
+                binding.precioTotalDetail.text = calculatePrice(timeDifference, reserva.precioPorHora)
                 binding.cantidadDeHorasDetail.text = "Estadía: "
                 binding.cantHsDetailPlaceHolder.text = "\n\nDesde: $formattedFechaEntrada \nHasta: $formattedFechaSalida \n Cant Hs: $formattedTimeDifference"
                 binding.pagarReserva.text = "Pagar"
@@ -99,8 +105,10 @@ class EstadoReservaFr : Fragment() {
                 }
             }
             "Finalizada" -> {
+                timeDifference = calculateTimeDifference(reserva.fechaEntrada, reserva.fechaSalida)
+                formattedTimeDifference = formatTimeDifference(timeDifference)
                 binding.precioTotalDetailPlaceholder.text = "Precio Total: "
-                binding.precioTotalDetail.text = reserva.precioTotal.toString()
+                binding.precioTotalDetail.text = calculatePrice(timeDifference, reserva.precioPorHora)
                 binding.cantidadDeHorasDetail.text = "Estadía: "
                 binding.cantHsDetailPlaceHolder.text = "\n\nDesde: $formattedFechaEntrada \nHasta: $formattedFechaSalida \n Cant Hs: $formattedTimeDifference"
                 binding.pagarReserva.visibility = View.GONE
@@ -126,10 +134,10 @@ class EstadoReservaFr : Fragment() {
         }
     }
 
-    private fun calculateTimeDifference(startTimestamp: Timestamp?, endTimestamp: Timestamp): Long {
+    private fun calculateTimeDifference(startTimestamp: Timestamp?, endTimestamp: Timestamp?): Long {
         startTimestamp?.toDate()?.let { startDate ->
-            val endDate = endTimestamp.toDate()
-            val diffInMillis = endDate.time - startDate.time
+            val endDate = endTimestamp?.toDate()
+            val diffInMillis = endDate!!.time - startDate.time
             return TimeUnit.MILLISECONDS.toMinutes(diffInMillis)
         }
         return 0L
