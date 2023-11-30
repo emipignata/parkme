@@ -5,34 +5,34 @@
 ### Integrantes
 
 #### Project Manager
--[x] Lautaro Nola
+- Lautaro Nola
 
 #### Teach Leader
--[x] Nicolas Wainschenker
+- Nicolas Wainschenker
 
 #### Planificación
--[x] Michelle de Villemor Ticchetti
+- Michelle de Villemor Ticchetti
 
 #### Desarrollo
--[x] Nicolas Wainschenker
--[x]  Emiliano Pignata
--[x]  Federico Facchin
--[x] Mateo Manente
+- Nicolas Wainschenker
+- Emiliano Pignata
+- Federico Facchin
+- Mateo Manente
 
 #### QA
--[x] Gabriel Angella
--[x] Juan Pulleiro
--[x] Ariel Joaquin
+- Gabriel Angella
+- Juan Pulleiro
+- Ariel Joaquin
 
 #### Documentación
--[x] Ariel Joaquin
--[x] Gabriel Angella
--[x] Juan Pulleiro
--[x] Lautaro Nola
--[x] Michelle de Villemor Ticchetti
--[x] Mateo Manente
--[x] Matias Mazzucchelli
--[x] Ursula Martinez
+- Ariel Joaquin
+- Gabriel Angella
+- Juan Pulleiro
+- Lautaro Nola
+- Michelle de Villemor Ticchetti
+- Mateo Manente
+- Matias Mazzucchelli
+- Ursula Martinez
 
 
 ### App para estacionar tu automovil en un garage particular al precio más accesible del mercado.
@@ -43,7 +43,7 @@ Como dueño de un auto con esta aplicación para Android vas a poder Buscar, Res
 Como dueño de una cochera podes subir tu ParkMe disponible para capitalizarlo y ayudar a tener cocheras libres en la Ciudad.
 
 
-Para ello vamos a poder loguearnos con una cuenta de Google y tras dar permisos de ubicación podremos visualizar la pantalla principal donde hacemos foco en el mapa de exploración de los ParkMe disponibles.
+Para ello vas a poder loguearte con una cuenta de Google y tras dar permisos de ubicación podras visualizar la pantalla principal donde hacemos foco en el mapa de exploración de los ParkMe disponibles.
 
 
 Seleccionando una cochera de nuestro interes, vamos a poder reservarla en el momento o programar una reserva para un día y horario que desee.
